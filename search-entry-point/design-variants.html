@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop with AI — Search Bar Entry Point Variants</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+      background: #f5f5f0;
+      color: #1a1a1a;
+      padding: 48px 24px;
+    }
+
+    h1 {
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: -0.3px;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      font-size: 13px;
+      color: #777;
+      margin-bottom: 48px;
+    }
+
+    .variant {
+      background: white;
+      border: 1px solid #e8e8e4;
+      border-radius: 12px;
+      padding: 32px;
+      margin-bottom: 32px;
+    }
+
+    .variant-header {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 6px;
+    }
+
+    .variant-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: #999;
+    }
+
+    .variant-title {
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: -0.2px;
+    }
+
+    .variant-desc {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 28px;
+      max-width: 560px;
+      line-height: 1.5;
+    }
+
+    .tradeoffs {
+      display: flex;
+      gap: 24px;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid #f0f0ec;
+    }
+
+    .tradeoff {
+      font-size: 12px;
+      color: #888;
+      line-height: 1.5;
+    }
+
+    .tradeoff strong {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+      color: #555;
+    }
+
+    /* Simulated store context */
+    .store-sim {
+      background: #fafafa;
+      border: 1px solid #e8e8e4;
+      border-radius: 8px;
+      padding: 20px 24px;
+    }
+
+    .store-nav {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .store-logo {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: #1a1a1a;
+    }
+
+    /* ========================
+       VARIANT A — Icon inside input
+       ======================== */
+
+    .search-wrap-a {
+      position: relative;
+      width: 100%;
+      max-width: 480px;
+    }
+
+    .search-icon-a {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #aaa;
+      pointer-events: none;
+    }
+
+    .search-input-a {
+      width: 100%;
+      height: 46px;
+      border: 1.5px solid #d8d8d4;
+      border-radius: 8px;
+      padding: 0 48px 0 42px;
+      font-size: 14px;
+      outline: none;
+      background: white;
+      transition: border-color 0.15s;
+      color: #1a1a1a;
+    }
+
+    .search-input-a::placeholder { color: #bbb; }
+
+    .search-input-a:focus {
+      border-color: #1a1a1a;
+    }
+
+    .ai-icon-a {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      color: #bbb;
+      transition: color 0.15s, background 0.15s;
+      font-size: 16px;
+    }
+
+    .ai-icon-a:hover {
+      color: #7c3aed;
+      background: #f5f0ff;
+    }
+
+    .search-input-a:not(:placeholder-shown) ~ .ai-icon-a {
+      color: #7c3aed;
+    }
+
+    .ai-tooltip-a {
+      position: absolute;
+      right: 0;
+      top: calc(100% + 6px);
+      background: #1a1a1a;
+      color: white;
+      font-size: 11px;
+      padding: 5px 10px;
+      border-radius: 4px;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.15s;
+    }
+
+    .ai-icon-a:hover + .ai-tooltip-a,
+    .ai-icon-a:hover ~ .ai-tooltip-a {
+      opacity: 1;
+    }
+
+    /* ========================
+       VARIANT B — Pill button to the right
+       ======================== */
+
+    .search-row-b {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      max-width: 600px;
+    }
+
+    .search-wrap-b {
+      flex: 1;
+      position: relative;
+    }
+
+    .search-icon-b {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #aaa;
+      pointer-events: none;
+    }
+
+    .search-input-b {
+      width: 100%;
+      height: 46px;
+      border: 1.5px solid #d8d8d4;
+      border-radius: 8px;
+      padding: 0 16px 0 42px;
+      font-size: 14px;
+      outline: none;
+      background: white;
+      transition: border-color 0.15s;
+      color: #1a1a1a;
+    }
+
+    .search-input-b::placeholder { color: #bbb; }
+    .search-input-b:focus { border-color: #1a1a1a; }
+
+    .ai-pill-b {
+      flex-shrink: 0;
+      height: 46px;
+      padding: 0 16px;
+      background: white;
+      border: 1.5px solid #7c3aed;
+      border-radius: 8px;
+      color: #7c3aed;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .ai-pill-b:hover {
+      background: #7c3aed;
+      color: white;
+    }
+
+    .ai-pill-b-text { transition: none; }
+
+    /* ========================
+       VARIANT C — Mode toggle
+       ======================== */
+
+    .search-container-c {
+      max-width: 480px;
+      border: 1.5px solid #d8d8d4;
+      border-radius: 10px;
+      overflow: hidden;
+      background: white;
+      transition: border-color 0.15s;
+    }
+
+    .search-container-c:focus-within {
+      border-color: #1a1a1a;
+    }
+
+    .search-tabs-c {
+      display: flex;
+      border-bottom: 1px solid #eee;
+    }
+
+    .tab-c {
+      flex: 1;
+      padding: 8px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      color: #999;
+      border: none;
+      background: none;
+      transition: color 0.15s, background 0.15s;
+      letter-spacing: 0.2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+
+    .tab-c.active {
+      color: #1a1a1a;
+      background: #f8f8f6;
+      border-bottom: 2px solid #1a1a1a;
+    }
+
+    .tab-c.active-ai {
+      color: #7c3aed;
+      background: #faf5ff;
+      border-bottom: 2px solid #7c3aed;
+    }
+
+    .search-field-c {
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      gap: 10px;
+    }
+
+    .search-field-c-icon {
+      color: #aaa;
+      flex-shrink: 0;
+    }
+
+    .search-input-c {
+      flex: 1;
+      height: 44px;
+      border: none;
+      font-size: 14px;
+      outline: none;
+      color: #1a1a1a;
+      background: transparent;
+    }
+
+    .search-input-c::placeholder { color: #bbb; }
+
+    /* ========================
+       VARIANT D — Attached strip below bar
+       ======================== */
+
+    .search-wrap-d {
+      max-width: 480px;
+    }
+
+    .search-field-d {
+      display: flex;
+      align-items: center;
+      border: 1.5px solid #d8d8d4;
+      border-radius: 8px 8px 0 0;
+      background: white;
+      transition: border-color 0.15s;
+      height: 46px;
+      padding: 0 14px;
+      gap: 10px;
+    }
+
+    .search-wrap-d:focus-within .search-field-d {
+      border-color: #1a1a1a;
+    }
+
+    .search-field-d-icon { color: #aaa; }
+
+    .search-input-d {
+      flex: 1;
+      border: none;
+      font-size: 14px;
+      outline: none;
+      color: #1a1a1a;
+      background: transparent;
+    }
+
+    .search-input-d::placeholder { color: #bbb; }
+
+    .ai-strip-d {
+      border: 1.5px solid #d8d8d4;
+      border-top: none;
+      border-radius: 0 0 8px 8px;
+      background: #faf5ff;
+      padding: 9px 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .search-wrap-d:focus-within .ai-strip-d {
+      border-color: #1a1a1a;
+    }
+
+    .ai-strip-d:hover {
+      background: #f0e8ff;
+    }
+
+    .ai-strip-d-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #7c3aed;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .ai-strip-d-query {
+      font-size: 12px;
+      color: #7c3aed;
+      font-weight: 400;
+    }
+
+    .ai-strip-d-arrow {
+      margin-left: auto;
+      color: #7c3aed;
+      font-size: 12px;
+    }
+
+    /* Tampermonkey section */
+    .scripts-section {
+      margin-top: 48px;
+    }
+
+    .scripts-section h2 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+
+    .script-block {
+      background: white;
+      border: 1px solid #e8e8e4;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+
+    .script-header {
+      padding: 16px 20px;
+      background: #f8f8f6;
+      border-bottom: 1px solid #e8e8e4;
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .script-header:hover { background: #f0f0ec; }
+
+    .script-content {
+      display: none;
+    }
+
+    .script-content.open {
+      display: block;
+    }
+
+    pre {
+      font-size: 12px;
+      line-height: 1.6;
+      padding: 20px;
+      overflow-x: auto;
+      color: #2a2a2a;
+      background: #fafafa;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 8px;
+      background: #f0e8ff;
+      color: #7c3aed;
+      border-radius: 20px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Shop with AI — Search Bar Entry Point Variants</h1>
+<p class="subtitle">4 design options injected into the search bar chrome (not the results dropdown). All testable via Tampermonkey on Dawn-based Shopify stores.</p>
+
+<!-- ========================
+     VARIANT A
+     ======================== -->
+<div class="variant">
+  <div class="variant-header">
+    <span class="variant-label">Variant A</span>
+    <span class="variant-title">Sparkle icon inside the input</span>
+    <span class="badge">Minimal</span>
+  </div>
+  <p class="variant-desc">A ✨ icon sits on the right side of the search input. Dormant (grey) when empty, activates (purple) as the user types. Click opens SA with the current query. Non-intrusive — doesn't change the search UX at all.</p>
+
+  <div class="store-sim">
+    <div class="store-nav">
+      <span class="store-logo">MERCHANT</span>
+    </div>
+    <div class="search-wrap-a">
+      <svg class="search-icon-a" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      </svg>
+      <input class="search-input-a" id="input-a" type="search" placeholder="Search products..." autocomplete="off">
+      <span class="ai-icon-a" title="" onclick="handleAIClick('a')" id="ai-icon-a">✨</span>
+      <div class="ai-tooltip-a" id="tooltip-a">Shop with AI</div>
+    </div>
+  </div>
+
+  <div class="tradeoffs">
+    <div class="tradeoff">
+      <strong>Hypothesis</strong>
+      Power users who are typing will notice the icon and click it.
+    </div>
+    <div class="tradeoff">
+      <strong>Risk</strong>
+      Very low discoverability. Most shoppers won't notice a grey icon.
+    </div>
+    <div class="tradeoff">
+      <strong>Best for</strong>
+      Low-disruption test. No visual footprint, minimal impact on existing UX.
+    </div>
+  </div>
+</div>
+
+<!-- ========================
+     VARIANT B
+     ======================== -->
+<div class="variant">
+  <div class="variant-header">
+    <span class="variant-label">Variant B</span>
+    <span class="variant-title">Adjacent "Ask AI" pill button</span>
+    <span class="badge">Prominent</span>
+  </div>
+  <p class="variant-desc">A distinct pill button sits to the right of the search bar. When the user types, its label updates to reflect the query: "✨ Ask AI" → "✨ Ask: red dress". Highest discoverability without modifying the search field itself.</p>
+
+  <div class="store-sim">
+    <div class="store-nav">
+      <span class="store-logo">MERCHANT</span>
+    </div>
+    <div class="search-row-b">
+      <div class="search-wrap-b">
+        <svg class="search-icon-b" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+        <input class="search-input-b" id="input-b" type="search" placeholder="Search products..." autocomplete="off">
+      </div>
+      <button class="ai-pill-b" id="pill-b" onclick="handleAIClick('b')">
+        <span>✨</span>
+        <span class="ai-pill-b-text" id="pill-b-text">Ask AI</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="tradeoffs">
+    <div class="tradeoff">
+      <strong>Hypothesis</strong>
+      Shoppers see a distinct AI option before committing to a regular search.
+    </div>
+    <div class="tradeoff">
+      <strong>Risk</strong>
+      Adds width to the search bar row. May not fit on mobile without layout changes.
+    </div>
+    <div class="tradeoff">
+      <strong>Best for</strong>
+      Highest-signal test. If this doesn't convert, nothing will.
+    </div>
+  </div>
+</div>
+
+<!-- ========================
+     VARIANT C
+     ======================== -->
+<div class="variant">
+  <div class="variant-header">
+    <span class="variant-label">Variant C</span>
+    <span class="variant-title">Search / Ask AI mode toggle</span>
+    <span class="badge">Structural</span>
+  </div>
+  <p class="variant-desc">Two tabs at the top of the search container: "Search" and "✨ Ask AI". Clicking the AI tab changes the placeholder to "Ask anything..." and routes submission to SA. The most explicit signal that two distinct modes exist.</p>
+
+  <div class="store-sim">
+    <div class="store-nav">
+      <span class="store-logo">MERCHANT</span>
+    </div>
+    <div class="search-container-c" id="container-c">
+      <div class="search-tabs-c">
+        <button class="tab-c active" id="tab-search" onclick="setMode('search')">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+          Search
+        </button>
+        <button class="tab-c" id="tab-ai" onclick="setMode('ai')">
+          ✨ Ask AI
+        </button>
+      </div>
+      <div class="search-field-c">
+        <svg class="search-field-c-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+        <input class="search-input-c" id="input-c" type="search" placeholder="Search products..." autocomplete="off">
+      </div>
+    </div>
+  </div>
+
+  <div class="tradeoffs">
+    <div class="tradeoff">
+      <strong>Hypothesis</strong>
+      Shoppers who see "Ask AI" as a peer option to Search will opt in intentionally.
+    </div>
+    <div class="tradeoff">
+      <strong>Risk</strong>
+      Most invasive injection. Adds elements above the input. May conflict with custom themes.
+    </div>
+    <div class="tradeoff">
+      <strong>Best for</strong>
+      Testing whether explicit mode choice increases intent quality (not just volume).
+    </div>
+  </div>
+</div>
+
+<!-- ========================
+     VARIANT D
+     ======================== -->
+<div class="variant">
+  <div class="variant-header">
+    <span class="variant-label">Variant D</span>
+    <span class="variant-title">Persistent strip below the input</span>
+    <span class="badge">Contextual</span>
+  </div>
+  <p class="variant-desc">A thin strip attaches to the bottom edge of the search input (above the dropdown). Always visible when search is focused. Updates with the user's query. Visually connected to the bar, clearly separate from search results.</p>
+
+  <div class="store-sim">
+    <div class="store-nav">
+      <span class="store-logo">MERCHANT</span>
+    </div>
+    <div class="search-wrap-d" id="wrap-d">
+      <div class="search-field-d">
+        <svg class="search-field-d-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+        <input class="search-input-d" id="input-d" type="search" placeholder="Search products..." autocomplete="off">
+      </div>
+      <div class="ai-strip-d" onclick="handleAIClick('d')">
+        <span class="ai-strip-d-label">✨ Shop with AI</span>
+        <span class="ai-strip-d-query" id="strip-d-query"></span>
+        <span class="ai-strip-d-arrow">→</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="tradeoffs">
+    <div class="tradeoff">
+      <strong>Hypothesis</strong>
+      Shoppers who open search see AI as an escape hatch — especially when they're unsure what to type.
+    </div>
+    <div class="tradeoff">
+      <strong>Risk</strong>
+      Overlap with the dropdown. When results appear, the strip sits between the input and results, which can feel noisy.
+    </div>
+    <div class="tradeoff">
+      <strong>Best for</strong>
+      Catching the "I don't know what to search" moment — empty or partial query state.
+    </div>
+  </div>
+</div>
+
+
+<!-- ========================
+     TAMPERMONKEY SCRIPTS
+     ======================== -->
+<div class="scripts-section">
+  <h2>Tampermonkey Scripts — Dawn Theme (Shopify)</h2>
+  <p style="font-size:13px;color:#777;margin-bottom:20px;">Each script targets Dawn's DOM structure: <code>input[name="q"]</code> as the search input, <code>.search-modal__form</code> or <code>.header__search</code> as the wrapper. Click to expand each script.</p>
+
+  <!-- Script A -->
+  <div class="script-block">
+    <div class="script-header" onclick="toggleScript('script-a')">
+      Variant A — Sparkle icon inside input
+      <span style="margin-left:auto;font-size:11px;color:#999;">click to expand</span>
+    </div>
+    <div class="script-content" id="script-a">
+<pre>// ==UserScript==
+// @name         SA Search — Variant A (Icon inside input)
+// @match        https://*/*
+// @grant        none
+// ==/UserScript==
+
+(function () {
+  const PURPLE = '#7c3aed';
+
+  function init() {
+    const input = document.querySelector('input[name="q"]');
+    if (!input) return;
+
+    // Ensure the parent is positioned
+    const wrapper = input.parentElement;
+    if (getComputedStyle(wrapper).position === 'static') {
+      wrapper.style.position = 'relative';
+    }
+
+    // Create icon
+    const icon = document.createElement('button');
+    icon.id = 'gorgias-sa-icon';
+    icon.textContent = '✨';
+    icon.title = 'Shop with AI';
+    icon.style.cssText = `
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      padding: 4px;
+      border-radius: 4px;
+      color: #bbb;
+      transition: color 0.15s, background 0.15s;
+      line-height: 1;
+      z-index: 10;
+    `;
+
+    // Adjust input padding so text doesn't go under icon
+    input.style.paddingRight = '44px';
+
+    wrapper.appendChild(icon);
+
+    // Color icon when user types
+    input.addEventListener('input', () => {
+      icon.style.color = input.value ? PURPLE : '#bbb';
+    });
+
+    icon.addEventListener('mouseenter', () => {
+      icon.style.background = '#f5f0ff';
+      icon.style.color = PURPLE;
+    });
+
+    icon.addEventListener('mouseleave', () => {
+      icon.style.background = 'none';
+      icon.style.color = input.value ? PURPLE : '#bbb';
+    });
+
+    icon.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      openSA(input.value.trim());
+    });
+  }
+
+  function openSA(query) {
+    if (typeof GorgiasChat !== 'undefined') {
+      GorgiasChat.open();
+      GorgiasChat.setPage('chat');
+      if (query) GorgiasChat.sendMessage(query);
+    } else {
+      console.log('[SA] Would open with query:', query || '(empty)');
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</pre>
+    </div>
+  </div>
+
+  <!-- Script B -->
+  <div class="script-block">
+    <div class="script-header" onclick="toggleScript('script-b')">
+      Variant B — Adjacent pill button
+      <span style="margin-left:auto;font-size:11px;color:#999;">click to expand</span>
+    </div>
+    <div class="script-content" id="script-b">
+<pre>// ==UserScript==
+// @name         SA Search — Variant B (Adjacent pill)
+// @match        https://*/*
+// @grant        none
+// ==/UserScript==
+
+(function () {
+  const PURPLE = '#7c3aed';
+
+  function init() {
+    const input = document.querySelector('input[name="q"]');
+    if (!input) return;
+
+    // Wrap input + pill in a flex row
+    const wrapper = input.parentElement;
+    const row = document.createElement('div');
+    row.style.cssText = 'display:flex;align-items:center;gap:10px;width:100%;';
+
+    // Insert row before input, then move input into row
+    wrapper.insertBefore(row, input);
+    row.appendChild(input);
+    input.style.flex = '1';
+
+    // Create pill
+    const pill = document.createElement('button');
+    pill.id = 'gorgias-sa-pill';
+    pill.innerHTML = '✨ <span id="gorgias-sa-pill-text">Ask AI</span>';
+    pill.style.cssText = `
+      flex-shrink: 0;
+      height: 46px;
+      padding: 0 16px;
+      background: white;
+      border: 1.5px solid ${PURPLE};
+      border-radius: 8px;
+      color: ${PURPLE};
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+      transition: background 0.15s, color 0.15s;
+      font-family: inherit;
+    `;
+
+    row.appendChild(pill);
+
+    const pillText = pill.querySelector('#gorgias-sa-pill-text');
+
+    // Update pill text as user types
+    input.addEventListener('input', () => {
+      const q = input.value.trim();
+      pillText.textContent = q ? `Ask: "${q.length > 20 ? q.slice(0, 20) + '…' : q}"` : 'Ask AI';
+    });
+
+    pill.addEventListener('mouseenter', () => {
+      pill.style.background = PURPLE;
+      pill.style.color = 'white';
+    });
+
+    pill.addEventListener('mouseleave', () => {
+      pill.style.background = 'white';
+      pill.style.color = PURPLE;
+    });
+
+    pill.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      openSA(input.value.trim());
+    });
+  }
+
+  function openSA(query) {
+    if (typeof GorgiasChat !== 'undefined') {
+      GorgiasChat.open();
+      GorgiasChat.setPage('chat');
+      if (query) GorgiasChat.sendMessage(query);
+    } else {
+      console.log('[SA] Would open with query:', query || '(empty)');
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</pre>
+    </div>
+  </div>
+
+  <!-- Script C -->
+  <div class="script-block">
+    <div class="script-header" onclick="toggleScript('script-c')">
+      Variant C — Mode toggle tabs
+      <span style="margin-left:auto;font-size:11px;color:#999;">click to expand</span>
+    </div>
+    <div class="script-content" id="script-c">
+<pre>// ==UserScript==
+// @name         SA Search — Variant C (Mode toggle)
+// @match        https://*/*
+// @grant        none
+// ==/UserScript==
+
+(function () {
+  const PURPLE = '#7c3aed';
+  let mode = 'search'; // 'search' | 'ai'
+
+  function init() {
+    const input = document.querySelector('input[name="q"]');
+    if (!input) return;
+
+    const wrapper = input.parentElement;
+
+    // Create tab row
+    const tabs = document.createElement('div');
+    tabs.style.cssText = `
+      display: flex;
+      border-bottom: 1px solid #eee;
+      margin-bottom: 0;
+    `;
+
+    const searchTab = makeTab('🔍 Search', true);
+    const aiTab = makeTab('✨ Ask AI', false);
+
+    tabs.appendChild(searchTab);
+    tabs.appendChild(aiTab);
+
+    // Wrap in container
+    const container = document.createElement('div');
+    container.style.cssText = `
+      border: 1.5px solid #d8d8d4;
+      border-radius: 10px;
+      overflow: hidden;
+      background: white;
+    `;
+
+    // Detach input, build container
+    wrapper.insertBefore(container, input);
+    container.appendChild(tabs);
+    container.appendChild(input);
+    input.style.cssText += 'border:none;border-radius:0;outline:none;padding:12px 14px;width:100%;display:block;';
+
+    searchTab.addEventListener('click', () => {
+      mode = 'search';
+      searchTab.style.fontWeight = '700';
+      searchTab.style.color = '#1a1a1a';
+      searchTab.style.borderBottom = '2px solid #1a1a1a';
+      searchTab.style.background = '#f8f8f6';
+      aiTab.style.fontWeight = '500';
+      aiTab.style.color = '#999';
+      aiTab.style.borderBottom = '2px solid transparent';
+      aiTab.style.background = 'none';
+      input.placeholder = 'Search products...';
+    });
+
+    aiTab.addEventListener('click', () => {
+      mode = 'ai';
+      aiTab.style.fontWeight = '700';
+      aiTab.style.color = PURPLE;
+      aiTab.style.borderBottom = `2px solid ${PURPLE}`;
+      aiTab.style.background = '#faf5ff';
+      searchTab.style.fontWeight = '500';
+      searchTab.style.color = '#999';
+      searchTab.style.borderBottom = '2px solid transparent';
+      searchTab.style.background = 'none';
+      input.placeholder = 'Ask anything — "What\'s good for sensitive skin?"';
+      input.focus();
+    });
+
+    // Intercept form submission in AI mode
+    const form = input.closest('form');
+    if (form) {
+      form.addEventListener('submit', (e) => {
+        if (mode === 'ai') {
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          openSA(input.value.trim());
+        }
+      });
+    }
+
+    // Also intercept Enter key
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && mode === 'ai') {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        openSA(input.value.trim());
+      }
+    });
+  }
+
+  function makeTab(label, active) {
+    const tab = document.createElement('button');
+    tab.textContent = label;
+    tab.type = 'button';
+    tab.style.cssText = `
+      flex: 1;
+      padding: 9px 12px;
+      font-size: 12px;
+      font-weight: ${active ? '700' : '500'};
+      cursor: pointer;
+      text-align: center;
+      color: ${active ? '#1a1a1a' : '#999'};
+      border: none;
+      border-bottom: 2px solid ${active ? '#1a1a1a' : 'transparent'};
+      background: ${active ? '#f8f8f6' : 'none'};
+      transition: all 0.15s;
+      font-family: inherit;
+    `;
+    return tab;
+  }
+
+  function openSA(query) {
+    if (typeof GorgiasChat !== 'undefined') {
+      GorgiasChat.open();
+      GorgiasChat.setPage('chat');
+      if (query) GorgiasChat.sendMessage(query);
+    } else {
+      console.log('[SA] Would open with query:', query || '(empty)');
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</pre>
+    </div>
+  </div>
+
+  <!-- Script D -->
+  <div class="script-block">
+    <div class="script-header" onclick="toggleScript('script-d')">
+      Variant D — Persistent strip below input
+      <span style="margin-left:auto;font-size:11px;color:#999;">click to expand</span>
+    </div>
+    <div class="script-content" id="script-d">
+<pre>// ==UserScript==
+// @name         SA Search — Variant D (Strip below input)
+// @match        https://*/*
+// @grant        none
+// ==/UserScript==
+
+(function () {
+  const PURPLE = '#7c3aed';
+
+  function init() {
+    const input = document.querySelector('input[name="q"]');
+    if (!input) return;
+
+    const wrapper = input.parentElement;
+
+    // Create the strip
+    const strip = document.createElement('div');
+    strip.id = 'gorgias-sa-strip';
+
+    const label = document.createElement('span');
+    label.style.cssText = `font-size:12px;font-weight:600;color:${PURPLE};display:flex;align-items:center;gap:6px;`;
+    label.innerHTML = '✨ Shop with AI';
+
+    const query = document.createElement('span');
+    query.id = 'gorgias-sa-strip-query';
+    query.style.cssText = `font-size:12px;color:${PURPLE};font-weight:400;`;
+
+    const arrow = document.createElement('span');
+    arrow.textContent = '→';
+    arrow.style.cssText = `margin-left:auto;color:${PURPLE};font-size:12px;`;
+
+    strip.style.cssText = `
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 14px;
+      background: #faf5ff;
+      cursor: pointer;
+      border: 1.5px solid #d8d8d4;
+      border-top: none;
+      border-radius: 0 0 8px 8px;
+      transition: background 0.15s;
+    `;
+
+    strip.appendChild(label);
+    strip.appendChild(query);
+    strip.appendChild(arrow);
+
+    // Round off the top of the input wrapper
+    wrapper.style.borderRadius = '8px 8px 0 0';
+
+    // Insert strip after the wrapper
+    wrapper.parentElement.insertBefore(strip, wrapper.nextSibling);
+
+    // Update query text as user types
+    input.addEventListener('input', () => {
+      const q = input.value.trim();
+      query.textContent = q ? `"${q.length > 24 ? q.slice(0, 24) + '…' : q}"` : '';
+    });
+
+    strip.addEventListener('mouseenter', () => {
+      strip.style.background = '#f0e8ff';
+    });
+
+    strip.addEventListener('mouseleave', () => {
+      strip.style.background = '#faf5ff';
+    });
+
+    strip.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      openSA(input.value.trim());
+    });
+  }
+
+  function openSA(query) {
+    if (typeof GorgiasChat !== 'undefined') {
+      GorgiasChat.open();
+      GorgiasChat.setPage('chat');
+      if (query) GorgiasChat.sendMessage(query);
+    } else {
+      console.log('[SA] Would open with query:', query || '(empty)');
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</pre>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // Variant A — tooltip
+  const inputA = document.getElementById('input-a');
+  const tooltipA = document.getElementById('tooltip-a');
+  document.getElementById('ai-icon-a').addEventListener('mouseenter', () => {
+    tooltipA.style.opacity = '1';
+  });
+  document.getElementById('ai-icon-a').addEventListener('mouseleave', () => {
+    tooltipA.style.opacity = '0';
+  });
+
+  // Variant B — pill text updates
+  const inputB = document.getElementById('input-b');
+  const pillBText = document.getElementById('pill-b-text');
+  inputB.addEventListener('input', () => {
+    const q = inputB.value.trim();
+    pillBText.textContent = q ? `Ask: "${q.length > 20 ? q.slice(0, 20) + '…' : q}"` : 'Ask AI';
+  });
+
+  // Variant C — mode toggle
+  let currentMode = 'search';
+  function setMode(mode) {
+    currentMode = mode;
+    const inputC = document.getElementById('input-c');
+    const tabSearch = document.getElementById('tab-search');
+    const tabAI = document.getElementById('tab-ai');
+
+    if (mode === 'search') {
+      tabSearch.className = 'tab-c active';
+      tabAI.className = 'tab-c';
+      inputC.placeholder = 'Search products...';
+    } else {
+      tabAI.className = 'tab-c active-ai';
+      tabSearch.className = 'tab-c';
+      inputC.placeholder = "Ask anything — \"What's good for sensitive skin?\"";
+      inputC.focus();
+    }
+  }
+
+  // Variant D — strip updates
+  const inputD = document.getElementById('input-d');
+  const stripQuery = document.getElementById('strip-d-query');
+  inputD.addEventListener('input', () => {
+    const q = inputD.value.trim();
+    stripQuery.textContent = q ? `"${q.length > 24 ? q.slice(0, 24) + '…' : q}"` : '';
+  });
+
+  // AI click handler (mockup)
+  function handleAIClick(variant) {
+    const queries = {
+      a: document.getElementById('input-a').value.trim(),
+      b: document.getElementById('input-b').value.trim(),
+      d: document.getElementById('input-d').value.trim(),
+    };
+    const q = queries[variant] || '';
+    alert(q ? `Would open SA with query: "${q}"` : 'Would open SA (no query)');
+  }
+
+  // Script expand/collapse
+  function toggleScript(id) {
+    const el = document.getElementById(id);
+    el.classList.toggle('open');
+  }
+</script>
+
+</body>
+</html>
