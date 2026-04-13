@@ -1117,6 +1117,364 @@
 
 </div>
 
+<!-- ========================
+     OSEAMALIBU SCRIPTS
+     ======================== -->
+<div class="scripts-section">
+  <h2>Tampermonkey Scripts — Oseamalibu.com</h2>
+  <p style="font-size:13px;color:#777;margin-bottom:20px;">Adapted for oseamalibu.com's DOM: input wrapper is <code>div.relative.flex.items-center.w-full</code>, results container is <code>#predictive-search</code> (fixed, z-30). Copy the script for the variant you want to test, paste into Tampermonkey.</p>
+
+  <!-- Osea Script A -->
+  <div class="script-block">
+    <div class="script-header" onclick="toggleScript('osea-script-a')">
+      Variant A — Sparkle icon inside input
+      <span style="margin-left:auto;font-size:11px;color:#999;">click to expand</span>
+    </div>
+    <div class="script-content" id="osea-script-a">
+<pre>// ==UserScript==
+// @name         SA Search — Osea A (Icon inside input)
+// @match        https://*/*
+// @grant        none
+// ==/UserScript==
+
+(function () {
+  const PURPLE = '#7c3aed';
+
+  function init() {
+    const input = document.querySelector('input[name="q"]');
+    if (!input) return;
+
+    // On oseamalibu the input parent is already a relative flex row
+    const wrapper = input.parentElement;
+
+    if (document.getElementById('gorgias-sa-icon')) return;
+
+    const icon = document.createElement('button');
+    icon.id = 'gorgias-sa-icon';
+    icon.type = 'button';
+    icon.textContent = '✨';
+    icon.title = 'Shop with AI';
+    // Right offset clears the existing search submit button (~40px wide + margin)
+    icon.style.cssText = `
+      position: absolute;
+      right: 52px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      padding: 4px 6px;
+      border-radius: 4px;
+      color: #bbb;
+      transition: color 0.15s, background 0.15s;
+      z-index: 10;
+    `;
+
+    wrapper.appendChild(icon);
+
+    input.addEventListener('input', () => {
+      icon.style.color = input.value ? PURPLE : '#bbb';
+    });
+
+    icon.addEventListener('mouseenter', () => { icon.style.background = '#f5f0ff'; icon.style.color = PURPLE; });
+    icon.addEventListener('mouseleave', () => { icon.style.background = 'none'; icon.style.color = input.value ? PURPLE : '#bbb'; });
+
+    icon.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      openSA(input.value.trim());
+    });
+  }
+
+  function openSA(query) {
+    if (typeof GorgiasChat !== 'undefined') {
+      GorgiasChat.open();
+      GorgiasChat.setPage('chat');
+      if (query) GorgiasChat.sendMessage(query);
+    } else {
+      console.log('[SA] Would open with query:', query || '(empty)');
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</pre>
+    </div>
+  </div>
+
+  <!-- Osea Script B -->
+  <div class="script-block">
+    <div class="script-header" onclick="toggleScript('osea-script-b')">
+      Variant B — Adjacent "Ask AI" pill button
+      <span style="margin-left:auto;font-size:11px;color:#999;">click to expand</span>
+    </div>
+    <div class="script-content" id="osea-script-b">
+<pre>// ==UserScript==
+// @name         SA Search — Osea B (Adjacent pill)
+// @match        https://*/*
+// @grant        none
+// ==/UserScript==
+
+(function () {
+  const PURPLE = '#7c3aed';
+
+  function init() {
+    const input = document.querySelector('input[name="q"]');
+    if (!input) return;
+
+    // Input parent is already a flex row — just append the pill to it
+    const wrapper = input.parentElement;
+
+    if (document.getElementById('gorgias-sa-pill')) return;
+
+    const pill = document.createElement('button');
+    pill.id = 'gorgias-sa-pill';
+    pill.type = 'button';
+    pill.style.cssText = `
+      flex-shrink: 0;
+      height: 32px;
+      padding: 0 12px;
+      background: white;
+      border: 1.5px solid ${PURPLE};
+      border-radius: 6px;
+      color: ${PURPLE};
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+      transition: background 0.15s, color 0.15s;
+      font-family: inherit;
+      margin-left: 6px;
+    `;
+    pill.innerHTML = '✨ <span id="gorgias-sa-pill-text">Ask AI</span>';
+
+    wrapper.appendChild(pill);
+
+    const pillText = document.getElementById('gorgias-sa-pill-text');
+
+    input.addEventListener('input', () => {
+      const q = input.value.trim();
+      pillText.textContent = q ? `Ask: "${q.length > 18 ? q.slice(0, 18) + '…' : q}"` : 'Ask AI';
+    });
+
+    pill.addEventListener('mouseenter', () => { pill.style.background = PURPLE; pill.style.color = 'white'; });
+    pill.addEventListener('mouseleave', () => { pill.style.background = 'white'; pill.style.color = PURPLE; });
+
+    pill.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      openSA(input.value.trim());
+    });
+  }
+
+  function openSA(query) {
+    if (typeof GorgiasChat !== 'undefined') {
+      GorgiasChat.open();
+      GorgiasChat.setPage('chat');
+      if (query) GorgiasChat.sendMessage(query);
+    } else {
+      console.log('[SA] Would open with query:', query || '(empty)');
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</pre>
+    </div>
+  </div>
+
+  <!-- Osea Script C -->
+  <div class="script-block">
+    <div class="script-header" onclick="toggleScript('osea-script-c')">
+      Variant C — Search / Ask AI mode toggle
+      <span style="margin-left:auto;font-size:11px;color:#999;">click to expand</span>
+    </div>
+    <div class="script-content" id="osea-script-c">
+<pre>// ==UserScript==
+// @name         SA Search — Osea C (Mode toggle)
+// @match        https://*/*
+// @grant        none
+// ==/UserScript==
+
+(function () {
+  const PURPLE = '#7c3aed';
+  let mode = 'search';
+
+  function init() {
+    const input = document.querySelector('input[name="q"]');
+    if (!input) return;
+
+    // Insert tabs before the input wrapper, inside the form
+    const inputWrapper = input.parentElement;
+    const form = inputWrapper.parentElement;
+
+    if (document.getElementById('gorgias-sa-tabs')) return;
+
+    const tabs = document.createElement('div');
+    tabs.id = 'gorgias-sa-tabs';
+    tabs.style.cssText = 'display:flex;border-bottom:1px solid #e5e7eb;margin-bottom:4px;';
+
+    const searchTab = makeTab('🔍 Search', true);
+    const aiTab = makeTab('✨ Ask AI', false);
+    tabs.appendChild(searchTab);
+    tabs.appendChild(aiTab);
+
+    form.insertBefore(tabs, inputWrapper);
+
+    searchTab.addEventListener('click', () => {
+      mode = 'search';
+      searchTab.style.cssText = activeStyle('#1a1a1a');
+      aiTab.style.cssText = inactiveStyle();
+      input.placeholder = 'Search products...';
+    });
+
+    aiTab.addEventListener('click', () => {
+      mode = 'ai';
+      aiTab.style.cssText = activeStyle(PURPLE);
+      searchTab.style.cssText = inactiveStyle();
+      input.placeholder = "Ask anything — \"What's good for sensitive skin?\"";
+      input.focus();
+    });
+
+    const formEl = input.closest('form');
+    if (formEl) {
+      formEl.addEventListener('submit', (e) => {
+        if (mode === 'ai') { e.preventDefault(); e.stopImmediatePropagation(); openSA(input.value.trim()); }
+      });
+    }
+
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && mode === 'ai') { e.preventDefault(); e.stopImmediatePropagation(); openSA(input.value.trim()); }
+    });
+  }
+
+  function makeTab(label, active) {
+    const tab = document.createElement('button');
+    tab.type = 'button';
+    tab.textContent = label;
+    tab.style.cssText = active ? activeStyle('#1a1a1a') : inactiveStyle();
+    return tab;
+  }
+
+  function activeStyle(color) {
+    return `flex:1;padding:8px 12px;font-size:12px;font-weight:700;cursor:pointer;text-align:center;color:${color};border:none;border-bottom:2px solid ${color};background:#f8f8f6;font-family:inherit;`;
+  }
+
+  function inactiveStyle() {
+    return 'flex:1;padding:8px 12px;font-size:12px;font-weight:500;cursor:pointer;text-align:center;color:#999;border:none;border-bottom:2px solid transparent;background:none;font-family:inherit;';
+  }
+
+  function openSA(query) {
+    if (typeof GorgiasChat !== 'undefined') {
+      GorgiasChat.open();
+      GorgiasChat.setPage('chat');
+      if (query) GorgiasChat.sendMessage(query);
+    } else {
+      console.log('[SA] Would open with query:', query || '(empty)');
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</pre>
+    </div>
+  </div>
+
+  <!-- Osea Script D -->
+  <div class="script-block">
+    <div class="script-header" onclick="toggleScript('osea-script-d')">
+      Variant D — First item in results dropdown
+      <span style="margin-left:auto;font-size:11px;color:#999;">click to expand ← tested & working</span>
+    </div>
+    <div class="script-content" id="osea-script-d">
+<pre>// ==UserScript==
+// @name         SA Search — Osea D (First item in dropdown)
+// @match        https://*/*
+// @grant        none
+// ==/UserScript==
+
+// Targets oseamalibu.com's #predictive-search container directly.
+// Prepends "Shop with AI" as the first item in the results dropdown.
+// Polling (not MutationObserver) avoids infinite loop from DOM mutations.
+
+(function () {
+  function init() {
+    const input = document.querySelector('input[name="q"]');
+    if (!input) return;
+
+    let pollInterval;
+
+    function injectItem() {
+      const container = document.getElementById('predictive-search');
+      if (!container) return;
+
+      const existing = document.getElementById('gorgias-shop-ai');
+      if (existing && container.contains(existing)) {
+        existing.querySelector('span:last-child').textContent = input.value
+          ? 'Shop with AI: ' + input.value
+          : 'Shop with AI';
+        return;
+      }
+
+      existing?.remove();
+
+      const item = document.createElement('div');
+      item.id = 'gorgias-shop-ai';
+      item.style.cssText = 'padding:12px 16px;cursor:pointer;background:#f5f0ff;border-bottom:1px solid #ddd;font-weight:600;display:flex;align-items:center;gap:8px;';
+      item.innerHTML = '&lt;span&gt;✨&lt;/span&gt;&lt;span&gt;' + (input.value ? 'Shop with AI: ' + input.value : 'Shop with AI') + '&lt;/span&gt;';
+
+      item.onclick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const query = input.value.trim();
+        if (typeof GorgiasChat !== 'undefined') {
+          GorgiasChat.open();
+          GorgiasChat.setPage('chat');
+          if (query) GorgiasChat.sendMessage(query);
+        } else {
+          alert(query ? 'Would send: "' + query + '"' : 'Would open SA widget');
+        }
+      };
+
+      container.prepend(item);
+    }
+
+    input.addEventListener('focus', () => { pollInterval = setInterval(injectItem, 150); });
+    input.addEventListener('input', injectItem);
+    input.addEventListener('blur', () => {
+      clearInterval(pollInterval);
+      setTimeout(() => document.getElementById('gorgias-shop-ai')?.remove(), 200);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</pre>
+    </div>
+  </div>
+
+</div>
+
 <script>
   // Variant A — tooltip
   const inputA = document.getElementById('input-a');
