@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Search CTA Banner — Shopify Search Results</title>
+  <style>
+    /* --- Reset & host page simulation --- */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+      background: #f5f5f0;
+      color: #1a1a1a;
+      padding: 48px 24px;
+      font-size: 14px;
+    }
+
+    /* --- Prototype frame --- */
+    .proto-frame {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .proto-meta {
+      margin-bottom: 40px;
+    }
+
+    .proto-meta h1 {
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: -0.3px;
+      margin-bottom: 4px;
+    }
+
+    .proto-meta p {
+      font-size: 13px;
+      color: #888;
+    }
+
+    .variant-section {
+      margin-bottom: 48px;
+    }
+
+    .variant-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: #aaa;
+      margin-bottom: 12px;
+    }
+
+    /* --- Simulated Shopify page shell --- */
+    .shopify-shell {
+      background: #fff;
+      border: 1px solid #e0e0dc;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .shopify-header {
+      background: #fff;
+      border-bottom: 1px solid #e8e8e4;
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .shopify-logo {
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: #1a1a1a;
+    }
+
+    .shopify-search-bar {
+      flex: 1;
+      max-width: 380px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #f5f5f0;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 7px 12px;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .shopify-search-bar svg {
+      flex-shrink: 0;
+      color: #999;
+    }
+
+    .shopify-nav {
+      display: flex;
+      gap: 20px;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .shopify-content {
+      padding: 24px;
+    }
+
+    .shopify-breadcrumb {
+      font-size: 12px;
+      color: #aaa;
+      margin-bottom: 16px;
+    }
+
+    .shopify-results-title {
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: -0.3px;
+      color: #1a1a1a;
+      margin-bottom: 4px;
+    }
+
+    .shopify-results-count {
+      font-size: 13px;
+      color: #888;
+      margin-bottom: 20px;
+    }
+
+    /* ============================================================
+       BANNER COMPONENT
+       Class prefix: .gsa-srb-* (gorgias shopping assistant search results banner)
+       ============================================================ */
+
+    :root {
+      --gsa-srb-bg: #f0f4ff;
+      --gsa-srb-border: #d0d8f5;
+      --gsa-srb-text-primary: #1a1a2e;
+      --gsa-srb-text-secondary: #555577;
+      --gsa-srb-keyword-bg: #e2e8fd;
+      --gsa-srb-keyword-text: #2d3a8c;
+      --gsa-srb-btn-bg: #2d3a8c;
+      --gsa-srb-btn-bg-hover: #1e2a6b;
+      --gsa-srb-btn-text: #ffffff;
+      --gsa-srb-btn-focus-ring: rgba(45, 58, 140, 0.35);
+      --gsa-srb-dismiss-color: #9999bb;
+      --gsa-srb-dismiss-hover: #555577;
+      --gsa-srb-radius: 8px;
+      --gsa-srb-spacing-x: 14px;
+      --gsa-srb-spacing-y: 10px;
+      --gsa-srb-font-size: 13.5px;
+    }
+
+    .gsa-srb-banner {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--gsa-srb-bg);
+      border: 1px solid var(--gsa-srb-border);
+      border-radius: var(--gsa-srb-radius);
+      padding: var(--gsa-srb-spacing-y) var(--gsa-srb-spacing-x);
+      margin-bottom: 20px;
+      font-size: var(--gsa-srb-font-size);
+      color: var(--gsa-srb-text-secondary);
+      line-height: 1;
+    }
+
+    .gsa-srb-icon {
+      flex-shrink: 0;
+      width: 16px;
+      height: 16px;
+      color: var(--gsa-srb-btn-bg);
+    }
+
+    .gsa-srb-copy {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+
+    .gsa-srb-keyword {
+      display: inline-flex;
+      align-items: center;
+      background: var(--gsa-srb-keyword-bg);
+      color: var(--gsa-srb-keyword-text);
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-size: 13px;
+      letter-spacing: -0.1px;
+    }
+
+    .gsa-srb-cta {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--gsa-srb-btn-bg);
+      color: var(--gsa-srb-btn-text);
+      border: none;
+      border-radius: 6px;
+      padding: 6px 13px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      line-height: 1;
+      transition: background 0.15s ease;
+      text-decoration: none;
+    }
+
+    .gsa-srb-cta:hover {
+      background: var(--gsa-srb-btn-bg-hover);
+    }
+
+    .gsa-srb-cta:focus-visible {
+      outline: 3px solid var(--gsa-srb-btn-focus-ring);
+      outline-offset: 2px;
+    }
+
+    .gsa-srb-cta:active {
+      opacity: 0.9;
+      transform: translateY(0.5px);
+    }
+
+    /* Loading state */
+    .gsa-srb-cta[data-state="loading"] {
+      pointer-events: none;
+      opacity: 0.75;
+    }
+
+    .gsa-srb-cta[data-state="loading"] .gsa-srb-cta-text::after {
+      content: "…";
+    }
+
+    .gsa-srb-dismiss {
+      flex-shrink: 0;
+      background: none;
+      border: none;
+      padding: 4px;
+      cursor: pointer;
+      color: var(--gsa-srb-dismiss-color);
+      font-family: inherit;
+      line-height: 1;
+      border-radius: 4px;
+      transition: color 0.1s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .gsa-srb-dismiss:hover {
+      color: var(--gsa-srb-dismiss-hover);
+    }
+
+    .gsa-srb-dismiss:focus-visible {
+      outline: 2px solid var(--gsa-srb-btn-focus-ring);
+      outline-offset: 1px;
+    }
+
+    /* Hidden state */
+    .gsa-srb-banner[aria-hidden="true"] {
+      display: none;
+    }
+
+    /* ============================================================
+       Simulated product grid
+       ============================================================ */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .product-card {
+      border: 1px solid #e8e8e4;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .product-img {
+      background: #f0f0eb;
+      height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+    }
+
+    .product-info {
+      padding: 12px;
+    }
+
+    .product-name {
+      font-size: 13px;
+      font-weight: 500;
+      color: #1a1a1a;
+      margin-bottom: 4px;
+    }
+
+    .product-price {
+      font-size: 13px;
+      color: #555;
+    }
+
+    /* ============================================================
+       Variant 2 — Light / minimal (no background tint)
+       ============================================================ */
+    .gsa-srb-banner--minimal {
+      background: transparent;
+      border-color: #e8e8e4;
+      --gsa-srb-text-secondary: #666;
+      --gsa-srb-keyword-bg: #f0f0eb;
+      --gsa-srb-keyword-text: #1a1a1a;
+      --gsa-srb-btn-bg: #1a1a1a;
+      --gsa-srb-btn-bg-hover: #333;
+      --gsa-srb-icon-color: #555;
+    }
+
+    .gsa-srb-banner--minimal .gsa-srb-icon {
+      color: var(--gsa-srb-icon-color, #555);
+    }
+
+    /* ============================================================
+       Variant 3 — Inline / text-only (no background, no border)
+       ============================================================ */
+    .gsa-srb-banner--inline {
+      background: transparent;
+      border-color: transparent;
+      padding-left: 0;
+      padding-right: 0;
+      --gsa-srb-text-secondary: #888;
+      --gsa-srb-keyword-bg: #f0f0eb;
+      --gsa-srb-keyword-text: #1a1a1a;
+      --gsa-srb-btn-bg: transparent;
+      --gsa-srb-btn-bg-hover: #f0f0eb;
+      --gsa-srb-btn-text: #2d3a8c;
+    }
+
+    .gsa-srb-banner--inline .gsa-srb-cta {
+      text-decoration: underline;
+      text-decoration-color: rgba(45, 58, 140, 0.35);
+      padding: 4px 6px;
+    }
+
+    .gsa-srb-banner--inline .gsa-srb-cta:hover {
+      text-decoration-color: currentColor;
+    }
+
+    /* ============================================================
+       Prototype annotation styles
+       ============================================================ */
+    .annotation {
+      font-size: 12px;
+      color: #aaa;
+      margin-top: 10px;
+      padding-left: 4px;
+      line-height: 1.5;
+    }
+
+    .state-strip {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    .state-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      color: #ccc;
+      padding: 3px 8px;
+      border: 1px solid #e8e8e4;
+      border-radius: 4px;
+      cursor: pointer;
+      background: #fff;
+      transition: border-color 0.1s, color 0.1s;
+    }
+
+    .state-label:hover, .state-label.active {
+      border-color: #bbb;
+      color: #666;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid #e8e8e4;
+      margin: 40px 0;
+    }
+
+    .section-title {
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: -0.2px;
+      color: #1a1a1a;
+      margin-bottom: 4px;
+    }
+
+    .section-desc {
+      font-size: 12px;
+      color: #aaa;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="proto-frame">
+
+    <div class="proto-meta">
+      <h1>AI Search CTA Banner</h1>
+      <p>Shopify search results page, merchant embed. Keyword: "red summer dress".</p>
+    </div>
+
+    <!-- ============================================================
+         VARIANT A — Default (blue tint, recommended)
+         ============================================================ -->
+    <div class="variant-section">
+      <div class="variant-label">Variant A — Tinted (recommended)</div>
+
+      <div class="shopify-shell">
+        <!-- Simulated Shopify header -->
+        <div class="shopify-header">
+          <div class="shopify-logo">Bloom & Co.</div>
+          <div class="shopify-search-bar">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            red summer dress
+          </div>
+          <nav class="shopify-nav">
+            <span>Collections</span>
+            <span>About</span>
+            <span>Cart (0)</span>
+          </nav>
+        </div>
+
+        <div class="shopify-content">
+          <div class="shopify-breadcrumb">Home / Search</div>
+          <div class="shopify-results-title">Results for "red summer dress"</div>
+          <div class="shopify-results-count">24 products</div>
+
+          <!-- THE BANNER -->
+          <div
+            class="gsa-srb-banner"
+            role="complementary"
+            aria-label="Search with AI assistant"
+            id="gsa-banner-a"
+          >
+            <!-- Spark icon -->
+            <svg class="gsa-srb-icon" aria-hidden="true" viewBox="0 0 16 16" fill="none">
+              <path d="M8 1.5 L9.2 6.2 L14 7 L9.2 8.2 L8 13 L6.8 8.2 L2 7 L6.8 6.2 Z" fill="currentColor"/>
+            </svg>
+
+            <span class="gsa-srb-copy">
+              Get AI recommendations for
+              <span class="gsa-srb-keyword" id="gsa-keyword-a">"red summer dress"</span>
+              — find exactly what you're looking for
+            </span>
+
+            <button
+              class="gsa-srb-cta"
+              id="gsa-cta-a"
+              data-state="default"
+              onclick="handleSearch(this, 'red summer dress')"
+              aria-label="Search with AI for red summer dress"
+            >
+              <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              <span class="gsa-srb-cta-text">Ask AI</span>
+            </button>
+
+            <button
+              class="gsa-srb-dismiss"
+              aria-label="Dismiss"
+              onclick="dismissBanner('gsa-banner-a')"
+            >
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+            </button>
+          </div>
+
+          <!-- Simulated product grid -->
+          <div class="product-grid">
+            <div class="product-card">
+              <div class="product-img">👗</div>
+              <div class="product-info">
+                <div class="product-name">Floral Wrap Dress</div>
+                <div class="product-price">$89.00</div>
+              </div>
+            </div>
+            <div class="product-card">
+              <div class="product-img">👗</div>
+              <div class="product-info">
+                <div class="product-name">Linen Midi Dress</div>
+                <div class="product-price">$112.00</div>
+              </div>
+            </div>
+            <div class="product-card">
+              <div class="product-img">👗</div>
+              <div class="product-info">
+                <div class="product-name">Sundress — Crimson</div>
+                <div class="product-price">$74.00</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="annotation">
+        One-line layout. Dismissable. CTA triggers <code>GorgiasChat.sendMessage()</code> with the keyword pre-filled.
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ============================================================
+         VARIANT B — Minimal / neutral (no blue tint)
+         ============================================================ -->
+    <div class="variant-section">
+      <div class="variant-label">Variant B — Minimal (neutral, blends with any theme)</div>
+
+      <div class="shopify-shell">
+        <div class="shopify-header">
+          <div class="shopify-logo">Bloom & Co.</div>
+          <div class="shopify-search-bar">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            red summer dress
+          </div>
+          <nav class="shopify-nav">
+            <span>Collections</span>
+            <span>About</span>
+            <span>Cart (0)</span>
+          </nav>
+        </div>
+
+        <div class="shopify-content">
+          <div class="shopify-breadcrumb">Home / Search</div>
+          <div class="shopify-results-title">Results for "red summer dress"</div>
+          <div class="shopify-results-count">24 products</div>
+
+          <div
+            class="gsa-srb-banner gsa-srb-banner--minimal"
+            role="complementary"
+            aria-label="Search with AI assistant"
+            id="gsa-banner-b"
+          >
+            <svg class="gsa-srb-icon" aria-hidden="true" viewBox="0 0 16 16" fill="none">
+              <path d="M8 1.5 L9.2 6.2 L14 7 L9.2 8.2 L8 13 L6.8 8.2 L2 7 L6.8 6.2 Z" fill="currentColor"/>
+            </svg>
+
+            <span class="gsa-srb-copy">
+              Get AI recommendations for
+              <span class="gsa-srb-keyword">"red summer dress"</span>
+              — find exactly what you're looking for
+            </span>
+
+            <button
+              class="gsa-srb-cta"
+              data-state="default"
+              onclick="handleSearch(this, 'red summer dress')"
+              aria-label="Search with AI for red summer dress"
+            >
+              <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              <span class="gsa-srb-cta-text">Ask AI</span>
+            </button>
+
+            <button
+              class="gsa-srb-dismiss"
+              aria-label="Dismiss"
+              onclick="dismissBanner('gsa-banner-b')"
+            >
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+            </button>
+          </div>
+
+          <div class="product-grid">
+            <div class="product-card">
+              <div class="product-img">👗</div>
+              <div class="product-info"><div class="product-name">Floral Wrap Dress</div><div class="product-price">$89.00</div></div>
+            </div>
+            <div class="product-card">
+              <div class="product-img">👗</div>
+              <div class="product-info"><div class="product-name">Linen Midi Dress</div><div class="product-price">$112.00</div></div>
+            </div>
+            <div class="product-card">
+              <div class="product-img">👗</div>
+              <div class="product-info"><div class="product-name">Sundress — Crimson</div><div class="product-price">$74.00</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="annotation">
+        No background tint. Matches neutral Shopify themes (Dawn, Sense). Same height as Variant A.
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ============================================================
+         VARIANT C — Inline / ultra-minimal
+         ============================================================ -->
+    <div class="variant-section">
+      <div class="variant-label">Variant C — Inline text (ultra-minimal, no border)</div>
+
+      <div class="shopify-shell">
+        <div class="shopify-header">
+          <div class="shopify-logo">Bloom & Co.</div>
+          <div class="shopify-search-bar">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            red summer dress
+          </div>
+          <nav class="shopify-nav">
+            <span>Collections</span>
+            <span>About</span>
+            <span>Cart (0)</span>
+          </nav>
+        </div>
+
+        <div class="shopify-content">
+          <div class="shopify-breadcrumb">Home / Search</div>
+          <div class="shopify-results-title">Results for "red summer dress"</div>
+          <div class="shopify-results-count">24 products</div>
+
+          <div
+            class="gsa-srb-banner gsa-srb-banner--inline"
+            role="complementary"
+            aria-label="Search with AI assistant"
+            id="gsa-banner-c"
+          >
+            <svg class="gsa-srb-icon" aria-hidden="true" viewBox="0 0 16 16" fill="none" style="color: #888;">
+              <path d="M8 1.5 L9.2 6.2 L14 7 L9.2 8.2 L8 13 L6.8 8.2 L2 7 L6.8 6.2 Z" fill="currentColor"/>
+            </svg>
+
+            <span class="gsa-srb-copy">
+              Not finding the right
+              <span class="gsa-srb-keyword">"red summer dress"</span>?
+            </span>
+
+            <button
+              class="gsa-srb-cta"
+              data-state="default"
+              onclick="handleSearch(this, 'red summer dress')"
+              aria-label="Search with AI for red summer dress"
+            >
+              <span class="gsa-srb-cta-text">Try AI search</span>
+              <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+
+            <button
+              class="gsa-srb-dismiss"
+              aria-label="Dismiss"
+              onclick="dismissBanner('gsa-banner-c')"
+            >
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+            </button>
+          </div>
+
+          <div class="product-grid">
+            <div class="product-card">
+              <div class="product-img">👗</div>
+              <div class="product-info"><div class="product-name">Floral Wrap Dress</div><div class="product-price">$89.00</div></div>
+            </div>
+            <div class="product-card">
+              <div class="product-img">👗</div>
+              <div class="product-info"><div class="product-name">Linen Midi Dress</div><div class="product-price">$112.00</div></div>
+            </div>
+            <div class="product-card">
+              <div class="product-img">👗</div>
+              <div class="product-info"><div class="product-name">Sundress — Crimson</div><div class="product-price">$74.00</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="annotation">
+        Zero chrome. Reads as part of the page text. Lowest visual weight, highest risk of being ignored.
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ============================================================
+         States panel
+         ============================================================ -->
+    <div class="variant-section">
+      <div class="section-title">States</div>
+      <div class="section-desc">All states for Variant A (tinted). Click to preview.</div>
+
+      <div class="state-strip">
+        <button class="state-label active" onclick="setState('default')">Default</button>
+        <button class="state-label" onclick="setState('loading')">Loading (after click)</button>
+        <button class="state-label" onclick="setState('dismissed')">Dismissed</button>
+      </div>
+
+      <div style="margin-top: 20px;">
+        <div
+          class="gsa-srb-banner"
+          id="gsa-banner-state"
+          role="complementary"
+          aria-label="Search with AI assistant"
+        >
+          <svg class="gsa-srb-icon" aria-hidden="true" viewBox="0 0 16 16" fill="none">
+            <path d="M8 1.5 L9.2 6.2 L14 7 L9.2 8.2 L8 13 L6.8 8.2 L2 7 L6.8 6.2 Z" fill="currentColor"/>
+          </svg>
+          <span class="gsa-srb-copy">
+            Get AI recommendations for
+            <span class="gsa-srb-keyword">"red summer dress"</span>
+            — find exactly what you're looking for
+          </span>
+          <button
+            class="gsa-srb-cta"
+            id="gsa-cta-state"
+            data-state="default"
+            aria-label="Search with AI for red summer dress"
+          >
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <span class="gsa-srb-cta-text" id="gsa-cta-state-text">Ask AI</span>
+          </button>
+          <button class="gsa-srb-dismiss" aria-label="Dismiss" id="gsa-dismiss-state">
+            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <!-- "Dismissed" replacement text shown below banner when dismissed -->
+        <div id="gsa-dismissed-msg" style="display:none; font-size:12px; color:#bbb; padding: 6px 2px;">
+          Banner dismissed. It will not show again for this session.
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /proto-frame -->
+
+  <script>
+    // Integration point — calls GorgiasChat if available, falls back to console
+    function openAISearch(keyword) {
+      if (typeof GorgiasChat !== 'undefined') {
+        GorgiasChat.open();
+        GorgiasChat.sendMessage('I\'m looking for: ' + keyword);
+      } else {
+        console.log('[Gorgias SA] Would open chat with query:', keyword);
+        // Prototype: simulate opening
+        alert('Opening AI chat with: "' + keyword + '"');
+      }
+    }
+
+    function handleSearch(btn, keyword) {
+      btn.setAttribute('data-state', 'loading');
+      btn.disabled = true;
+      openAISearch(keyword);
+      // Re-enable after 2s (real integration: resolve on chat open event)
+      setTimeout(function() {
+        btn.setAttribute('data-state', 'default');
+        btn.disabled = false;
+      }, 2000);
+    }
+
+    function dismissBanner(id) {
+      var banner = document.getElementById(id);
+      if (banner) {
+        banner.setAttribute('aria-hidden', 'true');
+        // Persist dismissal in sessionStorage
+        try { sessionStorage.setItem('gsa-srb-dismissed', '1'); } catch(e) {}
+      }
+    }
+
+    // States panel controls
+    function setState(state) {
+      var banner = document.getElementById('gsa-banner-state');
+      var cta = document.getElementById('gsa-cta-state');
+      var ctaText = document.getElementById('gsa-cta-state-text');
+      var dismissedMsg = document.getElementById('gsa-dismissed-msg');
+
+      // Reset
+      banner.setAttribute('aria-hidden', 'false');
+      banner.style.display = '';
+      dismissedMsg.style.display = 'none';
+      cta.setAttribute('data-state', 'default');
+      cta.disabled = false;
+      ctaText.textContent = 'Ask AI';
+
+      // Update state labels
+      document.querySelectorAll('.state-label').forEach(function(el) { el.classList.remove('active'); });
+      event.target.classList.add('active');
+
+      if (state === 'loading') {
+        cta.setAttribute('data-state', 'loading');
+        cta.disabled = true;
+        ctaText.textContent = 'Opening';
+      } else if (state === 'dismissed') {
+        banner.setAttribute('aria-hidden', 'true');
+        dismissedMsg.style.display = 'block';
+      }
+    }
+
+    // On load: respect existing dismissal
+    (function() {
+      try {
+        if (sessionStorage.getItem('gsa-srb-dismissed')) {
+          // Don't auto-dismiss in prototype so the UI is always visible on load
+        }
+      } catch(e) {}
+    })();
+  </script>
+</body>
+</html>
