@@ -9,7 +9,9 @@
     body { font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif; background: #f5f5f0; color: #1a1a1a; padding: 48px 24px; }
     h1 { font-size: 20px; font-weight: 600; letter-spacing: -0.3px; margin-bottom: 6px; }
     p { font-size: 13px; color: #777; margin-bottom: 40px; }
-    .list { list-style: none; display: flex; flex-direction: column; gap: 12px; max-width: 560px; }
+    .section { max-width: 560px; margin-bottom: 32px; }
+    .section h2 { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #999; margin-bottom: 12px; }
+    .list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
     .list a { display: block; background: white; border: 1px solid #e8e8e4; border-radius: 10px; padding: 16px 20px; text-decoration: none; color: #1a1a1a; font-size: 14px; font-weight: 500; transition: border-color 0.15s; }
     .list a:hover { border-color: #1a1a1a; }
     .list a span { display: block; font-size: 12px; color: #999; font-weight: 400; margin-top: 2px; }
@@ -18,10 +20,21 @@
 <body>
   <h1>SA Prototypes</h1>
   <p>Internal design prototypes. Share via direct URL only.</p>
-  <ul class="list">
-    <li><a href="/shopping-triggers/osea.html">Shopping Triggers — OSEA Malibu<span>3 CTA placements + AI discovery conversations (skincare routines, body moisturizers)</span></a></li>
-    <li><a href="/shopping-triggers/adrianna-papell.html">Shopping Triggers — Adrianna Papell<span>3 CTA placements + AI discovery conversations (occasion styling, sizing)</span></a></li>
-    <li><a href="/search-entry-point/design-variants.html">Search Entry Point — Design Variants<span>4 options for Shop with AI in the search bar</span></a></li>
-  </ul>
+
+  <div class="section">
+    <h2>Search Trigger</h2>
+    <ul class="list">
+      <li><a href="/ai-search-cta-banner/search-results-banner.html">AI Search CTA Banner<span>Banner on search results page prompting shoppers to try AI search</span></a></li>
+      <li><a href="/search-entry-point/design-variants.html">Search Entry Point — Design Variants<span>4 options for Shop with AI in the search bar</span></a></li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Shopping Trigger / Product Quiz</h2>
+    <ul class="list">
+      <li><a href="/shopping-triggers/osea.html">Shopping Triggers — OSEA Malibu<span>3 CTA placements + AI discovery conversations (skincare routines, body moisturizers)</span></a></li>
+      <li><a href="/shopping-triggers/adrianna-papell.html">Shopping Triggers — Adrianna Papell<span>3 CTA placements + AI discovery conversations (occasion styling, sizing)</span></a></li>
+    </ul>
+  </div>
 </body>
 </html>
