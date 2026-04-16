@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shopping Triggers Prototype - OSEA Malibu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --primary: #1D4D41;
+  --primary-hover: #0B2E25;
+  --bg: #FFFFFF;
+  --bg-light: #F7F7F8;
+  --border: #D4E1DE;
+  --text: #272d45;
+  --text-secondary: #676986;
+  --font-heading: 'Playfair Display', Georgia, serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Annotation Bar ── */
+.annotation-bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  background: #1a1a2e; color: #fff; padding: 10px 24px;
+  font-size: 13px; display: flex; align-items: center; gap: 16px;
+}
+.annotation-bar strong { font-weight: 600; }
+.annotation-bar span { opacity: 0.7; }
+
+/* ── Tab Navigation ── */
+.tab-nav {
+  position: fixed; top: 40px; left: 0; right: 0; z-index: 999;
+  background: #fff; border-bottom: 1px solid var(--border);
+  display: flex; gap: 0; padding: 0 24px;
+}
+.tab-btn {
+  padding: 12px 20px; font-family: var(--font-body); font-size: 13px;
+  font-weight: 500; color: var(--text-secondary); background: none;
+  border: none; border-bottom: 2px solid transparent; cursor: pointer;
+  transition: all 0.2s;
+}
+.tab-btn:hover { color: var(--text); }
+.tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
+
+/* ── Page Panels ── */
+.page-panel { display: none; padding-top: 88px; min-height: 100vh; }
+.page-panel.active { display: block; }
+
+/* ── Store Header ── */
+.store-header {
+  border-bottom: 1px solid var(--border); padding: 16px 0; text-align: center;
+}
+.store-header .logo {
+  font-family: var(--font-heading); font-size: 28px; font-weight: 700;
+  letter-spacing: 6px; color: var(--primary);
+}
+.store-nav {
+  display: flex; justify-content: center; gap: 32px; margin-top: 10px;
+}
+.store-nav a {
+  font-size: 13px; color: var(--text-secondary); text-decoration: none;
+  letter-spacing: 0.5px; text-transform: uppercase; font-weight: 500;
+}
+.store-nav a:hover { color: var(--primary); }
+
+/* ── Hero ── */
+.hero {
+  background: var(--primary); color: #fff; padding: 80px 40px;
+  text-align: center; position: relative;
+}
+.hero h1 {
+  font-family: var(--font-heading); font-size: 48px; font-weight: 400;
+  max-width: 600px; margin: 0 auto 16px; line-height: 1.2;
+}
+.hero p {
+  font-size: 16px; opacity: 0.8; max-width: 440px; margin: 0 auto;
+}
+
+/* ── CTA Buttons ── */
+.cta-pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: #fff; color: var(--primary); padding: 14px 28px;
+  border-radius: 50px; font-size: 15px; font-weight: 600;
+  cursor: pointer; border: none; margin-top: 32px;
+  transition: all 0.25s; box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  font-family: var(--font-body);
+}
+.cta-pill:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(0,0,0,0.2); }
+.cta-pill svg { width: 18px; height: 18px; }
+
+@keyframes pulse-ring {
+  0% { box-shadow: 0 0 0 0 rgba(255,255,255,0.4); }
+  70% { box-shadow: 0 0 0 12px rgba(255,255,255,0); }
+  100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); }
+}
+.cta-pill.pulse { animation: pulse-ring 2.5s infinite; }
+
+/* CTA Banner (collection page) */
+.cta-banner {
+  background: var(--primary); color: #fff; border-radius: 12px;
+  padding: 28px 32px; display: flex; align-items: center;
+  justify-content: space-between; margin: 24px auto; max-width: 960px;
+}
+.cta-banner-text h3 {
+  font-family: var(--font-heading); font-size: 22px; font-weight: 400;
+}
+.cta-banner-text p { font-size: 13px; opacity: 0.75; margin-top: 4px; }
+.cta-banner-btn {
+  background: #fff; color: var(--primary); border: none; padding: 12px 24px;
+  border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer;
+  font-family: var(--font-body); transition: all 0.2s; white-space: nowrap;
+}
+.cta-banner-btn:hover { background: #f0f5f3; }
+
+/* CTA inline link (PDP) */
+.cta-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  color: var(--text-secondary); font-size: 14px; cursor: pointer;
+  border: none; background: none; padding: 8px 0; margin-top: 12px;
+  font-family: var(--font-body); transition: color 0.2s;
+}
+.cta-link:hover { color: var(--primary); }
+.cta-link:hover span { text-decoration: underline; }
+.cta-link svg { width: 16px; height: 16px; }
+
+/* ── Trigger Annotation ── */
+.trigger-annotation {
+  display: inline-block; background: #FFF3CD; color: #856404;
+  font-size: 10px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.8px; padding: 3px 8px; border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+/* ── Product Grids ── */
+.section { max-width: 960px; margin: 0 auto; padding: 48px 24px; }
+.section-title {
+  font-family: var(--font-heading); font-size: 28px; font-weight: 400;
+  margin-bottom: 24px;
+}
+.product-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 24px;
+}
+.product-card { cursor: default; }
+.product-img {
+  width: 100%; aspect-ratio: 3/4; background: var(--primary);
+  border-radius: 8px; opacity: 0.15; margin-bottom: 12px;
+}
+.product-card h4 {
+  font-family: var(--font-body); font-size: 14px; font-weight: 500;
+  margin-bottom: 4px;
+}
+.product-card .price { font-size: 14px; color: var(--text-secondary); }
+
+/* ── Collection Page ── */
+.collection-header {
+  text-align: center; padding: 40px 24px 0;
+}
+.collection-header h2 {
+  font-family: var(--font-heading); font-size: 36px; font-weight: 400;
+}
+
+/* ── PDP ── */
+.pdp-layout {
+  max-width: 960px; margin: 0 auto; padding: 40px 24px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 48px;
+}
+.pdp-image {
+  width: 100%; aspect-ratio: 1; background: var(--primary);
+  border-radius: 12px; opacity: 0.15;
+}
+.pdp-info h1 {
+  font-family: var(--font-heading); font-size: 32px; font-weight: 400;
+  margin-bottom: 8px;
+}
+.pdp-stars { font-size: 14px; color: var(--text-secondary); margin-bottom: 16px; }
+.pdp-stars .stars { color: #D4A017; letter-spacing: 2px; }
+.pdp-price {
+  font-size: 24px; font-weight: 600; color: var(--text); margin-bottom: 20px;
+}
+.size-options { display: flex; gap: 10px; margin-bottom: 24px; }
+.size-btn {
+  padding: 10px 16px; border: 1px solid var(--border); border-radius: 8px;
+  background: #fff; font-size: 13px; cursor: pointer; font-family: var(--font-body);
+  transition: all 0.2s;
+}
+.size-btn:hover { border-color: var(--primary); }
+.size-btn.active { border-color: var(--primary); background: #f0f5f3; }
+.add-to-cart {
+  width: 100%; padding: 16px; background: var(--primary); color: #fff;
+  border: none; border-radius: 8px; font-size: 15px; font-weight: 600;
+  cursor: pointer; font-family: var(--font-body); transition: background 0.2s;
+}
+.add-to-cart:hover { background: var(--primary-hover); }
+
+.pdp-recommendations {
+  max-width: 960px; margin: 0 auto; padding: 24px 24px 60px;
+}
+.pdp-recommendations .product-grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* ── Chat Panel ── */
+.chat-overlay {
+  position: fixed; top: 0; right: 0; bottom: 0; width: 400px;
+  background: #fff; z-index: 2000; transform: translateX(100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex; flex-direction: column;
+  box-shadow: -4px 0 24px rgba(0,0,0,0.1);
+}
+.chat-overlay.open { transform: translateX(0); }
+.chat-header {
+  padding: 16px 20px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  border-top: 3px solid var(--primary);
+}
+.chat-header h3 {
+  font-family: var(--font-body); font-size: 14px; font-weight: 600;
+  color: var(--text);
+}
+.chat-close {
+  background: none; border: none; cursor: pointer; padding: 4px;
+  color: var(--text-secondary); font-size: 20px; line-height: 1;
+}
+.chat-close:hover { color: var(--text); }
+.chat-messages {
+  flex: 1; overflow-y: auto; padding: 20px;
+  display: flex; flex-direction: column; gap: 16px;
+}
+.chat-msg {
+  max-width: 85%; animation: msg-in 0.3s ease;
+}
+@keyframes msg-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.chat-msg.assistant {
+  align-self: flex-start; background: var(--bg-light);
+  padding: 12px 16px; border-radius: 4px 12px 12px 12px;
+  font-size: 14px; line-height: 1.6; color: var(--text);
+}
+.chat-msg.user {
+  align-self: flex-end; background: var(--primary); color: #fff;
+  padding: 12px 16px; border-radius: 12px 4px 12px 12px; font-size: 14px;
+}
+
+/* Product card in chat */
+.chat-product-card {
+  border-left: 4px solid var(--primary); background: #fff;
+  padding: 12px 16px; border-radius: 0 8px 8px 0; margin-top: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+.chat-product-card .cp-name {
+  font-weight: 600; font-size: 14px; color: var(--text);
+}
+.chat-product-card .cp-price {
+  font-size: 13px; font-weight: 600; color: var(--primary); margin-top: 2px;
+}
+.chat-product-card .cp-desc {
+  font-size: 13px; color: var(--text-secondary); margin-top: 4px;
+}
+.chat-product-card .cp-link {
+  font-size: 12px; color: var(--primary); text-decoration: none;
+  margin-top: 6px; display: inline-block; font-weight: 500;
+}
+.chat-product-card .cp-link:hover { text-decoration: underline; }
+
+/* Typing indicator */
+.typing-indicator {
+  display: flex; gap: 5px; padding: 12px 16px; align-self: flex-start;
+  background: var(--bg-light); border-radius: 4px 12px 12px 12px;
+}
+.typing-indicator span {
+  width: 7px; height: 7px; background: var(--text-secondary);
+  border-radius: 50%; opacity: 0.4;
+  animation: typing-dot 1.4s infinite;
+}
+.typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+.typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typing-dot {
+  0%, 60%, 100% { opacity: 0.4; transform: translateY(0); }
+  30% { opacity: 1; transform: translateY(-4px); }
+}
+
+.chat-input-area {
+  padding: 16px; border-top: 1px solid var(--border);
+  display: flex; gap: 8px;
+}
+.chat-input {
+  flex: 1; padding: 12px 16px; border: 1px solid var(--border);
+  border-radius: 8px; font-size: 14px; font-family: var(--font-body);
+  outline: none; transition: border-color 0.2s;
+}
+.chat-input:focus { border-color: var(--primary); }
+.chat-input:disabled { background: var(--bg-light); }
+.chat-send {
+  padding: 12px 16px; background: var(--primary); color: #fff;
+  border: none; border-radius: 8px; cursor: pointer;
+  font-family: var(--font-body); font-weight: 600; font-size: 14px;
+  transition: background 0.2s;
+}
+.chat-send:hover { background: var(--primary-hover); }
+.chat-send:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* Backdrop */
+.chat-backdrop {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.15);
+  z-index: 1999; opacity: 0; pointer-events: none;
+  transition: opacity 0.3s;
+}
+.chat-backdrop.visible { opacity: 1; pointer-events: auto; }
+
+/* ── Progress Bar ── */
+.chat-progress {
+  padding: 0 20px;
+  display: none;
+}
+.chat-progress.visible { display: block; }
+.chat-progress-label {
+  font-size: 11px; color: var(--text-secondary); margin-bottom: 6px;
+  display: flex; justify-content: space-between;
+}
+.chat-progress-track {
+  height: 4px; background: var(--border); border-radius: 4px; overflow: hidden;
+}
+.chat-progress-fill {
+  height: 100%; background: var(--primary); border-radius: 4px;
+  transition: width 0.4s ease;
+  width: 0%;
+}
+
+/* ── Quick Replies ── */
+.quick-replies {
+  padding: 8px 20px 0;
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+.quick-reply-btn {
+  padding: 8px 14px; border: 1px solid var(--border); border-radius: 20px;
+  background: #fff; font-size: 13px; font-family: var(--font-body);
+  color: var(--text); cursor: pointer; transition: all 0.2s;
+  white-space: nowrap;
+}
+.quick-reply-btn:hover {
+  border-color: var(--primary); color: var(--primary); background: #f0f5f3;
+}
+
+/* ── Skip Button ── */
+.skip-btn {
+  display: none; padding: 6px 14px; font-size: 12px; font-family: var(--font-body);
+  color: var(--text-secondary); background: none; border: 1px dashed var(--border);
+  border-radius: 20px; cursor: pointer; transition: all 0.2s;
+  margin: 4px 20px 0; align-self: flex-end;
+}
+.skip-btn.visible { display: inline-block; }
+.skip-btn:hover { color: var(--primary); border-color: var(--primary); }
+</style>
+</head>
+<body>
+
+<!-- Annotation Bar -->
+<div class="annotation-bar">
+  <strong>Shopping Triggers Prototype</strong>
+  <span>OSEA Malibu - Contextual CTAs that open AI-powered product discovery conversations. Click any highlighted trigger to test.</span>
+</div>
+
+<!-- Tab Navigation -->
+<nav class="tab-nav">
+  <button class="tab-btn active" data-tab="homepage">Homepage</button>
+  <button class="tab-btn" data-tab="collection">Body Moisturizers Collection</button>
+  <button class="tab-btn" data-tab="pdp">Product Detail Page</button>
+</nav>
+
+<!-- ═══════════ TAB 1: Homepage ═══════════ -->
+<div class="page-panel active" id="page-homepage">
+  <header class="store-header">
+    <div class="logo">OSEA</div>
+    <nav class="store-nav">
+      <a href="#">Body Care</a><a href="#">Face Care</a>
+      <a href="#">Sets</a><a href="#">Best Sellers</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Seaweed-powered skincare from Malibu</h1>
+    <p>Clean, vegan, results-driven. From the ocean to your skin.</p>
+    <div>
+      <div class="trigger-annotation">Shopping Trigger CTA</div>
+    </div>
+    <button class="cta-pill pulse" data-cta="routine" onclick="App.openChat('routine')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M16.2 7.8l-2 6.3-6.4 2.1 2-6.3z"/></svg>
+      Find your skincare routine
+    </button>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Best Sellers</h2>
+    <div class="product-grid">
+      <div class="product-card"><div class="product-img"></div><h4>Undaria Algae Body Oil</h4><p class="price">$84</p></div>
+      <div class="product-card"><div class="product-img"></div><h4>Hyaluronic Sea Serum</h4><p class="price">$88</p></div>
+      <div class="product-card"><div class="product-img"></div><h4>Ocean Wave Cleanser</h4><p class="price">$38</p></div>
+      <div class="product-card"><div class="product-img"></div><h4>Body Butter</h4><p class="price">$54</p></div>
+    </div>
+  </section>
+</div>
+
+<!-- ═══════════ TAB 2: Collection ═══════════ -->
+<div class="page-panel" id="page-collection">
+  <header class="store-header">
+    <div class="logo">OSEA</div>
+    <nav class="store-nav">
+      <a href="#">Body Care</a><a href="#">Face Care</a>
+      <a href="#">Sets</a><a href="#">Best Sellers</a>
+    </nav>
+  </header>
+
+  <div class="collection-header">
+    <h2>Body Moisturizers</h2>
+  </div>
+
+  <div style="max-width:960px;margin:0 auto;padding:24px 24px 0;">
+    <div class="trigger-annotation">Shopping Trigger CTA</div>
+  </div>
+  <div class="cta-banner">
+    <div class="cta-banner-text">
+      <h3>Oil, butter, or balm? Let us help you choose</h3>
+      <p>Answer a few quick questions and we'll match you with the right format.</p>
+    </div>
+    <button class="cta-banner-btn" onclick="App.openChat('moisturizer')">Get recommendations</button>
+  </div>
+
+  <section class="section" style="padding-top:24px;">
+    <div class="product-grid" style="grid-template-columns:repeat(3,1fr);">
+      <div class="product-card"><div class="product-img"></div><h4>Undaria Algae Body Oil</h4><p class="price">$84</p></div>
+      <div class="product-card"><div class="product-img"></div><h4>Body Butter</h4><p class="price">$54</p></div>
+      <div class="product-card"><div class="product-img"></div><h4>Anti-Aging Body Balm</h4><p class="price">$84</p></div>
+      <div class="product-card"><div class="product-img"></div><h4>Hyaluronic Body Serum</h4><p class="price">$48</p></div>
+      <div class="product-card"><div class="product-img"></div><h4>Dream Bio-Retinol Body Serum</h4><p class="price">$52</p></div>
+      <div class="product-card"><div class="product-img"></div><h4>Undaria Body Oil Fragrance Free</h4><p class="price">$84</p></div>
+    </div>
+  </section>
+</div>
+
+<!-- ═══════════ TAB 3: PDP ═══════════ -->
+<div class="page-panel" id="page-pdp">
+  <header class="store-header">
+    <div class="logo">OSEA</div>
+    <nav class="store-nav">
+      <a href="#">Body Care</a><a href="#">Face Care</a>
+      <a href="#">Sets</a><a href="#">Best Sellers</a>
+    </nav>
+  </header>
+
+  <div class="pdp-layout">
+    <div class="pdp-image"></div>
+    <div class="pdp-info">
+      <h1>Undaria Algae Body Oil</h1>
+      <div class="pdp-stars">
+        <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        4.7 &middot; 3,325 reviews
+      </div>
+      <div class="pdp-price">$84</div>
+      <div class="size-options">
+        <button class="size-btn">1 fl oz &middot; $16</button>
+        <button class="size-btn">5 fl oz &middot; $52</button>
+        <button class="size-btn active">9.6 fl oz &middot; $84</button>
+      </div>
+      <button class="add-to-cart">Add to Cart</button>
+      <div style="margin-top:16px;">
+        <div class="trigger-annotation">Shopping Trigger CTA</div>
+      </div>
+      <button class="cta-link" onclick="App.openChat('pdp')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <span>Not sure this is right for you? Chat with us</span>
+      </button>
+    </div>
+  </div>
+
+  <section class="pdp-recommendations">
+    <h2 class="section-title">You might also like</h2>
+    <div class="product-grid" style="grid-template-columns:repeat(3,1fr);">
+      <div class="product-card"><div class="product-img"></div><h4>Body Butter</h4><p class="price">$54</p></div>
+      <div class="product-card"><div class="product-img"></div><h4>Hyaluronic Body Serum</h4><p class="price">$48</p></div>
+      <div class="product-card"><div class="product-img"></div><h4>Anti-Aging Body Balm</h4><p class="price">$84</p></div>
+    </div>
+  </section>
+</div>
+
+<!-- ═══════════ Chat Panel ═══════════ -->
+<div class="chat-backdrop" id="chatBackdrop" onclick="App.closeChat()"></div>
+<div class="chat-overlay" id="chatPanel">
+  <div class="chat-header">
+    <h3>OSEA Shopping Assistant</h3>
+    <button class="chat-close" onclick="App.closeChat()">&times;</button>
+  </div>
+  <div class="chat-progress" id="chatProgress">
+    <div class="chat-progress-label">
+      <span id="progressLabel">Getting to know you...</span>
+      <span id="progressStep">1/4</span>
+    </div>
+    <div class="chat-progress-track"><div class="chat-progress-fill" id="progressFill"></div></div>
+  </div>
+  <div class="chat-messages" id="chatMessages"></div>
+  <div class="quick-replies" id="quickReplies"></div>
+  <button class="skip-btn" id="skipBtn" onclick="App.skipToResults()">Skip to recommendations</button>
+  <div class="chat-input-area">
+    <input type="text" class="chat-input" id="chatInput" placeholder="Type your message..." autocomplete="off">
+    <button class="chat-send" id="chatSend" onclick="App.sendMessage()">Send</button>
+  </div>
+</div>
+
+<script src="config.js"></script>
+<script>
+(function() {
+  'use strict';
+
+  /* ── System Prompts ── */
+  const SYSTEM_PROMPTS = {
+    routine: `You are OSEA Malibu's shopping assistant, helping a shopper build their personalized skincare routine. You're warm, knowledgeable, and concise — like talking to a friend who happens to be an esthetician.
+
+KNOWLEDGE:
+- Skin types and matching routines:
+  - Blemish-prone & Sensitive: Ocean Wave Cleanser ($38) → Hyaluronic Sea Serum ($88) → Seabiotic Water Cream ($54). Avoid heavy oils.
+  - Mature, Dry & Normal: Ocean Cleanser ($48) → Dream Night Serum Bio-Retinol ($88) → Atmosphere Protection Cream ($54) for AM, Dream Night Cream ($68) for PM. Add Essential Hydrating Oil ($68) for extra dry skin.
+  - Blackheads & Brightening: Ocean Wave Cleanser ($38) → Seaglow Overnight AHA ($68) → Seabiotic Water Cream ($54). Add Seaglow Resurfacing Scrub ($58) 2x/week.
+- Eye care: Ocean Eyes Eye Serum ($58) for puffiness/dark circles, Advanced Repair Eye Cream ($68) for fine lines/wrinkles
+- All products are vegan, seaweed-based, clean ingredients
+
+CONVERSATION FLOW (4 steps):
+1. Ask skin type (oily, dry, sensitive, combination)
+2. Ask main concern (acne, aging, dullness, hydration)
+3. Ask if they want AM routine, PM routine, or both
+4. Recommend a 3-4 step routine with specific products
+
+BEHAVIOR:
+- Ask only ONE question per message. Never combine multiple questions.
+- Keep responses short (1-2 sentences + the question)
+- When recommending products, format them as:
+  [PRODUCT]{"name": "Product Name", "price": "$XX", "description": "One line why"}[/PRODUCT]
+- If they ask about body care, smoothly transition to body products
+- Never say you're an AI. You're "the OSEA team"
+
+REQUIRED FORMAT — include these tags at the END of every message:
+- Progress: [PROGRESS]{"step": 1, "total": 4, "label": "Skin type"}[/PROGRESS]
+- Quick replies (2-4 short options): [QUICK_REPLIES]["Oily", "Dry", "Sensitive", "Combination"][/QUICK_REPLIES]
+- On the final recommendation message, set step equal to total.
+- Always include both tags, even on the final message (quick replies can be like ["Add to cart", "Tell me more", "Start over"]).`,
+
+    moisturizer: `You are OSEA Malibu's shopping assistant, specializing in body moisturizers. You help shoppers find the right body moisturizer format for their needs.
+
+KNOWLEDGE - Body Moisturizer Comparison:
+- Undaria Algae Body Oil ($84, also in Fragrance Free): Lightweight, fast-absorbing, best for daily all-over hydration. Hero ingredient: Undaria algae + acai. Best for: people who like a non-greasy finish, layering under clothes quickly.
+- Body Butter ($54): Rich, thick texture. Best for very dry areas (elbows, knees, heels). Shea butter + seaweed base. Best for: winter, overnight use, anyone who loves a rich cream.
+- Anti-Aging Body Balm ($84): Targeted treatment, firming. Contains retinol + algae. Best for: neck, decollete, arms — areas showing signs of aging. Not a daily all-over moisturizer.
+- Hyaluronic Body Serum ($48): Lightweight serum format, water-based. Layer under oils or creams for extra hydration. Best for: humid climates, layering, people who don't like heavy products.
+- Dream Bio-Retinol Body Serum ($52): Nighttime treatment. Bio-retinol for body skin renewal. Best for: evening routine, improving skin texture/tone on body.
+
+CONVERSATION FLOW (3 steps):
+1. Ask what they're looking for (daily hydration, specific area, body care routine)
+2. Ask texture preference (light vs rich) and scent sensitivity
+3. Recommend 1-2 products with clear reasoning
+
+BEHAVIOR:
+- Ask only ONE question per message. Never combine multiple questions.
+- Keep responses short (1-2 sentences + the question)
+- Format product recommendations as: [PRODUCT]{"name": "Product Name", "price": "$XX", "description": "One line why"}[/PRODUCT]
+- Never say you're an AI. You're "the OSEA team"
+
+REQUIRED FORMAT — include these tags at the END of every message:
+- Progress: [PROGRESS]{"step": 1, "total": 3, "label": "Your goal"}[/PROGRESS]
+- Quick replies (2-4 short options): [QUICK_REPLIES]["Daily hydration", "Specific area", "Full body routine"][/QUICK_REPLIES]
+- On the final recommendation message, set step equal to total.
+- Always include both tags.`,
+
+    pdp: `You are OSEA Malibu's shopping assistant. The shopper is currently looking at the Undaria Algae Body Oil ($84). Help them decide if it's the right product, or suggest a better alternative.
+
+KNOWLEDGE:
+- Undaria Algae Body Oil ($84): Lightweight, fast-absorbing, daily hydration. Undaria algae + acai. Available in original scent and Fragrance Free. Sizes: 1 fl oz ($16), 5 fl oz ($52), 9.6 fl oz ($84). 4.7 stars, 3,325 reviews. Best for: daily all-over use, non-greasy finish.
+- If they want richer texture → Body Butter ($54)
+- If they want anti-aging → Anti-Aging Body Balm ($84)
+- If they want lightweight + layering → Hyaluronic Body Serum ($48)
+- If they want nighttime treatment → Dream Bio-Retinol Body Serum ($52)
+
+CONVERSATION FLOW (3 steps):
+1. Ask their main goal (daily hydration, anti-aging, specific concern)
+2. Ask about texture/finish preference
+3. Confirm the Body Oil is right OR redirect to a better option
+
+BEHAVIOR:
+- Ask only ONE question per message. Never combine multiple questions.
+- If the Body Oil is right for them, confirm with enthusiasm and suggest the right size
+- If another product is better, gently redirect with reasoning
+- Format product recommendations as: [PRODUCT]{"name": "Product Name", "price": "$XX", "description": "One line why"}[/PRODUCT]
+- Keep responses short and helpful
+- Never say you're an AI. You're "the OSEA team"
+
+REQUIRED FORMAT — include these tags at the END of every message:
+- Progress: [PROGRESS]{"step": 1, "total": 3, "label": "Your goal"}[/PROGRESS]
+- Quick replies (2-4 short options): [QUICK_REPLIES]["Daily hydration", "Anti-aging", "Something else"][/QUICK_REPLIES]
+- On the final recommendation message, set step equal to total.
+- Always include both tags.`
+  };
+
+  const OPENING_MESSAGES = {
+    routine: "Hey! I'd love to help you find your perfect OSEA routine. To get started \u2014 how would you describe your skin? For example: oily, dry, sensitive, combination, or something else?",
+    moisturizer: "Looking at body moisturizers? Great \u2014 we have a few different formats and I can help you find the right one. Quick question: are you looking for daily all-over hydration, or something for a specific area or concern?",
+    pdp: "Great choice! The Undaria Body Oil is our bestseller \u2014 over 3,000 five-star reviews. What's your main goal with a body moisturizer: daily hydration, anti-aging, or something else?"
+  };
+
+  /* ── State ── */
+  const state = {
+    messages: [],
+    isOpen: false,
+    currentSystemPrompt: '',
+    isLoading: false,
+    turnCount: 0
+  };
+
+  const $messages = document.getElementById('chatMessages');
+  const $input = document.getElementById('chatInput');
+  const $send = document.getElementById('chatSend');
+  const $panel = document.getElementById('chatPanel');
+  const $backdrop = document.getElementById('chatBackdrop');
+  const $quickReplies = document.getElementById('quickReplies');
+  const $skipBtn = document.getElementById('skipBtn');
+  const $progress = document.getElementById('chatProgress');
+  const $progressFill = document.getElementById('progressFill');
+  const $progressLabel = document.getElementById('progressLabel');
+  const $progressStep = document.getElementById('progressStep');
+
+  /* ── Tab Switching ── */
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.page-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('page-' + btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  /* ── Size buttons ── */
+  document.querySelectorAll('.size-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+
+  /* ── Chat Logic ── */
+  function openChat(ctaKey) {
+    state.messages = [];
+    state.currentSystemPrompt = SYSTEM_PROMPTS[ctaKey];
+    state.isLoading = false;
+    state.turnCount = 0;
+    $messages.innerHTML = '';
+    $input.disabled = false;
+    $send.disabled = false;
+    clearQuickReplies();
+    $progress.classList.remove('visible');
+    $progressFill.style.width = '0%';
+    $skipBtn.classList.remove('visible');
+
+    // Add system message to history
+    state.messages.push({ role: 'system', content: state.currentSystemPrompt });
+
+    // Show opening message and initial quick replies
+    const opener = OPENING_MESSAGES[ctaKey];
+    const { text, quickReplies, progress } = extractAndStrip(opener);
+    state.messages.push({ role: 'assistant', content: opener });
+    appendMessage('assistant', text);
+
+    // Show initial quick replies and progress per CTA
+    const initReplies = {
+      routine: ["Oily", "Dry", "Sensitive", "Combination"],
+      moisturizer: ["Daily hydration", "Specific area", "Full body routine"],
+      pdp: ["Daily hydration", "Anti-aging", "Something else"]
+    };
+    const initProgress = {
+      routine: { step: 1, total: 4, label: "Skin type" },
+      moisturizer: { step: 1, total: 3, label: "Your goal" },
+      pdp: { step: 1, total: 3, label: "Your goal" }
+    };
+    renderQuickReplies(quickReplies.length ? quickReplies : initReplies[ctaKey]);
+    updateProgress(progress || initProgress[ctaKey]);
+    $skipBtn.classList.add('visible');
+
+    state.isOpen = true;
+    $panel.classList.add('open');
+    $backdrop.classList.add('visible');
+    $input.focus();
+  }
+
+  function closeChat() {
+    state.isOpen = false;
+    $panel.classList.remove('open');
+    $backdrop.classList.remove('visible');
+  }
+
+  function appendMessage(role, content) {
+    const div = document.createElement('div');
+    div.className = 'chat-msg ' + role;
+    div.innerHTML = parseProductCards(content);
+    $messages.appendChild(div);
+    $messages.scrollTop = $messages.scrollHeight;
+    return div;
+  }
+
+  function extractAndStrip(text) {
+    let quickReplies = [];
+    let progress = null;
+
+    // Extract quick replies
+    const qrMatch = text.match(/\[QUICK_REPLIES\](.*?)\[\/QUICK_REPLIES\]/s);
+    if (qrMatch) {
+      try { quickReplies = JSON.parse(qrMatch[1]); } catch(e) {}
+      text = text.replace(qrMatch[0], '');
+    }
+
+    // Extract progress
+    const pgMatch = text.match(/\[PROGRESS\](.*?)\[\/PROGRESS\]/s);
+    if (pgMatch) {
+      try { progress = JSON.parse(pgMatch[1]); } catch(e) {}
+      text = text.replace(pgMatch[0], '');
+    }
+
+    return { text: text.trim(), quickReplies, progress };
+  }
+
+  function parseProductCards(text) {
+    return text.replace(/\[PRODUCT\](.*?)\[\/PRODUCT\]/gs, (_, json) => {
+      try {
+        const p = JSON.parse(json);
+        return `<div class="chat-product-card">
+          <div class="cp-name">${p.name}</div>
+          <div class="cp-price">${p.price}</div>
+          <div class="cp-desc">${p.description}</div>
+          <a href="#" class="cp-link" onclick="event.preventDefault()">View product &rarr;</a>
+        </div>`;
+      } catch(e) {
+        return json;
+      }
+    }).replace(/\n/g, '<br>');
+  }
+
+  function renderQuickReplies(options) {
+    $quickReplies.innerHTML = '';
+    options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'quick-reply-btn';
+      btn.textContent = opt;
+      btn.onclick = () => {
+        $input.value = opt;
+        sendMessage();
+      };
+      $quickReplies.appendChild(btn);
+    });
+  }
+
+  function updateProgress(progress) {
+    if (!progress) return;
+    $progress.classList.add('visible');
+    const pct = Math.round((progress.step / progress.total) * 100);
+    $progressFill.style.width = pct + '%';
+    $progressLabel.textContent = progress.label || 'Getting to know you...';
+    $progressStep.textContent = progress.step + '/' + progress.total;
+  }
+
+  function clearQuickReplies() { $quickReplies.innerHTML = ''; }
+
+  function showTyping() {
+    const div = document.createElement('div');
+    div.className = 'typing-indicator';
+    div.id = 'typingIndicator';
+    div.innerHTML = '<span></span><span></span><span></span>';
+    $messages.appendChild(div);
+    $messages.scrollTop = $messages.scrollHeight;
+  }
+
+  function removeTyping() {
+    const el = document.getElementById('typingIndicator');
+    if (el) el.remove();
+  }
+
+  async function sendMessage() {
+    const text = $input.value.trim();
+    if (!text || state.isLoading) return;
+
+    $input.value = '';
+    clearQuickReplies();
+    appendMessage('user', text);
+    state.messages.push({ role: 'user', content: text });
+
+    state.isLoading = true;
+    $input.disabled = true;
+    $send.disabled = true;
+    showTyping();
+
+    try {
+      const res = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + OPENAI_API_KEY
+        },
+        body: JSON.stringify({
+          model: 'gpt-5.4',
+          messages: state.messages,
+          stream: true
+        })
+      });
+
+      removeTyping();
+
+      const msgDiv = document.createElement('div');
+      msgDiv.className = 'chat-msg assistant';
+      $messages.appendChild(msgDiv);
+
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let fullContent = '';
+      let buffer = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
+        buffer = lines.pop() || '';
+
+        for (const line of lines) {
+          if (!line.startsWith('data: ')) continue;
+          const data = line.slice(6);
+          if (data === '[DONE]') break;
+          try {
+            const parsed = JSON.parse(data);
+            const delta = parsed.choices?.[0]?.delta?.content;
+            if (delta) {
+              fullContent += delta;
+              // Strip tags for display during streaming
+              const display = fullContent.replace(/\[QUICK_REPLIES\].*?(\[\/QUICK_REPLIES\])?/gs, '').replace(/\[PROGRESS\].*?(\[\/PROGRESS\])?/gs, '');
+              msgDiv.innerHTML = parseProductCards(display);
+              $messages.scrollTop = $messages.scrollHeight;
+            }
+          } catch(e) { /* skip parse errors */ }
+        }
+      }
+
+      // Parse tags from final content
+      const { text: cleanText, quickReplies, progress } = extractAndStrip(fullContent);
+      msgDiv.innerHTML = parseProductCards(cleanText);
+      $messages.scrollTop = $messages.scrollHeight;
+
+      if (quickReplies.length) renderQuickReplies(quickReplies);
+      if (progress) {
+        updateProgress(progress);
+        // Hide progress bar and skip button once we're at recommendations
+        if (progress.step >= progress.total) {
+          $skipBtn.classList.remove('visible');
+          $progress.classList.remove('visible');
+        }
+      }
+
+      state.messages.push({ role: 'assistant', content: fullContent });
+      state.turnCount++;
+    } catch(err) {
+      removeTyping();
+      appendMessage('assistant', 'Sorry, something went wrong. Please try again.');
+      console.error(err);
+    }
+
+    state.isLoading = false;
+    $input.disabled = false;
+    $send.disabled = false;
+    $input.focus();
+  }
+
+  function skipToResults() {
+    $skipBtn.classList.remove('visible');
+    $progress.classList.remove('visible');
+    $input.value = "Just give me your best recommendations based on what you know so far.";
+    sendMessage();
+  }
+
+  /* ── Enter key ── */
+  $input.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
+
+  /* ── Expose API ── */
+  window.App = { openChat, closeChat, sendMessage, skipToResults };
+
+})();
+</script>
+</body>
+</html>
