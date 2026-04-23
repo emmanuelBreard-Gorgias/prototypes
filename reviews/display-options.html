@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reviews on Product Cards — Display Options</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #f5f5f0;
+  --panel: #ffffff;
+  --border: #e8e8e4;
+  --border-strong: #d7d7d1;
+  --text: #1a1a1a;
+  --text-muted: #6b6b66;
+  --text-faint: #999995;
+  --accent: #1a1a1a;
+  --star: #f5a623;
+  --star-empty: #e0e0dc;
+  --brand: #1D4D41;
+  --brand-contrast: #ffffff;
+  --compare: #b8b8b0;
+  --widget-bg: #ffffff;
+  --widget-border: #ececea;
+  --radius-card: 12px;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  padding: 48px 24px 120px;
+}
+
+/* ── Header ── */
+.page-header {
+  max-width: 1040px;
+  margin: 0 auto 40px;
+}
+.page-header h1 {
+  font-size: 22px; font-weight: 600; letter-spacing: -0.3px;
+  margin-bottom: 6px;
+}
+.page-header p {
+  font-size: 13px; color: var(--text-muted); max-width: 680px;
+}
+.legend {
+  margin-top: 20px;
+  display: flex; flex-wrap: wrap; gap: 20px;
+  font-size: 12px; color: var(--text-muted);
+  padding: 10px 14px; background: #fff;
+  border: 1px solid var(--border); border-radius: 8px;
+  max-width: 680px;
+}
+.legend strong { color: var(--text); font-weight: 600; }
+
+/* ── Section ── */
+.section {
+  max-width: 1040px; margin: 0 auto 56px;
+}
+.section-label {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--text-faint); margin-bottom: 10px;
+}
+.section-title {
+  font-size: 18px; font-weight: 600; margin-bottom: 6px;
+}
+.section-intro {
+  font-size: 13px; color: var(--text-muted); margin-bottom: 24px;
+  max-width: 680px;
+}
+
+/* ── Variant grid ── */
+.variants {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+.variant {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px 18px 20px;
+  display: flex; flex-direction: column;
+}
+.variant-header { margin-bottom: 14px; }
+.variant-tag {
+  display: inline-block; font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--text-faint); margin-bottom: 6px;
+}
+.variant-title {
+  font-size: 14px; font-weight: 600; margin-bottom: 4px;
+}
+.variant-desc {
+  font-size: 12px; color: var(--text-muted); line-height: 1.5;
+}
+.variant-note {
+  margin-top: auto; padding-top: 14px; font-size: 11.5px;
+  color: var(--text-muted); line-height: 1.55;
+}
+.variant-note .pro::before { content: '+ '; color: #1a7a3a; font-weight: 700; }
+.variant-note .con::before { content: '− '; color: #a33; font-weight: 700; }
+.variant-note .pro, .variant-note .con { display: block; }
+
+.stage {
+  background: #fafaf7;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 14px;
+  border: 1px solid var(--border);
+}
+
+/* ── Product Card (chat widget style) ── */
+.card {
+  background: var(--widget-bg);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 14px rgba(0,0,0,0.04);
+  width: 100%;
+  max-width: 220px;
+  position: relative;
+  display: flex; flex-direction: column;
+}
+.card-img {
+  width: 100%; height: 180px;
+  position: relative;
+  background: linear-gradient(135deg, #d9e2df 0%, #b8c9c3 100%);
+}
+.card-img.variant-b { background: linear-gradient(135deg, #e5dcd0 0%, #c9b89f 100%); }
+.card-img.variant-c { background: linear-gradient(135deg, #d4dfe8 0%, #a8bccd 100%); }
+.card-add {
+  position: absolute; right: 10px; bottom: 10px;
+  width: 34px; height: 34px; border-radius: 50%;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.5);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  cursor: pointer;
+}
+.card-add svg { width: 16px; height: 16px; }
+
+.card-body {
+  padding: 10px 12px 14px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.card-title {
+  font-size: 13px; font-weight: 500; color: var(--text);
+  line-height: 1.35;
+  overflow: hidden;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+}
+.card-price-row {
+  display: flex; align-items: baseline; gap: 6px;
+  margin-top: 2px;
+}
+.card-price {
+  font-size: 13px; font-weight: 600; color: var(--text);
+}
+.card-compare {
+  font-size: 12px; color: var(--compare); text-decoration: line-through;
+}
+
+/* ── Rating blocks ── */
+.stars {
+  display: inline-flex; gap: 1px; line-height: 1;
+}
+.stars .s {
+  color: var(--star); font-size: 12px;
+}
+.stars .s.empty { color: var(--star-empty); }
+
+/* V1: classic stars + number + count under title */
+.rating-v1 {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 11.5px; color: var(--text-muted);
+  margin-top: 2px;
+}
+.rating-v1 .num { color: var(--text); font-weight: 600; }
+.rating-v1 .count { color: var(--text-faint); }
+
+/* V2: compact text (no visual stars) */
+.rating-v2 {
+  font-size: 11.5px; color: var(--text-muted); margin-top: 2px;
+  display: flex; align-items: center; gap: 4px;
+}
+.rating-v2 .star-icon { color: var(--star); font-size: 11px; }
+.rating-v2 .num { color: var(--text); font-weight: 600; }
+.rating-v2 .count::before { content: '· '; color: var(--text-faint); }
+
+/* V3: glass pill overlay on image (top-left) */
+.rating-v3 {
+  position: absolute; top: 10px; left: 10px;
+  background: rgba(255,255,255,0.88);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.5);
+  padding: 4px 8px; border-radius: 100px;
+  font-size: 11px; font-weight: 600; color: var(--text);
+  display: inline-flex; align-items: center; gap: 3px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+.rating-v3 .star-icon { color: var(--star); font-size: 10px; }
+
+/* V4: inline with price */
+.rating-v4 {
+  font-size: 11.5px; color: var(--text-muted);
+  display: inline-flex; align-items: center; gap: 3px;
+}
+.rating-v4::before { content: '·'; color: var(--text-faint); margin: 0 2px; }
+.rating-v4 .star-icon { color: var(--star); font-size: 11px; }
+.rating-v4 .num { color: var(--text); font-weight: 600; }
+
+/* V5: just stars (visual only) */
+.rating-v5 {
+  display: flex; align-items: center; gap: 4px; margin-top: 2px;
+}
+.rating-v5 .count {
+  font-size: 11px; color: var(--text-faint);
+}
+
+/* V6: badge above title (micro) */
+.rating-v6 {
+  display: inline-flex; align-items: center; gap: 3px;
+  font-size: 10px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.04em; color: #1a7a3a;
+  margin-bottom: 4px;
+}
+.rating-v6 .star-icon { color: #1a7a3a; font-size: 10px; }
+
+/* ── Chat context framing (optional for carousel) ── */
+.chat-frame {
+  background: var(--widget-bg);
+  border: 1px solid var(--widget-border);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+}
+.chat-bubble {
+  background: #f7f7f4;
+  border-radius: 4px 12px 12px 12px;
+  padding: 10px 14px; font-size: 13px; color: var(--text);
+  max-width: 85%; margin-bottom: 12px;
+  line-height: 1.5;
+}
+.card-rail {
+  display: flex; gap: 10px; overflow-x: auto;
+  padding-bottom: 4px; scrollbar-width: none;
+}
+.card-rail::-webkit-scrollbar { display: none; }
+.card-rail .card { min-width: 160px; max-width: 160px; flex-shrink: 0; }
+.card-rail .card .card-img { height: 140px; }
+
+/* ── Product Detail Drawer mock ── */
+.drawer {
+  background: var(--widget-bg);
+  border: 1px solid var(--widget-border);
+  border-radius: 16px;
+  overflow: hidden;
+  max-width: 340px;
+  margin: 0 auto;
+}
+.drawer-image {
+  width: 100%; height: 240px;
+  background: linear-gradient(135deg, #d9e2df 0%, #b8c9c3 100%);
+}
+.drawer-body { padding: 18px 20px 22px; }
+.drawer-title {
+  font-size: 17px; font-weight: 600; margin-bottom: 6px;
+  line-height: 1.3;
+}
+.drawer-price-row {
+  display: flex; align-items: baseline; gap: 8px; margin-bottom: 10px;
+}
+.drawer-price { font-size: 17px; font-weight: 600; }
+.drawer-compare { font-size: 14px; color: var(--compare); text-decoration: line-through; }
+
+.drawer-desc {
+  font-size: 13px; color: var(--text-muted);
+  margin-top: 14px; padding-top: 14px;
+  border-top: 1px solid var(--border);
+  line-height: 1.6;
+}
+.drawer-cta {
+  margin-top: 16px; width: 100%;
+  background: var(--brand); color: var(--brand-contrast);
+  padding: 12px 16px; border-radius: 100px;
+  font-size: 14px; font-weight: 600; border: none; cursor: pointer;
+  font-family: inherit;
+}
+
+/* Drawer rating styles */
+.drawer-rating-d1 {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; margin: 6px 0 10px;
+}
+.drawer-rating-d1 .stars .s { font-size: 15px; }
+.drawer-rating-d1 .num { font-weight: 600; }
+.drawer-rating-d1 .link {
+  color: var(--text-muted); text-decoration: underline;
+  text-decoration-color: var(--border-strong);
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+
+.drawer-rating-d2 {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px; margin: 10px 0 0;
+  background: #fafaf7; border-radius: 10px;
+  border: 1px solid var(--border);
+}
+.drawer-rating-d2 .big-num {
+  font-size: 22px; font-weight: 700; line-height: 1;
+}
+.drawer-rating-d2 .meta { font-size: 11.5px; color: var(--text-muted); }
+.drawer-rating-d2 .meta .stars { margin-bottom: 2px; display: block; }
+.drawer-rating-d2 .meta .link {
+  color: var(--text); font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: var(--border-strong);
+  text-underline-offset: 2px;
+}
+
+.drawer-rating-d3 {
+  margin: 10px 0 0;
+  padding: 14px; background: #fafaf7;
+  border: 1px solid var(--border); border-radius: 10px;
+}
+.drawer-rating-d3 .top {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
+}
+.drawer-rating-d3 .big-num { font-size: 24px; font-weight: 700; line-height: 1; }
+.drawer-rating-d3 .meta .stars .s { font-size: 13px; }
+.drawer-rating-d3 .meta small { font-size: 11px; color: var(--text-muted); display: block; margin-top: 2px; }
+.histogram { display: flex; flex-direction: column; gap: 4px; }
+.histogram-row {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 11px; color: var(--text-muted);
+}
+.histogram-row .label { width: 12px; font-weight: 500; color: var(--text); }
+.histogram-row .bar-track {
+  flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden;
+}
+.histogram-row .bar-fill { height: 100%; background: var(--star); border-radius: 3px; }
+.histogram-row .pct { width: 32px; text-align: right; tabular-nums: true; }
+
+/* ── Recommendation footer ── */
+.rec {
+  max-width: 1040px; margin: 0 auto; padding: 24px;
+  background: #fff; border: 1px solid var(--border);
+  border-radius: 14px; font-size: 13px; color: var(--text);
+  line-height: 1.7;
+}
+.rec h3 {
+  font-size: 14px; font-weight: 600; margin-bottom: 10px;
+}
+.rec ul { list-style: none; }
+.rec li { padding-left: 16px; position: relative; margin-bottom: 4px; }
+.rec li::before {
+  content: '→'; position: absolute; left: 0; color: var(--text-faint);
+}
+</style>
+</head>
+<body>
+
+<header class="page-header">
+  <h1>Reviews on Product Cards — Display Options</h1>
+  <p>Six treatments for the carousel card (shown in chat) and three for the product detail drawer. All use the same sample data: <strong>4.7 / 5 · 128 reviews</strong>. Empty states (products with few or no reviews) are discussed in the recommendation at the bottom.</p>
+  <div class="legend">
+    <span><strong>Data assumption:</strong> rating + count come from Shopify metafields (covers Judge.me, Yotpo, Okendo, Stamped).</span>
+  </div>
+</header>
+
+<!-- ─────────────────────────────── -->
+<!-- SECTION 1: Carousel Product Cards -->
+<!-- ─────────────────────────────── -->
+<section class="section">
+  <div class="section-label">Section 1</div>
+  <h2 class="section-title">Carousel cards (in chat)</h2>
+  <p class="section-intro">Shown when Shopping Assistant recommends products in conversation. Cards are ~160px wide in-rail; space is the main constraint.</p>
+
+  <div class="variants">
+
+    <!-- V1 classic stars + number + count -->
+    <div class="variant">
+      <div class="variant-header">
+        <span class="variant-tag">Variant 1</span>
+        <div class="variant-title">Stars + number + count</div>
+        <div class="variant-desc">Classic ecom pattern. Lives under title, pushes price down one line.</div>
+      </div>
+      <div class="stage">
+        <div class="card">
+          <div class="card-img">
+            <div class="card-add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></div>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Undaria Algae Body Oil</div>
+            <div class="rating-v1">
+              <span class="stars"><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s empty">★</span></span>
+              <span class="num">4.7</span>
+              <span class="count">(128)</span>
+            </div>
+            <div class="card-price-row">
+              <span class="card-price">$84</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="variant-note">
+        <span class="pro">Instantly scannable, familiar pattern.</span>
+        <span class="con">Uses a full line; card becomes taller.</span>
+      </div>
+    </div>
+
+    <!-- V2 compact text, no visual stars -->
+    <div class="variant">
+      <div class="variant-header">
+        <span class="variant-tag">Variant 2</span>
+        <div class="variant-title">Compact text (single star icon)</div>
+        <div class="variant-desc">No five-star visual. Tiny inline line: ★ 4.7 · 128.</div>
+      </div>
+      <div class="stage">
+        <div class="card">
+          <div class="card-img variant-b">
+            <div class="card-add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></div>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Hyaluronic Sea Serum</div>
+            <div class="rating-v2">
+              <span class="star-icon">★</span>
+              <span class="num">4.7</span>
+              <span class="count">128</span>
+            </div>
+            <div class="card-price-row">
+              <span class="card-price">$88</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="variant-note">
+        <span class="pro">Minimal, fits any card width, low visual noise.</span>
+        <span class="con">Less emotional impact, harder to spot at a glance.</span>
+      </div>
+    </div>
+
+    <!-- V3 glass pill overlay on image -->
+    <div class="variant">
+      <div class="variant-header">
+        <span class="variant-tag">Variant 3</span>
+        <div class="variant-title">Glass pill overlay on image</div>
+        <div class="variant-desc">Mirrors the cart button. Top-left of the image, no impact on card height.</div>
+      </div>
+      <div class="stage">
+        <div class="card">
+          <div class="card-img variant-c">
+            <div class="rating-v3">
+              <span class="star-icon">★</span>
+              <span>4.7</span>
+            </div>
+            <div class="card-add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></div>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Ocean Wave Cleanser</div>
+            <div class="card-price-row">
+              <span class="card-price">$38</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="variant-note">
+        <span class="pro">Zero layout cost. Feels premium.</span>
+        <span class="con">Clashes with light-bottomed images; count is hidden.</span>
+      </div>
+    </div>
+
+    <!-- V4 inline with price -->
+    <div class="variant">
+      <div class="variant-header">
+        <span class="variant-tag">Variant 4</span>
+        <div class="variant-title">Inline with price</div>
+        <div class="variant-desc">Rating appended to the price row: $84 · ★ 4.7 (128).</div>
+      </div>
+      <div class="stage">
+        <div class="card">
+          <div class="card-img">
+            <div class="card-add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></div>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Body Butter</div>
+            <div class="card-price-row">
+              <span class="card-price">$54</span>
+              <span class="rating-v4">
+                <span class="star-icon">★</span>
+                <span class="num">4.7</span>
+                <span>(128)</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="variant-note">
+        <span class="pro">No extra line, keeps card compact.</span>
+        <span class="con">Overloaded row. Risk of truncation on long prices or currencies.</span>
+      </div>
+    </div>
+
+    <!-- V5 just stars -->
+    <div class="variant">
+      <div class="variant-header">
+        <span class="variant-tag">Variant 5</span>
+        <div class="variant-title">Stars only (no number)</div>
+        <div class="variant-desc">Five-star visual plus review count, no numeric rating.</div>
+      </div>
+      <div class="stage">
+        <div class="card">
+          <div class="card-img variant-b">
+            <div class="card-add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></div>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Anti-Aging Body Balm</div>
+            <div class="rating-v5">
+              <span class="stars"><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s empty">★</span></span>
+              <span class="count">128</span>
+            </div>
+            <div class="card-price-row">
+              <span class="card-price">$84</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="variant-note">
+        <span class="pro">Elegant, visual-first.</span>
+        <span class="con">Harder to compare products precisely without the number.</span>
+      </div>
+    </div>
+
+    <!-- V6 green badge above title -->
+    <div class="variant">
+      <div class="variant-header">
+        <span class="variant-tag">Variant 6</span>
+        <div class="variant-title">Micro badge above title</div>
+        <div class="variant-desc">Small uppercase mark before the title. Used only for top-rated products (4.5+).</div>
+      </div>
+      <div class="stage">
+        <div class="card">
+          <div class="card-img variant-c">
+            <div class="card-add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></div>
+          </div>
+          <div class="card-body">
+            <div class="rating-v6">
+              <span class="star-icon">★</span>
+              <span>4.7 · 128 reviews</span>
+            </div>
+            <div class="card-title">Hyaluronic Body Serum</div>
+            <div class="card-price-row">
+              <span class="card-price">$48</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="variant-note">
+        <span class="pro">Signals quality without standardizing a rating row across all cards.</span>
+        <span class="con">Uneven treatment across cards; may feel promotional.</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─────────────────────────────── -->
+<!-- SECTION 2: Chat carousel (in context) -->
+<!-- ─────────────────────────────── -->
+<section class="section">
+  <div class="section-label">Section 2</div>
+  <h2 class="section-title">Carousel in chat context</h2>
+  <p class="section-intro">How the top variant (V1) looks when SA recommends three products in a rail. Compare scan-ability at realistic card width.</p>
+
+  <div class="chat-frame" style="max-width: 420px;">
+    <div class="chat-bubble">Here are three clean body oils that match what you described. All are unscented and under $90.</div>
+    <div class="card-rail">
+
+      <div class="card">
+        <div class="card-img">
+          <div class="card-add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">Undaria Algae Body Oil</div>
+          <div class="rating-v1">
+            <span class="stars"><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s empty">★</span></span>
+            <span class="num">4.7</span>
+            <span class="count">(128)</span>
+          </div>
+          <div class="card-price-row"><span class="card-price">$84</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-img variant-b">
+          <div class="card-add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">Undaria Fragrance Free</div>
+          <div class="rating-v1">
+            <span class="stars"><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s empty">★</span></span>
+            <span class="num">4.9</span>
+            <span class="count">(64)</span>
+          </div>
+          <div class="card-price-row"><span class="card-price">$84</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-img variant-c">
+          <div class="card-add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">Atmosphere Body Serum</div>
+          <div class="rating-v1">
+            <span class="stars"><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s empty">★</span></span>
+            <span class="num">4.3</span>
+            <span class="count">(12)</span>
+          </div>
+          <div class="card-price-row">
+            <span class="card-compare">$68</span>
+            <span class="card-price">$52</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────── -->
+<!-- SECTION 3: Product detail drawer -->
+<!-- ─────────────────────────────── -->
+<section class="section">
+  <div class="section-label">Section 3</div>
+  <h2 class="section-title">Product detail drawer</h2>
+  <p class="section-intro">More room, so the rating can do more. Three treatments ranging from inline (D1) to summary block with histogram (D3).</p>
+
+  <div class="variants">
+
+    <!-- D1 -->
+    <div class="variant">
+      <div class="variant-header">
+        <span class="variant-tag">Drawer 1</span>
+        <div class="variant-title">Inline under title</div>
+        <div class="variant-desc">Stars + number + "128 reviews" as link. Matches the carousel variant.</div>
+      </div>
+      <div class="stage">
+        <div class="drawer">
+          <div class="drawer-image"></div>
+          <div class="drawer-body">
+            <div class="drawer-title">Undaria Algae Body Oil</div>
+            <div class="drawer-rating-d1">
+              <span class="stars"><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s empty">★</span></span>
+              <span class="num">4.7</span>
+              <span class="link">128 reviews</span>
+            </div>
+            <div class="drawer-price-row">
+              <span class="drawer-price">$84</span>
+            </div>
+            <button class="drawer-cta">Add to cart</button>
+            <div class="drawer-desc">A nutrient-rich, cold-pressed body oil infused with Undaria algae to hydrate, tone, and replenish dry skin.</div>
+          </div>
+        </div>
+      </div>
+      <div class="variant-note">
+        <span class="pro">Consistent with the card. Fast to build.</span>
+        <span class="con">Minimal — doesn't leverage the extra drawer real estate.</span>
+      </div>
+    </div>
+
+    <!-- D2 -->
+    <div class="variant">
+      <div class="variant-header">
+        <span class="variant-tag">Drawer 2</span>
+        <div class="variant-title">Summary block with link</div>
+        <div class="variant-desc">Separated block: big number, stars, "Based on 128 reviews" linking to detail.</div>
+      </div>
+      <div class="stage">
+        <div class="drawer">
+          <div class="drawer-image"></div>
+          <div class="drawer-body">
+            <div class="drawer-title">Undaria Algae Body Oil</div>
+            <div class="drawer-price-row">
+              <span class="drawer-price">$84</span>
+            </div>
+            <div class="drawer-rating-d2">
+              <div class="big-num">4.7</div>
+              <div class="meta">
+                <span class="stars"><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s empty">★</span></span>
+                <span class="link">Based on 128 reviews</span>
+              </div>
+            </div>
+            <button class="drawer-cta" style="margin-top: 16px;">Add to cart</button>
+          </div>
+        </div>
+      </div>
+      <div class="variant-note">
+        <span class="pro">Prominent, trust-forward. Review count reads clearly.</span>
+        <span class="con">Adds vertical space above the CTA.</span>
+      </div>
+    </div>
+
+    <!-- D3 -->
+    <div class="variant">
+      <div class="variant-header">
+        <span class="variant-tag">Drawer 3</span>
+        <div class="variant-title">Rating with histogram</div>
+        <div class="variant-desc">Big number + 5-bar distribution. Like Amazon / Shopify native review apps.</div>
+      </div>
+      <div class="stage">
+        <div class="drawer">
+          <div class="drawer-image"></div>
+          <div class="drawer-body">
+            <div class="drawer-title">Undaria Algae Body Oil</div>
+            <div class="drawer-price-row">
+              <span class="drawer-price">$84</span>
+            </div>
+            <div class="drawer-rating-d3">
+              <div class="top">
+                <div class="big-num">4.7</div>
+                <div class="meta">
+                  <span class="stars"><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s empty">★</span></span>
+                  <small>128 reviews</small>
+                </div>
+              </div>
+              <div class="histogram">
+                <div class="histogram-row"><span class="label">5</span><div class="bar-track"><div class="bar-fill" style="width: 82%"></div></div><span class="pct">82%</span></div>
+                <div class="histogram-row"><span class="label">4</span><div class="bar-track"><div class="bar-fill" style="width: 12%"></div></div><span class="pct">12%</span></div>
+                <div class="histogram-row"><span class="label">3</span><div class="bar-track"><div class="bar-fill" style="width: 4%"></div></div><span class="pct">4%</span></div>
+                <div class="histogram-row"><span class="label">2</span><div class="bar-track"><div class="bar-fill" style="width: 1%"></div></div><span class="pct">1%</span></div>
+                <div class="histogram-row"><span class="label">1</span><div class="bar-track"><div class="bar-fill" style="width: 1%"></div></div><span class="pct">1%</span></div>
+              </div>
+            </div>
+            <button class="drawer-cta" style="margin-top: 16px;">Add to cart</button>
+          </div>
+        </div>
+      </div>
+      <div class="variant-note">
+        <span class="pro">Most informative. Distribution reveals outliers.</span>
+        <span class="con">Heavy. Takes 100+ px vertical before the CTA.</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─────────────────────────────── -->
+<!-- Recommendation -->
+<!-- ─────────────────────────────── -->
+<section class="section">
+  <div class="rec">
+    <h3>Open questions to resolve before shipping</h3>
+    <ul>
+      <li><strong>Data source.</strong> Confirm metafield coverage across top review apps (Judge.me, Yotpo, Okendo, Stamped). If coverage &lt;80%, plan per-app integrations.</li>
+      <li><strong>Threshold.</strong> Hide rating below N reviews? Recommend N=5; a 5.0 (1) hurts trust more than helps.</li>
+      <li><strong>Empty state.</strong> Confirm we hide entirely (no "No reviews yet" text). Avoid negative signal on new SKUs.</li>
+      <li><strong>Card pick.</strong> Recommend <strong>V1</strong> (classic stars + number + count) for the carousel — most readable at 160px, lowest ambiguity. Fallback to <strong>V2</strong> if vertical space becomes a problem.</li>
+      <li><strong>Drawer pick.</strong> Recommend <strong>D2</strong> (summary block) — best ROI on the extra space without D3's weight. D3 only if we can link to a full review list below.</li>
+    </ul>
+  </div>
+</section>
+
+</body>
+</html>
