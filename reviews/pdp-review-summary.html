@@ -191,11 +191,28 @@ body {
   font-size: 13px; color: var(--text-muted);
   line-height: 1.55;
 }
-.pdp-desc .read-more {
-  display: inline-block; color: var(--text); font-weight: 500;
-  margin-top: 4px; cursor: pointer;
+.pdp-desc-text {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  transition: none;
 }
-.pdp-desc .read-more::after { content: ' ⌄'; }
+.pdp-desc.expanded .pdp-desc-text {
+  -webkit-line-clamp: unset;
+  display: block;
+}
+
+/* Read more button (used by description + V2 review summary) */
+.read-more-btn {
+  display: inline-block;
+  background: none; border: none; padding: 0;
+  margin-top: 4px; cursor: pointer;
+  color: var(--text); font-weight: 500;
+  font-size: 13px; font-family: inherit;
+}
+.read-more-btn::after { content: ' ⌄'; display: inline-block; transition: transform 0.15s ease; }
+.expanded > .read-more-btn::after { transform: rotate(180deg); }
 
 /* Quick replies (left-justified) */
 .pdp-quick-replies {
@@ -320,11 +337,11 @@ body {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
-.rv-truncated .read-more {
-  display: inline-block; color: var(--text); font-weight: 500;
-  margin-top: 2px; cursor: pointer; font-size: 12px;
+.rv-truncated.expanded .rv-inline-summary {
+  -webkit-line-clamp: unset;
+  display: block;
 }
-.rv-truncated .read-more::after { content: ' ⌄'; }
+.rv-truncated .read-more-btn { font-size: 12px; margin-top: 2px; }
 
 /* ──────────────────────────── */
 /* V6: bottom band */
@@ -414,7 +431,7 @@ body {
           <div class="pdp-option selected"><span class="pdp-radio"></span>One-time purchase</div>
           <div class="pdp-option"><span class="pdp-radio"></span>Subscribe and save</div>
         </div>
-        <div class="pdp-desc">Next-wave hydration. Our nutrient-rich water cream delivers 72+ hours of clinically proven, deep hydration... <span class="read-more">Read more</span></div>
+        <div class="pdp-desc"><span class="pdp-desc-text">Next-wave hydration. Our nutrient-rich water cream delivers 72+ hours of clinically proven, deep hydration to thirsty skin exposed to pollution and environmental stress. Formulated with 6 species of algae for antioxidant-rich defense, visibly plumper skin, and a smoothed complexion. Free from parabens, sulfates, and synthetic fragrance.</span><button class="read-more-btn">Read more</button></div>
         <div class="pdp-quick-replies">
           <button class="pdp-quick-reply">Is this water cream suitable for sensitive skin?</button>
           <button class="pdp-quick-reply">How long does the hydration last?</button>
@@ -459,13 +476,13 @@ body {
         </div>
         <div class="rv-truncated">
           <div class="rv-inline-summary">Customers love the deep hydration and lightweight, non-greasy feel. Many report calmer, less reactive skin within a week. A few note the jar is smaller than expected for the price.</div>
-          <span class="read-more">Read more</span>
+          <button class="read-more-btn">Read more</button>
         </div>
         <div class="pdp-options">
           <div class="pdp-option selected"><span class="pdp-radio"></span>One-time purchase</div>
           <div class="pdp-option"><span class="pdp-radio"></span>Subscribe and save</div>
         </div>
-        <div class="pdp-desc">Next-wave hydration. Our nutrient-rich water cream delivers 72+ hours... <span class="read-more">Read more</span></div>
+        <div class="pdp-desc"><span class="pdp-desc-text">Next-wave hydration. Our nutrient-rich water cream delivers 72+ hours of clinically proven, deep hydration to thirsty skin exposed to pollution and environmental stress. Formulated with 6 species of algae for antioxidant-rich defense, visibly plumper skin, and a smoothed complexion. Free from parabens, sulfates, and synthetic fragrance.</span><button class="read-more-btn">Read more</button></div>
         <div class="pdp-quick-replies">
           <button class="pdp-quick-reply">Is this water cream suitable for sensitive skin?</button>
           <button class="pdp-quick-reply">How long does the hydration last?</button>
@@ -523,7 +540,7 @@ body {
           <div class="pdp-option selected"><span class="pdp-radio"></span>One-time purchase</div>
           <div class="pdp-option"><span class="pdp-radio"></span>Subscribe and save</div>
         </div>
-        <div class="pdp-desc">Next-wave hydration. Our nutrient-rich water cream delivers 72+ hours... <span class="read-more">Read more</span></div>
+        <div class="pdp-desc"><span class="pdp-desc-text">Next-wave hydration. Our nutrient-rich water cream delivers 72+ hours of clinically proven, deep hydration to thirsty skin exposed to pollution and environmental stress. Formulated with 6 species of algae for antioxidant-rich defense, visibly plumper skin, and a smoothed complexion. Free from parabens, sulfates, and synthetic fragrance.</span><button class="read-more-btn">Read more</button></div>
         <div class="pdp-quick-replies">
           <button class="pdp-quick-reply">Is this water cream suitable for sensitive skin?</button>
           <button class="pdp-quick-reply">How long does the hydration last?</button>
@@ -565,7 +582,7 @@ body {
           <div class="pdp-option selected"><span class="pdp-radio"></span>One-time purchase</div>
           <div class="pdp-option"><span class="pdp-radio"></span>Subscribe and save</div>
         </div>
-        <div class="pdp-desc">Next-wave hydration. Our nutrient-rich water cream delivers 72+ hours of clinically proven, deep hydration... <span class="read-more">Read more</span></div>
+        <div class="pdp-desc"><span class="pdp-desc-text">Next-wave hydration. Our nutrient-rich water cream delivers 72+ hours of clinically proven, deep hydration to thirsty skin exposed to pollution and environmental stress. Formulated with 6 species of algae for antioxidant-rich defense, visibly plumper skin, and a smoothed complexion. Free from parabens, sulfates, and synthetic fragrance.</span><button class="read-more-btn">Read more</button></div>
         <div class="rv-block" style="margin-top: 14px;">
           <div class="rv-block-head">
             <div class="big-num">4.7</div>
@@ -631,7 +648,7 @@ body {
           <div class="pdp-option selected"><span class="pdp-radio"></span>One-time purchase</div>
           <div class="pdp-option"><span class="pdp-radio"></span>Subscribe and save</div>
         </div>
-        <div class="pdp-desc">Next-wave hydration. Our nutrient-rich water cream delivers 72+ hours... <span class="read-more">Read more</span></div>
+        <div class="pdp-desc"><span class="pdp-desc-text">Next-wave hydration. Our nutrient-rich water cream delivers 72+ hours of clinically proven, deep hydration to thirsty skin exposed to pollution and environmental stress. Formulated with 6 species of algae for antioxidant-rich defense, visibly plumper skin, and a smoothed complexion. Free from parabens, sulfates, and synthetic fragrance.</span><button class="read-more-btn">Read more</button></div>
         <div class="pdp-quick-replies">
           <button class="pdp-quick-reply">Is this water cream suitable for sensitive skin?</button>
           <button class="pdp-quick-reply">How long does the hydration last?</button>
@@ -673,7 +690,7 @@ body {
           <div class="pdp-option selected"><span class="pdp-radio"></span>One-time purchase</div>
           <div class="pdp-option"><span class="pdp-radio"></span>Subscribe and save</div>
         </div>
-        <div class="pdp-desc">Next-wave hydration. Our nutrient-rich water cream delivers 72+ hours of clinically proven... <span class="read-more">Read more</span></div>
+        <div class="pdp-desc"><span class="pdp-desc-text">Next-wave hydration. Our nutrient-rich water cream delivers 72+ hours of clinically proven, deep hydration to thirsty skin exposed to pollution and environmental stress. Formulated with 6 species of algae for antioxidant-rich defense, visibly plumper skin, and a smoothed complexion. Free from parabens, sulfates, and synthetic fragrance.</span><button class="read-more-btn">Read more</button></div>
         <div class="pdp-quick-replies">
           <button class="pdp-quick-reply">Is this water cream suitable for sensitive skin?</button>
           <button class="pdp-quick-reply">How long does the hydration last?</button>
@@ -714,6 +731,16 @@ body {
     <li><strong>Open:</strong> how is the summary generated and refreshed? Live at PDP open, cached per product, nightly batch? Latency target &lt;500ms for PDP open.</li>
   </ul>
 </section>
+
+<script>
+document.querySelectorAll('.read-more-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const parent = btn.parentElement;
+    const isExpanded = parent.classList.toggle('expanded');
+    btn.textContent = isExpanded ? 'Read less' : 'Read more';
+  });
+});
+</script>
 
 </body>
 </html>
