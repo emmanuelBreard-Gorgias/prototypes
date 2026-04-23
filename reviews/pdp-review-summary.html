@@ -25,6 +25,7 @@
   --widget-border: #ececea;
   --cream: #EEEDE6;
   --cream-soft: #F4F1EA;
+  --accent: #1D4D41;
 }
 
 body {
@@ -46,7 +47,7 @@ body {
   margin-bottom: 6px;
 }
 .page-header p {
-  font-size: 13px; color: var(--text-muted); max-width: 720px;
+  font-size: 13px; color: var(--text-muted); max-width: 740px;
 }
 .legend {
   margin-top: 20px;
@@ -54,9 +55,13 @@ body {
   font-size: 12px; color: var(--text-muted);
   padding: 10px 14px; background: #fff;
   border: 1px solid var(--border); border-radius: 8px;
-  max-width: 720px;
+  max-width: 740px;
 }
 .legend strong { color: var(--text); font-weight: 600; }
+.legend .summary-sample {
+  font-style: italic; color: var(--text);
+  display: block; margin-top: 4px;
+}
 
 /* ── Variant grid ── */
 .variants {
@@ -65,21 +70,15 @@ body {
   grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
   gap: 28px;
 }
-.variant {
-  display: flex; flex-direction: column;
-}
+.variant { display: flex; flex-direction: column; }
 .variant-header { margin-bottom: 16px; }
 .variant-tag {
   display: inline-block; font-size: 10px; font-weight: 700;
   text-transform: uppercase; letter-spacing: 0.08em;
   color: var(--text-faint); margin-bottom: 6px;
 }
-.variant-title {
-  font-size: 15px; font-weight: 600; margin-bottom: 4px;
-}
-.variant-desc {
-  font-size: 12.5px; color: var(--text-muted); line-height: 1.55;
-}
+.variant-title { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+.variant-desc { font-size: 12.5px; color: var(--text-muted); line-height: 1.55; }
 .variant-note {
   margin-top: 16px; font-size: 12px;
   color: var(--text-muted); line-height: 1.6;
@@ -128,7 +127,7 @@ body {
 .pdp-image-label {
   font-family: Georgia, serif;
   font-size: 24px; font-weight: 700;
-  letter-spacing: 4px; color: #1D4D41;
+  letter-spacing: 4px; color: var(--accent);
   opacity: 0.7;
 }
 .pdp-next {
@@ -198,22 +197,21 @@ body {
 }
 .pdp-desc .read-more::after { content: ' ⌄'; }
 
-/* Quick replies */
+/* Quick replies (left-justified) */
 .pdp-quick-replies {
   margin-top: 16px;
   display: flex; flex-direction: column; gap: 8px;
-  align-items: center;
+  align-items: flex-start;
 }
 .pdp-quick-reply {
   background: #fff;
   border: 1px solid var(--border-strong);
   border-radius: 100px;
-  padding: 11px 18px;
+  padding: 10px 16px;
   font-size: 13px; font-weight: 500;
   color: var(--text);
   cursor: pointer; font-family: inherit;
-  max-width: 100%;
-  text-align: center;
+  text-align: left;
   line-height: 1.35;
 }
 .pdp-quick-reply:hover { border-color: var(--text); }
@@ -252,82 +250,99 @@ body {
 .stars .s.empty { color: var(--star-empty); }
 
 /* ──────────────────────────── */
-/* V1: inline, no CTA */
+/* V1: inline rating + summary text */
 /* ──────────────────────────── */
-.rv-inline {
+.rv-inline-head {
   display: flex; align-items: center; gap: 8px;
   margin-top: 8px;
   font-size: 13px;
 }
-.rv-inline .num { font-weight: 600; }
-.rv-inline .count { color: var(--text-muted); }
-
-/* V2: inline with link */
-.rv-inline-link .count {
-  color: var(--text); font-weight: 500;
-  text-decoration: underline;
-  text-decoration-color: var(--border-strong);
-  text-underline-offset: 3px;
-  cursor: pointer;
+.rv-inline-head .num { font-weight: 600; }
+.rv-inline-head .count { color: var(--text-muted); }
+.rv-inline-summary {
+  margin-top: 6px;
+  font-size: 12.5px; color: var(--text-muted);
+  line-height: 1.5;
 }
 
-/* V3: compact badge near price */
-.rv-badge {
-  display: inline-flex; align-items: center; gap: 3px;
-  background: var(--cream-soft);
-  padding: 3px 8px;
-  border-radius: 100px;
-  font-size: 11.5px; font-weight: 600;
-  color: var(--text);
-  white-space: nowrap;
-  margin-right: 2px;
-}
-.rv-badge .s { color: var(--star); font-size: 10.5px; }
-.rv-badge .count { color: var(--text-muted); font-weight: 500; margin-left: 2px; }
-
-/* V4, V5, V6: summary block variants */
+/* ──────────────────────────── */
+/* V2 & V3: dedicated summary block */
+/* ──────────────────────────── */
 .rv-block {
-  display: flex; align-items: center; gap: 14px;
-  padding: 12px 14px;
+  padding: 14px;
   background: #fafaf7;
   border: 1px solid var(--border);
   border-radius: 12px;
 }
-.rv-block .big-num {
+.rv-block-head {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 8px;
+}
+.rv-block-head .big-num {
   font-size: 22px; font-weight: 700; line-height: 1;
 }
-.rv-block .meta {
-  flex: 1; font-size: 11.5px; color: var(--text-muted);
+.rv-block-head .meta {
+  font-size: 11.5px; color: var(--text-muted);
 }
-.rv-block .meta .stars { margin-bottom: 3px; display: block; }
-.rv-block .meta .stars .s { font-size: 13px; }
-.rv-block .cta-pill {
-  background: #fff;
-  border: 1px solid var(--border-strong);
-  padding: 7px 12px; border-radius: 100px;
-  font-size: 12px; font-weight: 600; color: var(--text);
-  cursor: pointer; white-space: nowrap;
-  font-family: inherit;
+.rv-block-head .meta .stars { display: block; margin-bottom: 2px; }
+.rv-block-summary {
+  font-size: 12.5px; color: var(--text);
+  line-height: 1.5;
 }
-.rv-block .cta-pill::after { content: ' →'; color: var(--text-faint); }
 
-/* V6: bottom bar style (no side padding, flush look) */
-.rv-bottom-bar {
-  display: flex; align-items: center; gap: 10px;
-  padding: 12px 20px;
+/* ──────────────────────────── */
+/* V4: quote-style summary */
+/* ──────────────────────────── */
+.rv-quote {
+  padding: 12px 14px 12px 16px;
+  border-left: 3px solid var(--star);
+  background: transparent;
+}
+.rv-quote-head {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 6px;
+  font-size: 12.5px;
+}
+.rv-quote-head .num { font-weight: 700; }
+.rv-quote-head .count { color: var(--text-muted); }
+.rv-quote-summary {
+  font-size: 13px; color: var(--text);
+  line-height: 1.5;
+  font-style: italic;
+}
+
+/* ──────────────────────────── */
+/* V5: summary with truncation  */
+/* ──────────────────────────── */
+.rv-truncated .rv-inline-summary {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.rv-truncated .read-more {
+  display: inline-block; color: var(--text); font-weight: 500;
+  margin-top: 2px; cursor: pointer; font-size: 12px;
+}
+.rv-truncated .read-more::after { content: ' ⌄'; }
+
+/* ──────────────────────────── */
+/* V6: bottom band */
+/* ──────────────────────────── */
+.rv-bottom-band {
+  padding: 12px 20px 14px;
   background: var(--cream-soft);
   border-top: 1px solid var(--border);
-  font-size: 13px;
 }
-.rv-bottom-bar .stars .s { font-size: 13px; }
-.rv-bottom-bar .num { font-weight: 600; }
-.rv-bottom-bar .count { color: var(--text-muted); flex: 1; }
-.rv-bottom-bar .link {
-  font-size: 12px; font-weight: 600; color: var(--text);
-  text-decoration: underline;
-  text-decoration-color: var(--border-strong);
-  text-underline-offset: 3px;
-  cursor: pointer;
+.rv-bottom-head {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12.5px; margin-bottom: 5px;
+}
+.rv-bottom-head .num { font-weight: 700; }
+.rv-bottom-head .count { color: var(--text-muted); }
+.rv-bottom-summary {
+  font-size: 12px; color: var(--text);
+  line-height: 1.5;
 }
 
 /* ── Recommendation ── */
@@ -357,23 +372,25 @@ body {
 
 <header class="page-header">
   <h1>In-chat PDP — Review Summary Placements</h1>
-  <p>Six ways to surface <strong>only the review summary</strong> (stars, rating, count, optional CTA) on the in-chat product page. Each variant renders the full PDP including the quick-reply suggestion pills, so we can see how the rating competes for attention against title, options, description, suggestions, and the Add to cart footer.</p>
+  <p>Six ways to surface an <strong>AI-generated review summary</strong> on the in-chat PDP. Each variant shows the rating signal (stars, number, count) and a short text summary of what reviewers are saying. No "See all" CTA. Every variant renders the full PDP including left-aligned quick-reply pills to show how components compete for attention.</p>
   <div class="legend">
     <span><strong>Product:</strong> Seabiotic® Water Cream · $54 · 4.7 (128 reviews)</span>
     <span><strong>Widget width:</strong> 360px</span>
-    <span><strong>CTA destination:</strong> external storefront product reviews section</span>
+    <span style="flex-basis: 100%;"><strong>Review summary:</strong>
+      <span class="summary-sample">"Customers love the deep hydration and lightweight, non-greasy feel. Many report calmer, less reactive skin within a week. A few note the jar is smaller than expected for the price."</span>
+    </span>
   </div>
 </header>
 
-<div class="section-title">Low-weight placements (inline / badge)</div>
+<div class="section-title">Low-weight placements</div>
 <section class="variants">
 
-  <!-- V1 Inline no CTA -->
+  <!-- V1: Inline rating + summary paragraph -->
   <article class="variant">
     <header class="variant-header">
       <span class="variant-tag">Variant 1</span>
-      <div class="variant-title">Inline, no CTA</div>
-      <div class="variant-desc">Stars + rating + review count under the title. Static text.</div>
+      <div class="variant-title">Inline rating + summary paragraph</div>
+      <div class="variant-desc">Rating line under title, AI summary as a plain paragraph directly below. No container.</div>
     </header>
 
     <div class="pdp">
@@ -387,11 +404,12 @@ body {
           <div class="pdp-title">Seabiotic® Water Cream</div>
           <div class="pdp-price">$54.00</div>
         </div>
-        <div class="rv-inline">
+        <div class="rv-inline-head">
           <span class="stars"><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s empty">★</span></span>
           <span class="num">4.7</span>
           <span class="count">128 reviews</span>
         </div>
+        <div class="rv-inline-summary">Customers love the deep hydration and lightweight, non-greasy feel. Many report calmer, less reactive skin within a week. A few note the jar is smaller than expected.</div>
         <div class="pdp-options">
           <div class="pdp-option selected"><span class="pdp-radio"></span>One-time purchase</div>
           <div class="pdp-option"><span class="pdp-radio"></span>Subscribe and save</div>
@@ -410,17 +428,17 @@ body {
     </div>
 
     <div class="variant-note">
-      <span class="pro">Smallest footprint. Rating reads naturally under the title, like a storefront PDP.</span>
-      <span class="con">No tap target. Shoppers who want to read reviews have to leave the widget.</span>
+      <span class="pro">Summary reads like part of the page flow, not a widget. Above the fold.</span>
+      <span class="con">Visually merges with description at a glance. No visual hierarchy marking it as reviews.</span>
     </div>
   </article>
 
-  <!-- V2 Inline with link -->
+  <!-- V5: Truncated inline -->
   <article class="variant">
     <header class="variant-header">
       <span class="variant-tag">Variant 2</span>
-      <div class="variant-title">Inline with link</div>
-      <div class="variant-desc">Same as V1, but "128 reviews" is underlined and opens the storefront product reviews in a new tab.</div>
+      <div class="variant-title">Inline with truncation</div>
+      <div class="variant-desc">Same as V1 but summary is clamped to 2 lines with an inline "Read more" expand.</div>
     </header>
 
     <div class="pdp">
@@ -434,113 +452,14 @@ body {
           <div class="pdp-title">Seabiotic® Water Cream</div>
           <div class="pdp-price">$54.00</div>
         </div>
-        <div class="rv-inline rv-inline-link">
+        <div class="rv-inline-head">
           <span class="stars"><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s empty">★</span></span>
           <span class="num">4.7</span>
           <span class="count">128 reviews</span>
         </div>
-        <div class="pdp-options">
-          <div class="pdp-option selected"><span class="pdp-radio"></span>One-time purchase</div>
-          <div class="pdp-option"><span class="pdp-radio"></span>Subscribe and save</div>
-        </div>
-        <div class="pdp-desc">Next-wave hydration. Our nutrient-rich water cream delivers 72+ hours of clinically proven... <span class="read-more">Read more</span></div>
-        <div class="pdp-quick-replies">
-          <button class="pdp-quick-reply">Is this water cream suitable for sensitive skin?</button>
-          <button class="pdp-quick-reply">How long does the hydration last?</button>
-          <button class="pdp-quick-reply">What is a water cream?</button>
-        </div>
-      </div>
-      <div class="pdp-footer">
-        <div class="qty-stepper"><button>−</button><span class="qty-val">1</span><button>+</button></div>
-        <button class="pdp-cta">Add to cart</button>
-      </div>
-    </div>
-
-    <div class="variant-note">
-      <span class="pro">Same footprint as V1 + a tap-through for shoppers who want more.</span>
-      <span class="con">Takes them out of the chat. We lose the shopper context.</span>
-      <span class="note">Recommended default.</span>
-    </div>
-  </article>
-
-  <!-- V3 Compact badge in title row -->
-  <article class="variant">
-    <header class="variant-header">
-      <span class="variant-tag">Variant 3</span>
-      <div class="variant-title">Compact badge in title row</div>
-      <div class="variant-desc">Tiny pill between title and price. Rating only, no review count. Zero added vertical space.</div>
-    </header>
-
-    <div class="pdp">
-      <div class="pdp-close">×</div>
-      <div class="pdp-image-wrap">
-        <div class="pdp-image"><span class="pdp-image-label">OSEA</span></div>
-        <div class="pdp-next">›</div>
-      </div>
-      <div class="pdp-body">
-        <div class="pdp-title-row">
-          <div class="pdp-title">Seabiotic® Water Cream</div>
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <span class="rv-badge"><span class="s">★</span>4.7<span class="count">· 128</span></span>
-            <div class="pdp-price">$54.00</div>
-          </div>
-        </div>
-        <div class="pdp-options">
-          <div class="pdp-option selected"><span class="pdp-radio"></span>One-time purchase</div>
-          <div class="pdp-option"><span class="pdp-radio"></span>Subscribe and save</div>
-        </div>
-        <div class="pdp-desc">Next-wave hydration. Our nutrient-rich water cream delivers 72+ hours of clinically proven... <span class="read-more">Read more</span></div>
-        <div class="pdp-quick-replies">
-          <button class="pdp-quick-reply">Is this water cream suitable for sensitive skin?</button>
-          <button class="pdp-quick-reply">How long does the hydration last?</button>
-          <button class="pdp-quick-reply">What is a water cream?</button>
-        </div>
-      </div>
-      <div class="pdp-footer">
-        <div class="qty-stepper"><button>−</button><span class="qty-val">1</span><button>+</button></div>
-        <button class="pdp-cta">Add to cart</button>
-      </div>
-    </div>
-
-    <div class="variant-note">
-      <span class="pro">Zero added vertical space. Very iOS App Store / review-summary feel.</span>
-      <span class="con">Title row gets crowded, especially with long product names. Breaks to 2 lines.</span>
-      <span class="note">Consider only if space is the primary constraint.</span>
-    </div>
-  </article>
-
-</section>
-
-<hr class="section-divider">
-<div class="section-title">Prominent placements (dedicated block)</div>
-<section class="variants">
-
-  <!-- V4 Block above subscribe options -->
-  <article class="variant">
-    <header class="variant-header">
-      <span class="variant-tag">Variant 4</span>
-      <div class="variant-title">Summary block above subscribe options</div>
-      <div class="variant-desc">Dedicated block with big number, stars, count, and a "See all" pill CTA. Sits right under title/price.</div>
-    </header>
-
-    <div class="pdp">
-      <div class="pdp-close">×</div>
-      <div class="pdp-image-wrap">
-        <div class="pdp-image"><span class="pdp-image-label">OSEA</span></div>
-        <div class="pdp-next">›</div>
-      </div>
-      <div class="pdp-body">
-        <div class="pdp-title-row">
-          <div class="pdp-title">Seabiotic® Water Cream</div>
-          <div class="pdp-price">$54.00</div>
-        </div>
-        <div class="rv-block" style="margin-top: 14px;">
-          <div class="big-num">4.7</div>
-          <div class="meta">
-            <span class="stars"><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s empty">★</span></span>
-            <span>Based on 128 reviews</span>
-          </div>
-          <button class="cta-pill">See all</button>
+        <div class="rv-truncated">
+          <div class="rv-inline-summary">Customers love the deep hydration and lightweight, non-greasy feel. Many report calmer, less reactive skin within a week. A few note the jar is smaller than expected for the price.</div>
+          <span class="read-more">Read more</span>
         </div>
         <div class="pdp-options">
           <div class="pdp-option selected"><span class="pdp-radio"></span>One-time purchase</div>
@@ -560,18 +479,75 @@ body {
     </div>
 
     <div class="variant-note">
-      <span class="pro">Above-the-fold trust signal with a clear tap target.</span>
-      <span class="con">Pushes the subscribe options and description down. ~60px vertical cost.</span>
-      <span class="note">Use when reviews are a strong conversion lever for the category.</span>
+      <span class="pro">Bounded vertical cost. Shopper controls depth.</span>
+      <span class="con">Two "Read more" links on same page (summary + description). Risk of confusion.</span>
     </div>
   </article>
 
-  <!-- V5 Block between description and quick replies -->
+</section>
+
+<hr class="section-divider">
+<div class="section-title">Prominent placements (dedicated block)</div>
+<section class="variants">
+
+  <!-- V3: Block above options -->
   <article class="variant">
     <header class="variant-header">
-      <span class="variant-tag">Variant 5</span>
+      <span class="variant-tag">Variant 3</span>
+      <div class="variant-title">Summary block above subscribe options</div>
+      <div class="variant-desc">Dedicated cream-tinted block with big rating, count, and AI summary. Placed right under title/price.</div>
+    </header>
+
+    <div class="pdp">
+      <div class="pdp-close">×</div>
+      <div class="pdp-image-wrap">
+        <div class="pdp-image"><span class="pdp-image-label">OSEA</span></div>
+        <div class="pdp-next">›</div>
+      </div>
+      <div class="pdp-body">
+        <div class="pdp-title-row">
+          <div class="pdp-title">Seabiotic® Water Cream</div>
+          <div class="pdp-price">$54.00</div>
+        </div>
+        <div class="rv-block" style="margin-top: 14px;">
+          <div class="rv-block-head">
+            <div class="big-num">4.7</div>
+            <div class="meta">
+              <span class="stars"><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s empty">★</span></span>
+              <span>Based on 128 reviews</span>
+            </div>
+          </div>
+          <div class="rv-block-summary">Customers love the deep hydration and lightweight, non-greasy feel. Many report calmer skin within a week. A few note the jar is small for the price.</div>
+        </div>
+        <div class="pdp-options">
+          <div class="pdp-option selected"><span class="pdp-radio"></span>One-time purchase</div>
+          <div class="pdp-option"><span class="pdp-radio"></span>Subscribe and save</div>
+        </div>
+        <div class="pdp-desc">Next-wave hydration. Our nutrient-rich water cream delivers 72+ hours... <span class="read-more">Read more</span></div>
+        <div class="pdp-quick-replies">
+          <button class="pdp-quick-reply">Is this water cream suitable for sensitive skin?</button>
+          <button class="pdp-quick-reply">How long does the hydration last?</button>
+          <button class="pdp-quick-reply">What is a water cream?</button>
+        </div>
+      </div>
+      <div class="pdp-footer">
+        <div class="qty-stepper"><button>−</button><span class="qty-val">1</span><button>+</button></div>
+        <button class="pdp-cta">Add to cart</button>
+      </div>
+    </div>
+
+    <div class="variant-note">
+      <span class="pro">Strong visual hierarchy. Clear that this is aggregated review content, not description.</span>
+      <span class="con">Pushes subscribe options and description below the fold. ~100px vertical cost.</span>
+    </div>
+  </article>
+
+  <!-- V4: Block between description and quick replies -->
+  <article class="variant">
+    <header class="variant-header">
+      <span class="variant-tag">Variant 4</span>
       <div class="variant-title">Summary block between description and suggestions</div>
-      <div class="variant-desc">Same block as V4 but placed after the description, before the quick-reply pills.</div>
+      <div class="variant-desc">Same block as V3 but placed after the description, before the quick-reply pills.</div>
     </header>
 
     <div class="pdp">
@@ -591,12 +567,14 @@ body {
         </div>
         <div class="pdp-desc">Next-wave hydration. Our nutrient-rich water cream delivers 72+ hours of clinically proven, deep hydration... <span class="read-more">Read more</span></div>
         <div class="rv-block" style="margin-top: 14px;">
-          <div class="big-num">4.7</div>
-          <div class="meta">
-            <span class="stars"><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s empty">★</span></span>
-            <span>Based on 128 reviews</span>
+          <div class="rv-block-head">
+            <div class="big-num">4.7</div>
+            <div class="meta">
+              <span class="stars"><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s empty">★</span></span>
+              <span>Based on 128 reviews</span>
+            </div>
           </div>
-          <button class="cta-pill">See all</button>
+          <div class="rv-block-summary">Customers love the deep hydration and lightweight, non-greasy feel. Many report calmer skin within a week. A few note the jar is small for the price.</div>
         </div>
         <div class="pdp-quick-replies">
           <button class="pdp-quick-reply">Is this water cream suitable for sensitive skin?</button>
@@ -611,18 +589,73 @@ body {
     </div>
 
     <div class="variant-note">
-      <span class="pro">Dedicated section without fighting for above-the-fold space.</span>
-      <span class="con">Below the fold on short widget heights. Rating invisible until shopper scrolls.</span>
-      <span class="note">Pair with the V3 badge near the title if we go this route — dual signal.</span>
+      <span class="pro">Doesn't compete with subscribe options for above-fold attention.</span>
+      <span class="con">Below the fold on most widget heights. Rating invisible until scroll.</span>
     </div>
   </article>
 
-  <!-- V6 Bottom bar above footer -->
+</section>
+
+<hr class="section-divider">
+<div class="section-title">Editorial + anchored placements</div>
+<section class="variants">
+
+  <!-- V5: Quote style -->
+  <article class="variant">
+    <header class="variant-header">
+      <span class="variant-tag">Variant 5</span>
+      <div class="variant-title">Quote-style summary</div>
+      <div class="variant-desc">Accent-bar left border, italic summary text. Editorial feel, less card-like than V3/V4.</div>
+    </header>
+
+    <div class="pdp">
+      <div class="pdp-close">×</div>
+      <div class="pdp-image-wrap">
+        <div class="pdp-image"><span class="pdp-image-label">OSEA</span></div>
+        <div class="pdp-next">›</div>
+      </div>
+      <div class="pdp-body">
+        <div class="pdp-title-row">
+          <div class="pdp-title">Seabiotic® Water Cream</div>
+          <div class="pdp-price">$54.00</div>
+        </div>
+        <div class="rv-quote" style="margin-top: 12px;">
+          <div class="rv-quote-head">
+            <span class="stars"><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s empty">★</span></span>
+            <span class="num">4.7</span>
+            <span class="count">· 128 reviews</span>
+          </div>
+          <div class="rv-quote-summary">Customers love the deep hydration and lightweight, non-greasy feel. Many report calmer skin within a week. A few note the jar is small for the price.</div>
+        </div>
+        <div class="pdp-options">
+          <div class="pdp-option selected"><span class="pdp-radio"></span>One-time purchase</div>
+          <div class="pdp-option"><span class="pdp-radio"></span>Subscribe and save</div>
+        </div>
+        <div class="pdp-desc">Next-wave hydration. Our nutrient-rich water cream delivers 72+ hours... <span class="read-more">Read more</span></div>
+        <div class="pdp-quick-replies">
+          <button class="pdp-quick-reply">Is this water cream suitable for sensitive skin?</button>
+          <button class="pdp-quick-reply">How long does the hydration last?</button>
+          <button class="pdp-quick-reply">What is a water cream?</button>
+        </div>
+      </div>
+      <div class="pdp-footer">
+        <div class="qty-stepper"><button>−</button><span class="qty-val">1</span><button>+</button></div>
+        <button class="pdp-cta">Add to cart</button>
+      </div>
+    </div>
+
+    <div class="variant-note">
+      <span class="pro">Visually distinct without feeling like a widget. Reads as "what people say".</span>
+      <span class="con">Italic + accent may clash with merchants who have strong brand typography.</span>
+    </div>
+  </article>
+
+  <!-- V6: Bottom band -->
   <article class="variant">
     <header class="variant-header">
       <span class="variant-tag">Variant 6</span>
-      <div class="variant-title">Bottom bar above footer</div>
-      <div class="variant-desc">Full-width cream bar flush with the footer. Always visible (sticky-adjacent). Rating + count + "See all" link.</div>
+      <div class="variant-title">Bottom band above footer</div>
+      <div class="variant-desc">Full-width cream band flush above the Add to cart footer. Rating line + summary. Anchored near the decision point.</div>
     </header>
 
     <div class="pdp">
@@ -647,11 +680,13 @@ body {
           <button class="pdp-quick-reply">What is a water cream?</button>
         </div>
       </div>
-      <div class="rv-bottom-bar">
-        <span class="stars"><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s empty">★</span></span>
-        <span class="num">4.7</span>
-        <span class="count">128 reviews</span>
-        <span class="link">See all →</span>
+      <div class="rv-bottom-band">
+        <div class="rv-bottom-head">
+          <span class="stars"><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s empty">★</span></span>
+          <span class="num">4.7</span>
+          <span class="count">· 128 reviews</span>
+        </div>
+        <div class="rv-bottom-summary">Customers love the deep hydration and lightweight feel. A few note the jar is small for the price.</div>
       </div>
       <div class="pdp-footer">
         <div class="qty-stepper"><button>−</button><span class="qty-val">1</span><button>+</button></div>
@@ -660,9 +695,8 @@ body {
     </div>
 
     <div class="variant-note">
-      <span class="pro">Anchored near the CTA, sits at the decision point. Feels like a reassurance band before "Add to cart".</span>
-      <span class="con">Feels buried unless the shopper reaches the bottom. Unconventional placement.</span>
-      <span class="note">Interesting for test; works best when paired with V3 badge for above-fold signal.</span>
+      <span class="pro">Anchored at the decision point. Last thing before "Add to cart" is a reassurance.</span>
+      <span class="con">Shorter summary (2 sentences max) to avoid pushing the footer too far. Rating invisible above fold.</span>
     </div>
   </article>
 
@@ -671,12 +705,13 @@ body {
 <section class="rec">
   <h3>Recommendation</h3>
   <ul>
-    <li><strong>Default: V2 (inline with link).</strong> Lowest footprint, rating is always visible above-fold, and the count is tappable for shoppers who want to read reviews on the storefront. Matches how shoppers already read a Shopify PDP.</li>
-    <li><strong>If we want a stronger signal: V4 (block above options).</strong> Worth testing against V2 for high-consideration categories (beauty, supplements, skincare) where reviews drive conversion. Expect higher tap-through to storefront reviews, minor tradeoff on PDP scan speed.</li>
-    <li><strong>Avoid V5 (block below description).</strong> Adds weight without the above-fold benefit. Only viable with a V3-style title badge.</li>
-    <li><strong>Consider V6 (bottom bar)</strong> if we want the trust signal near the "Add to cart" moment. A/B candidate against V4.</li>
-    <li><strong>Open:</strong> where does "See all" go? Recommend opening the storefront product page anchored to its reviews section in a new tab. Keeps SA in the chat, lets the shopper dive deep if they want.</li>
-    <li><strong>Open:</strong> quick replies appear regardless of rating placement. Confirm that <em>rating + suggestions</em> don't compete for attention — if they do, V2 is the safest since rating is a single line.</li>
+    <li><strong>Default: V3 (block above options).</strong> Review summary is the clearest differentiator SA can offer over a Shopify-native PDP — putting it above the fold honors that. The dedicated block gives the text summary visual authority and doesn't blend into the product description.</li>
+    <li><strong>V5 (quote-style)</strong> is the editorial alternative if merchants prefer softer visuals. Functionally equivalent to V3 but lighter.</li>
+    <li><strong>Avoid V1 (plain paragraph).</strong> Summary visually merges with the description. Shoppers won't realize it's aggregated review content.</li>
+    <li><strong>Avoid V4 (below description)</strong> unless we pair with a V2-style truncation elsewhere. Too easy to miss.</li>
+    <li><strong>V6 (bottom band)</strong> is worth A/B testing — reassurance-at-decision-point is a known e-commerce pattern, but it's unconventional here.</li>
+    <li><strong>Open:</strong> how long should the summary be? Current draft is 2–3 sentences (~30 words). Anything longer hurts PDP density. Anything shorter loses the "texture" that makes it useful.</li>
+    <li><strong>Open:</strong> how is the summary generated and refreshed? Live at PDP open, cached per product, nightly batch? Latency target &lt;500ms for PDP open.</li>
   </ul>
 </section>
 
