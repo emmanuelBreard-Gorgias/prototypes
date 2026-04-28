@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1st Phorm | Earned Never Given</title>
+  <link rel="stylesheet" href="assets/chat.css" />
+</head>
+<body>
+
+  <div class="top-bar">FREE Shipping on orders over $75 · Earn rewards on every purchase</div>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="site-header__logo" href="index.html">1<span>ST</span>PHORM</a>
+      <nav>
+        <ul class="nav">
+          <li><a href="index.html" class="is-active">Home</a></li>
+          <li><a href="pdp-phormula1.html">Supplements</a></li>
+          <li><a href="collection-mens-apparel.html">Apparel</a></li>
+          <li><a href="#">Stacks</a></li>
+          <li><a href="#">App</a></li>
+          <li><a href="#">Athletes</a></li>
+        </ul>
+      </nav>
+      <div class="header-actions">
+        <svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO with Entry Point #1 — Build my stack -->
+  <section class="hero" style="background-image: url('https://cdn.shopify.com/s/files/1/0072/7754/3493/files/1stPhorm_Apparel_Mens_Hoodies_CollegiateFleeceZipHoodie_Black_0009_1.jpg?v=1773857385');">
+    <div class="hero__inner">
+      <p class="hero__eyebrow">▶ Earned. Never given.</p>
+      <h1 class="hero__title">Built for the<br/><em>Legion of Boom.</em></h1>
+      <p class="hero__subtitle">Premium supplements and gear used and trusted by champions. Real ingredients. Real results. No shortcuts.</p>
+      <div class="hero__ctas">
+        <a class="btn" href="pdp-phormula1.html">Shop Bestsellers</a>
+        <a class="btn btn--ghost" href="collection-mens-apparel.html">Shop Apparel</a>
+        <button class="trigger-pill" data-trigger="build-stack" aria-label="Open Athlete Assistant chat">
+          <span class="trigger-pill__sparkle"></span>
+          <svg class="trigger-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+          Build my stack — what should I take?
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bestsellers -->
+  <section class="section">
+    <div class="container">
+      <div class="section__head">
+        <h2 class="section__title">Top Sellers</h2>
+        <a class="section__link" href="#">See all →</a>
+      </div>
+      <div class="product-grid" id="bestsellers-grid"></div>
+    </div>
+  </section>
+
+  <!-- New / Athlete favorites -->
+  <section class="section section--alt">
+    <div class="container">
+      <div class="section__head">
+        <h2 class="section__title">Athlete Favorites</h2>
+        <a class="section__link" href="#">Shop all →</a>
+      </div>
+      <div class="product-grid" id="athlete-grid"></div>
+    </div>
+  </section>
+
+  <!-- Stack callout band -->
+  <section class="section" style="background:linear-gradient(90deg,#1a0000 0%,#000 100%);">
+    <div class="container" style="display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;">
+      <div style="max-width:580px;">
+        <p style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--phorm-red);font-weight:700;margin:0 0 8px;">Not sure where to start?</p>
+        <h3 style="font-family:'Arial Black',sans-serif;font-size:36px;text-transform:uppercase;margin:0 0 12px;line-height:1;">We'll build the stack for you.</h3>
+        <p style="color:var(--phorm-text-muted);margin:0 0 24px;font-size:16px;">Three quick questions. We'll match you to the right supplements, the right doses, and the right timing for your goal — no guesswork.</p>
+        <button class="btn" data-trigger="build-stack">Build my stack →</button>
+      </div>
+      <div style="font-family:'Arial Black',sans-serif;font-size:120px;font-weight:900;color:rgba(204,0,0,0.18);line-height:1;letter-spacing:-0.05em;">1ST.</div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="site-footer__grid">
+        <div>
+          <h4 style="font-family:'Arial Black',sans-serif;font-size:18px;letter-spacing:0;text-transform:none;">1<span style="color:var(--phorm-red)">ST</span>PHORM</h4>
+          <p>Premium supplements and gear engineered for athletes, by athletes. NSF certified. Banned-substance free.</p>
+        </div>
+        <div>
+          <h4>Shop</h4>
+          <ul>
+            <li><a href="pdp-phormula1.html">Supplements</a></li>
+            <li><a href="collection-mens-apparel.html">Apparel</a></li>
+            <li><a href="#">Stacks</a></li>
+            <li><a href="#">Bundles</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Help</h4>
+          <ul>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Shipping</a></li>
+            <li><a href="#">Returns</a></li>
+            <li><a href="#">FAQ</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Athletes</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Press</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>App</h4>
+          <ul>
+            <li><a href="#">iOS</a></li>
+            <li><a href="#">Android</a></li>
+            <li><a href="#">Coaching</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="site-footer__bottom">© 1st Phorm. All rights reserved. · Prototype for shopping triggers research.</div>
+    </div>
+  </footer>
+
+  <script src="assets/data.js"></script>
+  <script src="assets/chat.js"></script>
+  <script>
+    // Render product grids using real catalog
+    (function () {
+      const P = window.PHORM_DATA.products;
+      const A = window.PHORM_DATA.apparel;
+
+      const bestsellers = [
+        { p: P.level1, link: 'pdp-phormula1.html' },
+        { p: P.micro_factor, link: '#' },
+        { p: P.creatine, link: '#' },
+        { p: P.opti_greens, link: '#' },
+      ];
+      const athleteFavs = [
+        { p: P.collagen, link: '#' },
+        { p: P.colostrum, link: '#' },
+        { p: P.phorm_energy, link: '#' },
+        { p: P.cognition_stack, link: '#' },
+      ];
+
+      function variantLine(prod) {
+        const flavorOpt = (prod.options || []).find(o => o.name === 'Flavor');
+        if (flavorOpt) return `${flavorOpt.values.length} flavors`;
+        const sizeOpt = (prod.options || []).find(o => o.name.toLowerCase() === 'size');
+        if (sizeOpt) return `${sizeOpt.values.length} sizes`;
+        return 'Single SKU';
+      }
+
+      function renderCard(prod, link) {
+        if (!prod) return '';
+        return `
+          <a class="product-card" href="${link}">
+            <div class="product-card__media"><img src="${prod.images[0]}" alt="${prod.title}"/></div>
+            <div class="product-card__body">
+              <p class="product-card__type">${prod.product_type === 'Products' ? 'Supplement' : prod.product_type}</p>
+              <h3 class="product-card__title">${prod.title}</h3>
+              <p class="product-card__variants">${variantLine(prod)}</p>
+              <p class="product-card__price">$${prod.variants[0].price}</p>
+            </div>
+          </a>`;
+      }
+
+      document.getElementById('bestsellers-grid').innerHTML = bestsellers.map(b => renderCard(b.p, b.link)).join('');
+      document.getElementById('athlete-grid').innerHTML = athleteFavs.map(b => renderCard(b.p, b.link)).join('');
+    })();
+  </script>
+</body>
+</html>
