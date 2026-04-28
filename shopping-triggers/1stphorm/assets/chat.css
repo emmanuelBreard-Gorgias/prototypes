@@ -513,6 +513,10 @@ img { max-width: 100%; display: block; }
   margin-bottom: 20px;
   cursor: pointer;
   transition: all 0.15s;
+  color: var(--phorm-text);
+  font-family: inherit;
+  text-align: left;
+  width: 100%;
 }
 .flavor-helper:hover {
   border-color: var(--phorm-red);
@@ -547,6 +551,10 @@ img { max-width: 100%; display: block; }
   margin-top: 16px;
   cursor: pointer;
   font-size: 13px;
+  color: var(--phorm-text);
+  font-family: inherit;
+  text-align: left;
+  width: 100%;
 }
 .stacking-helper:hover { background: var(--phorm-surface); }
 .stacking-helper__icon {
@@ -697,6 +705,10 @@ img { max-width: 100%; display: block; }
   flex-wrap: wrap;
   cursor: pointer;
   transition: border-color 0.15s, transform 0.15s;
+  color: var(--phorm-text);
+  font-family: inherit;
+  text-align: left;
+  width: 100%;
 }
 .fit-banner:hover {
   border-color: var(--phorm-red);
