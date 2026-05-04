@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Osea Malibu | Seaweed-powered skincare</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/chat.css" />
+</head>
+<body>
+
+  <div class="top-bar">FREE shipping on orders over <strong>$75</strong> · Free samples with every order</div>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="site-header__logo" href="index.html">OSEA</a>
+      <nav>
+        <ul class="nav">
+          <li><a href="#">Bestsellers</a></li>
+          <li><a href="pdp-atmosphere-protection-cream.html">Face Care</a></li>
+          <li><a href="collection-body-moisturizers.html">Body Care</a></li>
+          <li><a href="#">Sets</a></li>
+          <li><a href="#">Routines</a></li>
+        </ul>
+      </nav>
+      <div class="header-actions">
+        <svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO with Entry Point #1 — Find my routine -->
+  <section class="hero">
+    <div class="hero__inner">
+      <div>
+        <p class="hero__eyebrow">Vegan · Reef-safe · Family-owned</p>
+        <h1 class="hero__title">Seaweed-powered<br/><em>skincare from Malibu.</em></h1>
+        <p class="hero__subtitle">Clean, vegan, results-driven. From the Pacific to your skin, since 1996.</p>
+        <div class="hero__ctas">
+          <a class="btn" href="collection-body-moisturizers.html">Shop bestsellers</a>
+          <button class="trigger-pill" data-trigger="find-routine" aria-label="Find my routine">
+            <span class="trigger-pill__sparkle"></span>
+            <svg class="trigger-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+            Find my skincare routine
+          </button>
+        </div>
+      </div>
+      <div class="hero__visual">
+        <img src="https://cdn.shopify.com/s/files/1/1368/9993/files/2-HSS_PDP_LIFESTYLE_1_1600x2000.jpg?v=1769725294" alt="Osea Malibu Hyaluronic Sea Serum lifestyle" onerror="this.src='https://cdn.shopify.com/s/files/1/1368/9993/files/2-HSS_PDP_ECOMM_1600x2000_84592bad-f79c-43cf-a7f2-79ac949e203e.jpg?v=1769725294'"/>
+      </div>
+    </div>
+  </section>
+
+  <!-- Brand pillars -->
+  <section class="pillars">
+    <div class="container">
+      <div class="pillars__row">
+        <div class="pillar"><strong>Vegan</strong><span>Never tested on animals</span></div>
+        <div class="pillar"><strong>Seaweed first</strong><span>Hand-harvested in Patagonia</span></div>
+        <div class="pillar"><strong>Reef-safe</strong><span>1% for the ocean</span></div>
+        <div class="pillar"><strong>Family-owned</strong><span>Founded in Malibu, 1996</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bestsellers -->
+  <section class="section">
+    <div class="container">
+      <div class="section__head">
+        <div>
+          <h2 class="section__title">Bestsellers</h2>
+          <p class="section__sub">The Osea classics. Loved by editors, dermatologists, and 500k+ shoppers.</p>
+        </div>
+        <a class="section__link" href="#">Shop all →</a>
+      </div>
+      <div class="product-grid" id="bestsellers-grid"></div>
+    </div>
+  </section>
+
+  <!-- Mid-page band — secondary trigger (re-prompt of the same flow) -->
+  <section class="kit-band">
+    <div class="container">
+      <div class="kit-band__inner">
+        <div>
+          <p style="font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--osea-green);font-weight:600;margin:0 0 10px;">Not sure where to start?</p>
+          <h2>We'll match you to a routine in 3 questions.</h2>
+          <p>Tell us your skin type and concern, we'll handle the rest. No emails, no commitment.</p>
+          <button class="kit-band__btn" data-trigger="find-routine">Find my routine →</button>
+        </div>
+        <div style="font-family:var(--osea-font-display);font-size:140px;font-weight:400;color:rgba(29,77,65,0.15);line-height:1;letter-spacing:0.16em;font-style:italic;">osea</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Face moisturizers grid -->
+  <section class="section section--cream">
+    <div class="container">
+      <div class="section__head">
+        <div>
+          <h2 class="section__title">Face moisturizers & oils</h2>
+          <p class="section__sub">Find the right cream for your skin type. Each formula is built around hand-harvested Undaria seaweed.</p>
+        </div>
+        <a class="section__link" href="pdp-atmosphere-protection-cream.html">View all →</a>
+      </div>
+      <div class="product-grid" id="face-grid"></div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="site-footer__grid">
+        <div>
+          <h4 style="font-family:var(--osea-font-display);font-size:24px;letter-spacing:0.32em;text-transform:none;font-weight:700;color:var(--osea-green);">OSEA</h4>
+          <p>Seaweed-powered skincare from Malibu. Family-owned, vegan, reef-safe, and proud to harvest one of nature's most powerful ingredients.</p>
+        </div>
+        <div>
+          <h4>Shop</h4>
+          <ul>
+            <li><a href="pdp-atmosphere-protection-cream.html">Face Care</a></li>
+            <li><a href="collection-body-moisturizers.html">Body Care</a></li>
+            <li><a href="#">Sets</a></li>
+            <li><a href="#">Bestsellers</a></li>
+            <li><a href="#">Travel size</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Help</h4>
+          <ul>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Shipping</a></li>
+            <li><a href="#">Returns</a></li>
+            <li><a href="#">FAQ</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>About</h4>
+          <ul>
+            <li><a href="#">Our story</a></li>
+            <li><a href="#">Sustainability</a></li>
+            <li><a href="#">Press</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Region</h4>
+          <ul>
+            <li><a href="#">United States</a></li>
+            <li><a href="#">Canada</a></li>
+            <li><a href="#">Europe</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="site-footer__bottom">© Osea Malibu · Family-owned since 1996 · Prototype for Shopping Triggers research.</div>
+    </div>
+  </footer>
+
+  <script src="assets/data.js"></script>
+  <script src="assets/chat.js"></script>
+  <script>
+    (function () {
+      const D = window.OSEA_DATA;
+
+      function renderCard(key) {
+        const p = D.products[key];
+        if (!p) return '';
+        let link = '#';
+        if (key === 'atmosphere_protection_cream') link = 'pdp-atmosphere-protection-cream.html';
+        else if (key.startsWith('undaria_body') || key === 'anti_aging_body_balm' || key === 'hyaluronic_body_serum' || key === 'dream_bio_retinol_body_serum') link = 'collection-body-moisturizers.html';
+        return `
+          <a class="product-card" href="${link}">
+            <div class="product-card__media"><img src="${p.image}" alt="${p.title}"/></div>
+            <div class="product-card__body">
+              <p class="product-card__type">${p.product_type}</p>
+              <h3 class="product-card__title">${p.title}</h3>
+              <p class="product-card__variants">${(p.blurb || '').slice(0, 70)}${(p.blurb || '').length > 70 ? '…' : ''}</p>
+              <p class="product-card__price">$${p.price}</p>
+            </div>
+          </a>`;
+      }
+
+      document.getElementById('bestsellers-grid').innerHTML =
+        ['undaria_body_oil', 'hyaluronic_sea_serum', 'atmosphere_protection_cream', 'ocean_wave_cleanser'].map(renderCard).join('');
+      document.getElementById('face-grid').innerHTML =
+        ['atmosphere_protection_cream', 'seabiotic_water_cream', 'dream_night_cream', 'advanced_protection_cream'].map(renderCard).join('');
+    })();
+  </script>
+</body>
+</html>
