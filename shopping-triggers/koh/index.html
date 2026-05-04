@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Koh | 100% clean. 0% crap.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/chat.css" />
+</head>
+<body>
+
+  <div class="top-bar">FREE shipping on orders over <strong>$99</strong> · 30-day money-back guarantee</div>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="site-header__logo" href="index.html">koh<span style="color:var(--koh-pink)">.</span></a>
+      <nav>
+        <ul class="nav">
+          <li><a href="index.html" class="is-active">New</a></li>
+          <li><a href="pdp-universal-cleaner.html">Shop</a></li>
+          <li><a href="#">Starter Kits</a></li>
+          <li><a href="collection-bathroom.html">Bathroom</a></li>
+          <li><a href="#">Laundry</a></li>
+          <li><a href="#">Before & After</a></li>
+        </ul>
+      </nav>
+      <div class="header-actions">
+        <svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO with Entry Point #1 — Help me build my Koh kit -->
+  <section class="hero">
+    <div class="hero__inner">
+      <div>
+        <p class="hero__eyebrow">Eco-certified · Allergy friendly · Refillable</p>
+        <h1 class="hero__title">100% clean.<br/><em>0% crap.</em></h1>
+        <p class="hero__subtitle">Some products are toxic, ours aren't. One concentrate cleans the whole home.</p>
+        <div class="hero__ctas">
+          <a class="btn" href="pdp-universal-cleaner.html">Shop Universal Cleaner</a>
+          <button class="trigger-pill" data-trigger="build-kit" aria-label="Open Koh Helper">
+            <span class="trigger-pill__sparkle"></span>
+            <svg class="trigger-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+            Help me build my Koh kit
+          </button>
+        </div>
+      </div>
+      <div class="hero__visual">
+        <img src="https://cdn.shopify.com/s/files/1/1074/1454/files/Koh_Hero-BFCM-Whole-Home-Starter-Kit_Sheets_01.jpg?v=1764626777" alt="Koh whole home starter kit"/>
+      </div>
+    </div>
+  </section>
+
+  <!-- Brand pillars -->
+  <section class="pillars">
+    <div class="container">
+      <div class="pillars__row">
+        <div class="pillar"><strong>Allergy Friendly</strong><span>Dermatologist-approved</span></div>
+        <div class="pillar"><strong>Eco-Certified</strong><span>Plant-based ingredients</span></div>
+        <div class="pillar"><strong>100% Refillable</strong><span>1 order = 3 bottles saved</span></div>
+        <div class="pillar"><strong>Made for Real Homes</strong><span>30-day money back</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bestsellers -->
+  <section class="section">
+    <div class="container">
+      <div class="section__head">
+        <div>
+          <h2 class="section__title">Best sellers</h2>
+          <p class="section__sub">The Koh classics. Loved by 1.5M+ households across AU and NZ.</p>
+        </div>
+        <a class="section__link" href="#">Shop all →</a>
+      </div>
+      <div class="product-grid" id="bestsellers-grid"></div>
+    </div>
+  </section>
+
+  <!-- Starter Kits -->
+  <section class="section section--cream">
+    <div class="container">
+      <div class="section__head">
+        <div>
+          <h2 class="section__title">Starter kits</h2>
+          <p class="section__sub">Cleaner + the right tool, in one box. Save vs buying separately.</p>
+        </div>
+        <a class="section__link" href="#">See all kits →</a>
+      </div>
+      <div class="product-grid" id="kits-grid"></div>
+    </div>
+  </section>
+
+  <!-- Mid-page band — secondary trigger -->
+  <section class="kit-band">
+    <div class="container">
+      <div class="kit-band__inner">
+        <div>
+          <p style="font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--koh-pink);font-weight:600;margin:0 0 10px;">Not sure where to start?</p>
+          <h2>We'll match you to the right kit in 3 questions.</h2>
+          <p>Tell us where you want to clean, who's in the home, and we'll do the rest. No emails, no commitment.</p>
+          <button class="kit-band__btn" data-trigger="build-kit">Help me build my kit →</button>
+        </div>
+        <div style="font-family:var(--koh-font-display);font-size:120px;font-weight:600;color:rgba(230,59,122,0.16);line-height:1;letter-spacing:-0.05em;font-style:italic;">koh.</div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="site-footer__grid">
+        <div>
+          <h4 style="font-family:var(--koh-font-display);font-size:22px;letter-spacing:-0.02em;text-transform:none;font-weight:700;">koh.</h4>
+          <p>Plant-based cleaning concentrates. Designed in Australia, refillable forever, dermatologist approved.</p>
+        </div>
+        <div>
+          <h4>Shop</h4>
+          <ul>
+            <li><a href="pdp-universal-cleaner.html">Universal Cleaner</a></li>
+            <li><a href="collection-bathroom.html">Bathroom</a></li>
+            <li><a href="#">Laundry</a></li>
+            <li><a href="#">Loo</a></li>
+            <li><a href="#">Starter Kits</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Help</h4>
+          <ul>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Shipping</a></li>
+            <li><a href="#">Returns</a></li>
+            <li><a href="#">FAQ</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#">Our story</a></li>
+            <li><a href="#">Sustainability</a></li>
+            <li><a href="#">Press</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Region</h4>
+          <ul>
+            <li><a href="#">Australia</a></li>
+            <li><a href="#">New Zealand</a></li>
+            <li><a href="#">UK</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="site-footer__bottom">© Koh. 100% clean. 0% crap. · Prototype for Shopping Triggers research.</div>
+    </div>
+  </footer>
+
+  <script src="assets/data.js"></script>
+  <script src="assets/chat.js"></script>
+  <script>
+    // Render product grids
+    (function () {
+      const D = window.KOH_DATA;
+
+      function renderCard(key) {
+        const p = D.products[key];
+        if (!p) return '';
+        const link = key === 'universal_4l' || key === 'universal_starter' ? 'pdp-universal-cleaner.html' : '#';
+        return `
+          <a class="product-card" href="${link}">
+            <div class="product-card__media"><img src="${p.image}" alt="${p.title}"/></div>
+            <div class="product-card__body">
+              <p class="product-card__type">${p.product_type}</p>
+              <h3 class="product-card__title">${p.title}</h3>
+              <p class="product-card__variants">${(p.blurb || '').slice(0, 70)}${(p.blurb || '').length > 70 ? '…' : ''}</p>
+              <p class="product-card__price">$${p.price}</p>
+            </div>
+          </a>`;
+      }
+
+      document.getElementById('bestsellers-grid').innerHTML =
+        ['universal_4l', 'laundry_sheets', 'dishwashing_tabs', 'loo_blade_white'].map(renderCard).join('');
+      document.getElementById('kits-grid').innerHTML =
+        ['whole_home', 'universal_starter', 'bathroom_starter', 'laundry_complete'].map(renderCard).join('');
+    })();
+  </script>
+</body>
+</html>

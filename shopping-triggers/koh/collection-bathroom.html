@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bathroom | Koh</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/chat.css" />
+</head>
+<body>
+
+  <div class="top-bar">FREE shipping on orders over <strong>$99</strong> · 30-day money-back guarantee</div>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="site-header__logo" href="index.html">koh<span style="color:var(--koh-pink)">.</span></a>
+      <nav>
+        <ul class="nav">
+          <li><a href="index.html">New</a></li>
+          <li><a href="pdp-universal-cleaner.html">Shop</a></li>
+          <li><a href="#">Starter Kits</a></li>
+          <li><a href="collection-bathroom.html" class="is-active">Bathroom</a></li>
+          <li><a href="#">Laundry</a></li>
+          <li><a href="#">Before & After</a></li>
+        </ul>
+      </nav>
+      <div class="header-actions">
+        <svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      </div>
+    </div>
+  </header>
+
+  <section class="collection-hero">
+    <div class="container">
+      <h1>Bathroom</h1>
+      <p>Say goodbye to bleach and hello to brilliance. Foaming, plant-based, allergy-friendly bathroom care.</p>
+    </div>
+  </section>
+
+  <section class="collection-layout">
+    <div class="container">
+
+      <!-- Entry Point #4 — Bathroom routine banner -->
+      <button class="routine-banner" data-trigger="bathroom-routine">
+        <div class="routine-banner__left">
+          <div class="routine-banner__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+          </div>
+          <div>
+            <h2 class="routine-banner__title">Find my bathroom routine</h2>
+            <p class="routine-banner__sub">Soap scum, mould, daily clean? Tell me 3 things, I'll match you to the right kit.</p>
+          </div>
+        </div>
+        <span class="routine-banner__cta">Start →</span>
+      </button>
+
+      <div class="product-grid" id="bathroom-grid"></div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="site-footer__grid">
+        <div>
+          <h4 style="font-family:var(--koh-font-display);font-size:22px;letter-spacing:-0.02em;text-transform:none;font-weight:700;">koh.</h4>
+          <p>Plant-based cleaning concentrates. Designed in Australia, refillable forever, dermatologist approved.</p>
+        </div>
+        <div><h4>Shop</h4><ul><li><a href="pdp-universal-cleaner.html">Universal</a></li><li><a href="collection-bathroom.html">Bathroom</a></li><li><a href="#">Laundry</a></li><li><a href="#">Loo</a></li></ul></div>
+        <div><h4>Help</h4><ul><li><a href="#">Contact</a></li><li><a href="#">Shipping</a></li><li><a href="#">Returns</a></li></ul></div>
+        <div><h4>Company</h4><ul><li><a href="#">Our story</a></li><li><a href="#">Sustainability</a></li></ul></div>
+        <div><h4>Region</h4><ul><li><a href="#">AU</a></li><li><a href="#">NZ</a></li><li><a href="#">UK</a></li></ul></div>
+      </div>
+      <div class="site-footer__bottom">© Koh. 100% clean. 0% crap. · Prototype for Shopping Triggers research.</div>
+    </div>
+  </footer>
+
+  <script src="assets/data.js"></script>
+  <script src="assets/chat.js"></script>
+  <script>
+    (function () {
+      const D = window.KOH_DATA;
+      function renderCard(key) {
+        const p = D.products[key];
+        if (!p) return '';
+        return `
+          <a class="product-card" href="#">
+            <div class="product-card__media"><img src="${p.image}" alt="${p.title}"/></div>
+            <div class="product-card__body">
+              <p class="product-card__type">${p.product_type}</p>
+              <h3 class="product-card__title">${p.title}</h3>
+              <p class="product-card__variants">${(p.blurb || '').slice(0, 70)}${(p.blurb || '').length > 70 ? '…' : ''}</p>
+              <p class="product-card__price">$${p.price}</p>
+            </div>
+          </a>`;
+      }
+      const order = ['bathroom_starter', 'bathroom_cleaner', 'bathroom_core', 'foaming_bottle', 'ultra_mitt', 'squeegee', 'glass_cloths', 'grout_brush', 'loo_blade_white', 'loo_tabs', 'bathroom_refill', 'scrubby_pads'];
+      document.getElementById('bathroom-grid').innerHTML = order.map(renderCard).join('');
+    })();
+  </script>
+</body>
+</html>
