@@ -11,58 +11,43 @@
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-  /* Approximation of Gorgias axiom tokens */
   --surface-page: #f7f7f5;
   --surface-card: #ffffff;
-  --surface-muted: #f1f1ee;
-  --border-default: #e5e5e0;
-  --border-strong: #d4d4ce;
-  --border-accent: #1a1a1a;
+  --border-default: #ececea;
+  --border-strong: #d8d8d2;
 
   --content-default: #1a1a1a;
   --content-secondary: #6b6b66;
   --content-faint: #9b9b95;
-  --content-accent: #1a1a1a;
 
-  --accent-blue: #2563eb;
-  --accent-blue-soft: #eff5ff;
-  --recommend-bg: #ecfdf5;
-  --recommend-fg: #047857;
+  --primary: #0075FF;
+  --primary-soft: #f6faff;
 
   --radius-card: 12px;
-  --radius-input: 8px;
-
-  --shadow-card: 0 1px 2px rgba(20,20,20,0.04), 0 1px 1px rgba(20,20,20,0.03);
 }
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
   color: var(--content-default);
   background: var(--surface-page);
-  line-height: 1.55;
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  font-size: 14px;
 }
 
 .layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 360px;
-  gap: 40px;
-  max-width: 1240px;
+  max-width: 880px;
   margin: 0 auto;
-  padding: 32px 32px 96px;
+  padding: 32px 24px 96px;
 }
 
-/* ── Breadcrumb / page header ── */
-.page-header {
-  margin-bottom: 24px;
-}
+/* ── Page header ── */
 .breadcrumb {
   font-size: 12px; color: var(--content-secondary);
   display: flex; align-items: center; gap: 6px;
   margin-bottom: 12px;
 }
 .breadcrumb a { color: var(--content-secondary); text-decoration: none; }
-.breadcrumb a:hover { color: var(--content-default); }
 .breadcrumb .sep { color: var(--content-faint); }
 .page-title {
   font-size: 22px; font-weight: 600; letter-spacing: -0.2px;
@@ -72,168 +57,86 @@ body {
   font-size: 13px; color: var(--content-secondary);
 }
 
-/* ── Tab bar ── */
 .tabs {
   display: flex; gap: 24px;
   border-bottom: 1px solid var(--border-default);
-  margin-bottom: 28px;
+  margin: 24px 0 28px;
 }
 .tab {
   font-size: 13px; font-weight: 500; color: var(--content-secondary);
-  padding: 12px 0; border-bottom: 2px solid transparent;
-  cursor: default;
+  padding: 10px 0; border-bottom: 2px solid transparent;
 }
-.tab.active { color: var(--content-default); border-bottom-color: var(--content-default); }
+.tab.active {
+  color: var(--content-default);
+  border-bottom-color: var(--content-default);
+}
 
-/* ── Cards stack ── */
-.cards { display: flex; flex-direction: column; gap: 16px; max-width: 720px; }
+/* ── Cards ── */
+.cards { display: flex; flex-direction: column; gap: 16px; }
 
 .card {
   background: var(--surface-card);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-card);
-  box-shadow: var(--shadow-card);
-  padding: 24px;
+  padding: 24px 28px;
 }
 
-.card-header {
-  display: flex; flex-direction: column; gap: 4px;
-  margin-bottom: 20px;
-}
 .card-title {
-  font-size: 16px; font-weight: 600;
+  font-size: 15px; font-weight: 600;
+  margin-bottom: 4px;
 }
 .card-desc {
   font-size: 13px; color: var(--content-secondary);
+  margin-bottom: 18px;
 }
 
-/* Stubbed cards (neighbors) */
-.card.stub { opacity: 0.55; }
-.card.stub .stub-line {
-  height: 8px; background: var(--surface-muted); border-radius: 4px;
-  margin-top: 8px;
-}
-.card.stub .stub-line.short { width: 50%; }
-.card.stub .stub-line.medium { width: 75%; }
-.card.stub .stub-toggle {
-  width: 36px; height: 20px; background: var(--surface-muted);
-  border-radius: 999px; flex-shrink: 0;
-}
-
-/* ── The new card ── */
-.card.highlight {
-  border: 1px solid var(--border-strong);
-  position: relative;
-}
-.card.highlight::before {
-  content: 'New';
-  position: absolute; top: -10px; left: 16px;
-  background: var(--content-default); color: #fff;
-  font-size: 10px; font-weight: 600; text-transform: uppercase;
-  letter-spacing: 0.06em; padding: 3px 8px; border-radius: 4px;
-}
-
-/* Radio group */
-.radio-group {
-  display: flex; flex-direction: column; gap: 10px;
+/* ── Radio list ── */
+.radio-list {
+  display: flex; flex-direction: column; gap: 14px;
 }
 .radio-row {
   display: grid;
   grid-template-columns: 18px 1fr;
   gap: 12px;
-  padding: 12px 14px;
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-input);
+  align-items: start;
   cursor: pointer;
-  transition: border-color 0.12s, background-color 0.12s;
-}
-.radio-row:hover {
-  border-color: var(--border-strong);
-  background: #fafaf8;
-}
-.radio-row.selected {
-  border-color: var(--content-default);
-  background: #fafaf8;
 }
 .radio-row input[type="radio"] {
   appearance: none; -webkit-appearance: none;
   width: 18px; height: 18px; border-radius: 999px;
-  border: 1.5px solid var(--border-strong);
+  border: 1.5px solid #c8c8c2;
   background: #fff;
-  margin-top: 2px;
+  margin-top: 1px;
   position: relative;
   cursor: pointer;
+  transition: border-color 0.12s;
 }
-.radio-row.selected input[type="radio"] {
-  border-color: var(--content-default);
+.radio-row input[type="radio"]:hover { border-color: #8a8a85; }
+.radio-row input[type="radio"]:checked {
+  border-color: var(--primary);
+  background: var(--primary);
+  border-width: 5px;
+  box-shadow: inset 0 0 0 2px #fff;
 }
-.radio-row.selected input[type="radio"]::after {
-  content: '';
-  position: absolute;
-  top: 50%; left: 50%; transform: translate(-50%, -50%);
-  width: 8px; height: 8px; border-radius: 999px;
-  background: var(--content-default);
+.radio-text {
+  font-size: 13px;
+  line-height: 1.5;
 }
-.radio-label-row {
-  display: flex; align-items: center; gap: 8px;
-  font-size: 14px; font-weight: 500;
-  margin-bottom: 2px;
+.radio-label {
+  font-weight: 600;
+  color: var(--content-default);
+  margin-bottom: 1px;
 }
 .radio-caption {
-  font-size: 13px; color: var(--content-secondary);
-}
-.recommend-badge {
-  font-size: 10px; font-weight: 600; text-transform: uppercase;
-  letter-spacing: 0.06em;
-  background: var(--recommend-bg); color: var(--recommend-fg);
-  padding: 2px 7px; border-radius: 4px;
+  color: var(--content-secondary);
 }
 
 .footnote {
-  font-size: 12px; color: var(--content-faint);
-  margin-top: 16px;
-  padding-top: 12px;
-  border-top: 1px solid var(--border-default);
+  font-size: 13px; color: var(--content-secondary);
+  margin-top: 18px;
 }
 
-/* ── Side panel ── */
-.side {
-  position: sticky; top: 32px; align-self: start;
-  background: var(--surface-card);
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-card);
-  padding: 20px;
-}
-.side h3 {
-  font-size: 11px; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 0.08em; color: var(--content-faint);
-  margin-bottom: 12px;
-}
-.side h4 {
-  font-size: 14px; font-weight: 600; margin: 16px 0 6px;
-}
-.side h4:first-of-type { margin-top: 0; }
-.side p {
-  font-size: 13px; color: var(--content-secondary); margin-bottom: 8px;
-}
-.side ul { padding-left: 18px; }
-.side li {
-  font-size: 13px; color: var(--content-secondary); margin-bottom: 4px;
-}
-.side .meta {
-  font-size: 11px; color: var(--content-faint);
-  padding-top: 12px; margin-top: 12px;
-  border-top: 1px solid var(--border-default);
-}
-.side a { color: var(--accent-blue); }
-
-/* ── Mobile ── */
-@media (max-width: 960px) {
-  .layout { grid-template-columns: 1fr; }
-  .side { position: static; }
-}
-
-/* ── Save bar (visual chrome) ── */
+/* ── Save bar ── */
 .save-bar {
   position: fixed; bottom: 0; left: 0; right: 0;
   background: var(--surface-card);
@@ -251,131 +154,111 @@ body {
   border: 1px solid var(--border-strong);
 }
 .btn-primary {
-  background: var(--content-default); color: #fff;
+  background: var(--primary); color: #fff;
 }
 
+/* ── Section divider label ── */
+.context-label {
+  font-size: 11px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--content-faint);
+  margin: 8px 0 8px 4px;
+}
+.context-label.new::after {
+  content: 'NEW';
+  background: var(--primary); color: #fff;
+  padding: 1px 6px; border-radius: 3px;
+  font-size: 9px; letter-spacing: 0.06em;
+  margin-left: 8px;
+}
 </style>
 </head>
 <body>
 
 <div class="layout">
-  <main>
-    <div class="page-header">
-      <div class="breadcrumb">
-        <a href="#">Settings</a><span class="sep">/</span>
-        <a href="#">Integrations</a><span class="sep">/</span>
-        <a href="#">Chat</a>
-      </div>
-      <h1 class="page-title">Chat</h1>
-      <div class="page-subtitle">Configure how AI Agent and your team handle conversations on Chat.</div>
-    </div>
 
-    <div class="tabs">
-      <div class="tab">Setup</div>
-      <div class="tab active">Preferences</div>
-      <div class="tab">Customization</div>
-      <div class="tab">Targeting</div>
-    </div>
+  <div class="breadcrumb">
+    <a href="#">Settings</a><span class="sep">/</span>
+    <a href="#">Integrations</a><span class="sep">/</span>
+    <a href="#">Chat</a>
+  </div>
+  <div class="page-title">Chat</div>
+  <div class="page-subtitle">Configure how AI Agent and your team handle conversations on Chat.</div>
 
-    <div class="cards">
+  <div class="tabs">
+    <div class="tab">Setup</div>
+    <div class="tab active">Preferences</div>
+    <div class="tab">Customization</div>
+    <div class="tab">Targeting</div>
+  </div>
 
-      <!-- Stubbed neighbor card -->
-      <div class="card stub">
-        <div style="display:flex; justify-content: space-between; align-items: flex-start;">
-          <div style="flex:1;">
-            <div class="card-title">Collect shopper emails</div>
-            <div class="stub-line short" style="margin-top:6px;"></div>
+  <div class="cards">
+
+    <!-- Existing card, recreated for context -->
+    <div class="context-label">Existing setting (for visual reference)</div>
+    <div class="card">
+      <div class="card-title">When to hand over by email</div>
+      <div class="card-desc">Choose when the AI Agent hands over by email. Otherwise, the conversation stays in chat for your team to pick up.</div>
+
+      <div class="radio-list">
+        <label class="radio-row">
+          <input type="radio" name="when-handover" value="outside-hours">
+          <div class="radio-text">
+            <div class="radio-label">Outside business hours only</div>
+            <div class="radio-caption">During business hours, conversations stay in chat. Outside business hours, the AI Agent hands over by email.</div>
           </div>
-          <div class="stub-toggle"></div>
-        </div>
+        </label>
+        <label class="radio-row">
+          <input type="radio" name="when-handover" value="no-agent">
+          <div class="radio-text">
+            <div class="radio-label">When no agent is live on chat</div>
+            <div class="radio-caption">If anyone from your team is online, the conversation stays in chat. If no one is online, the AI Agent hands over by email.</div>
+          </div>
+        </label>
+        <label class="radio-row">
+          <input type="radio" name="when-handover" value="always" checked>
+          <div class="radio-text">
+            <div class="radio-label">Always transfer to email</div>
+            <div class="radio-caption">Every handover goes to email, regardless of business hours or who's online.</div>
+          </div>
+        </label>
       </div>
 
-      <!-- The new card -->
-      <div class="card highlight">
-        <div class="card-header">
-          <div class="card-title">Handover to a human</div>
-          <div class="card-desc">Choose what happens when AI Agent decides to escalate a conversation to your team.</div>
-        </div>
-
-        <div class="radio-group" id="radio-group">
-          <label class="radio-row selected" data-value="ask">
-            <input type="radio" name="handover" value="ask" checked>
-            <div>
-              <div class="radio-label-row">
-                Ask the shopper to confirm
-                <span class="recommend-badge">Recommended</span>
-              </div>
-              <div class="radio-caption">AI Agent ends its reply with “Would you like to talk to a human?”. The shopper can confirm or keep chatting with AI Agent.</div>
-            </div>
-          </label>
-
-          <label class="radio-row" data-value="direct">
-            <input type="radio" name="handover" value="direct">
-            <div>
-              <div class="radio-label-row">Hand over directly</div>
-              <div class="radio-caption">AI Agent transfers the conversation to your team immediately, without asking the shopper.</div>
-            </div>
-          </label>
-        </div>
-
-        <div class="footnote">
-          AI Agent always hands over directly when the shopper explicitly asks for a human, or if AI Agent is unable to reply.
-        </div>
-      </div>
-
-      <!-- Stubbed neighbor card -->
-      <div class="card stub">
-        <div class="card-title">Shopper experience</div>
-        <div class="stub-line medium"></div>
-        <div class="stub-line short"></div>
-      </div>
-
+      <div class="footnote">The AI Agent always answers in chat. This setting only controls what happens when it hands over to your team.</div>
     </div>
-  </main>
 
-  <aside class="side">
-    <h3>Design notes</h3>
+    <!-- The new card -->
+    <div class="context-label new">New setting</div>
+    <div class="card">
+      <div class="card-title">Handover confirmation</div>
+      <div class="card-desc">Choose whether the AI Agent confirms with the shopper before handing over to your team.</div>
 
-    <h4>Why radio cards, not a toggle</h4>
-    <p>Both behaviors are first-class. A toggle hides what "off" means and forces merchants to learn it from a tooltip.</p>
+      <div class="radio-list">
+        <label class="radio-row">
+          <input type="radio" name="handover-confirmation" value="ask" checked>
+          <div class="radio-text">
+            <div class="radio-label">Ask the shopper to confirm</div>
+            <div class="radio-caption">The AI Agent ends its reply with “Would you like to talk to a human?”. The shopper can confirm or keep chatting with the AI Agent.</div>
+          </div>
+        </label>
+        <label class="radio-row">
+          <input type="radio" name="handover-confirmation" value="direct">
+          <div class="radio-text">
+            <div class="radio-label">Hand over directly</div>
+            <div class="radio-caption">The AI Agent transfers the conversation to your team immediately, without asking the shopper.</div>
+          </div>
+        </label>
+      </div>
 
-    <h4>Default for new accounts</h4>
-    <p><strong>Ask the shopper to confirm.</strong> This matches the new behavior shipping in M1/M2 and reduces the handover rate (~5% relative drop in early data).</p>
-
-    <h4>Default for existing accounts</h4>
-    <p>Already on the feature: keep <em>Ask</em>. Not yet on the feature: default to <em>Direct</em> (current behavior). Don't auto-opt-in, that caused the complaints.</p>
-
-    <h4>Always-direct exceptions</h4>
-    <ul>
-      <li>Shopper explicitly asked for a human</li>
-      <li>AI Agent can't reply (pipeline error / Reply Generation QA failed)</li>
-    </ul>
-    <p>Surfaced in the footnote so merchants don't file bugs about "I want a human" skipping the prompt.</p>
-
-    <h4>Storage</h4>
-    <p>Stored at <code style="font-size:12px;background:#f1f1ee;padding:1px 4px;border-radius:3px;">meta.preferences.handover_confirmation</code> as <code style="font-size:12px;background:#f1f1ee;padding:1px 4px;border-radius:3px;">'ask' | 'direct'</code>.</p>
-
-    <div class="meta">
-      <a href="https://www.notion.so/gorgias/Ask-for-shopper-confirmation-before-handing-over-on-Chat-2941ae2178f5806fa50ac6ed0fcd4c20" target="_blank">Spec on Notion</a><br>
-      Branch: <code>proto/handover-confirmation-setting</code>
+      <div class="footnote">The AI Agent always hands over directly when the shopper explicitly asks for a human, or if the AI Agent is unable to reply.</div>
     </div>
-  </aside>
+
+  </div>
 </div>
 
 <div class="save-bar">
   <button class="btn btn-secondary">Discard</button>
   <button class="btn btn-primary">Save changes</button>
 </div>
-
-<script>
-  document.querySelectorAll('.radio-row').forEach(row => {
-    row.addEventListener('click', () => {
-      document.querySelectorAll('.radio-row').forEach(r => r.classList.remove('selected'));
-      row.classList.add('selected');
-      row.querySelector('input[type="radio"]').checked = true;
-    });
-  });
-</script>
 
 </body>
 </html>
