@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Archies Footwear | The Original Arch Support Thong</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/chat.css" />
+</head>
+<body>
+
+  <div class="top-bar">FREE shipping on orders over <strong>$60</strong> · Free 60-day returns</div>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="site-header__logo" href="index.html">archies<span style="color:var(--koh-pink)">.</span></a>
+      <nav>
+        <ul class="nav">
+          <li><a href="pdp-flip-flop.html">Flip Flops</a></li>
+          <li><a href="pdp-slide.html">Slides</a></li>
+          <li><a href="#">Socks</a></li>
+          <li><a href="#">Shop All</a></li>
+          <li><a href="#">Our Story</a></li>
+        </ul>
+      </nav>
+      <div class="header-actions">
+        <svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO with Entry Point #1 — Find your perfect pair -->
+  <section class="hero">
+    <div class="hero__inner">
+      <div>
+        <p class="hero__eyebrow">Doctor recommended · Arch supported · Wear all day</p>
+        <h1 class="hero__title">The original<br/><em>arch support thong.</em></h1>
+        <p class="hero__subtitle">Comfort designed by a podiatrist. Worn by 1.5M+ feet across the world. Flip flops &amp; slides for everyday wear.</p>
+        <div class="hero__ctas">
+          <a class="btn" href="pdp-flip-flop.html">Shop flip flops</a>
+          <button class="trigger-pill" data-trigger="pair-finder" aria-label="Open Archies Fit Guide">
+            <span class="trigger-pill__sparkle"></span>
+            <svg class="trigger-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+            Find my perfect pair in 3 questions
+          </button>
+        </div>
+      </div>
+      <div class="hero__visual">
+        <img src="https://cdn.shopify.com/s/files/1/1993/4531/files/AR_Thong_Brown_09.jpg?v=1773718614" alt="Archies arch support flip flops in tan"/>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pillars -->
+  <section class="pillars">
+    <div class="container">
+      <div class="pillars__row">
+        <div class="pillar"><strong>Arch Support</strong><span>Doctor designed</span></div>
+        <div class="pillar"><strong>All-day Comfort</strong><span>Wear hours not minutes</span></div>
+        <div class="pillar"><strong>Free 60-day Returns</strong><span>Wrong size? No worries</span></div>
+        <div class="pillar"><strong>1.5M+ Pairs Sold</strong><span>Globally loved</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bestsellers -->
+  <section class="section">
+    <div class="container">
+      <div class="section__head">
+        <div>
+          <h2 class="section__title">Best sellers</h2>
+          <p class="section__sub">The everyday classics. Loved across Australia, the US, and the UK.</p>
+        </div>
+        <a class="section__link" href="#">Shop all →</a>
+      </div>
+      <div class="product-grid" id="bestsellers-grid"></div>
+    </div>
+  </section>
+
+  <!-- Women's Flip Flops -->
+  <section class="section section--cream">
+    <div class="container">
+      <div class="section__head">
+        <div>
+          <h2 class="section__title">Women's flip flops</h2>
+          <p class="section__sub">From Crystal pinks to everyday neutrals.</p>
+        </div>
+        <a class="section__link" href="#">Shop women's →</a>
+      </div>
+      <div class="product-grid" id="womens-grid"></div>
+    </div>
+  </section>
+
+  <!-- Mid-page band — secondary trigger -->
+  <section class="kit-band">
+    <div class="container">
+      <div class="kit-band__inner">
+        <div>
+          <p style="font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--koh-pink);font-weight:600;margin:0 0 10px;">Not sure which to pick?</p>
+          <h2>Flip flops or slides? We'll match you in 3 questions.</h2>
+          <p>Tell us where you'll wear them, your usual size, and we'll handle the rest. No emails, no commitment.</p>
+          <button class="kit-band__btn" data-trigger="pair-finder">Find my perfect pair →</button>
+        </div>
+        <div style="font-family:var(--koh-font-display);font-size:120px;font-weight:600;color:rgba(184,106,79,0.16);line-height:1;letter-spacing:-0.05em;font-style:italic;">archies.</div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="site-footer__grid">
+        <div>
+          <h4 style="font-family:var(--koh-font-display);font-size:22px;letter-spacing:-0.02em;text-transform:none;font-weight:700;">archies.</h4>
+          <p>The original arch support thong. Designed by a podiatrist in Geelong, Australia.</p>
+        </div>
+        <div>
+          <h4>Shop</h4>
+          <ul>
+            <li><a href="pdp-flip-flop.html">Flip Flops</a></li>
+            <li><a href="pdp-slide.html">Slides</a></li>
+            <li><a href="#">Socks</a></li>
+            <li><a href="#">Gift Cards</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Help</h4>
+          <ul>
+            <li><a href="#">Sizing Guide</a></li>
+            <li><a href="#">Returns</a></li>
+            <li><a href="#">Shipping</a></li>
+            <li><a href="#">FAQ</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#">Our Story</a></li>
+            <li><a href="#">Sustainability</a></li>
+            <li><a href="#">Wholesale</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Region</h4>
+          <ul>
+            <li><a href="#">United States</a></li>
+            <li><a href="#">Australia</a></li>
+            <li><a href="#">United Kingdom</a></li>
+            <li><a href="#">Europe</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="site-footer__bottom">© Archies Footwear · The original arch support thong. Prototype for Shopping Triggers research.</div>
+    </div>
+  </footer>
+
+  <script src="assets/data.js"></script>
+  <script src="assets/chat.js"></script>
+  <script>
+    (function () {
+      const D = window.AR_DATA;
+      function renderCard(key) {
+        const p = D.products[key];
+        if (!p) return '';
+        let link = '#';
+        if (p.product_type === 'Flip Flops') link = 'pdp-flip-flop.html';
+        else if (p.product_type === 'Slides') link = 'pdp-slide.html';
+        return `
+          <a class="product-card" href="${link}">
+            <div class="product-card__media"><img src="${p.image}" alt="${p.title}"/></div>
+            <div class="product-card__body">
+              <p class="product-card__type">${p.product_type}${p.line ? ' · ' + p.line : ''}</p>
+              <h3 class="product-card__title">${p.title}</h3>
+              <p class="product-card__variants">${(p.blurb || '').slice(0, 70)}${(p.blurb || '').length > 70 ? '…' : ''}</p>
+              <p class="product-card__price">$${p.price}</p>
+            </div>
+          </a>`;
+      }
+      document.getElementById('bestsellers-grid').innerHTML = D.grids.homepage_bestsellers.map(renderCard).join('');
+      document.getElementById('womens-grid').innerHTML = D.grids.womens_flip_flops.map(renderCard).join('');
+    })();
+  </script>
+</body>
+</html>
