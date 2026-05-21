@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ILIA Beauty | Skincare-infused clean makeup</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/chat.css" />
+</head>
+<body>
+
+  <div class="top-bar">Free shipping over <strong>$50</strong> · Free returns · Find your shade match in 3 questions</div>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="site-header__logo" href="index.html">ILIA</a>
+      <nav>
+        <ul class="nav">
+          <li><a href="collection-complexion.html">Complexion</a></li>
+          <li><a href="#">Eyes</a></li>
+          <li><a href="#">Lips</a></li>
+          <li><a href="#">Cheeks</a></li>
+          <li><a href="#">Skincare</a></li>
+          <li><a href="#">Sets</a></li>
+        </ul>
+      </nav>
+      <div class="header-actions">
+        <svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO with Entry Point #1 — Find my shade -->
+  <section class="hero" style="background: linear-gradient(180deg, #F4EFE7 0%, #E8DFD0 100%); color: var(--osea-ink);">
+    <div class="hero__inner">
+      <div>
+        <p class="hero__eyebrow" style="color: var(--osea-text-muted);">Clean Makeup · Skincare-infused · Since 2011</p>
+        <h1 class="hero__title" style="color: var(--osea-ink);">Your skin,<br/><em style="color: var(--osea-sand); font-style: italic;">only better.</em></h1>
+        <p class="hero__subtitle" style="color: var(--osea-text-muted);">Skincare-active makeup in 34 concealer shades and 30 foundation shades. Clean, performance-driven, made for every undertone.</p>
+        <div class="hero__ctas">
+          <a class="btn" href="collection-complexion.html" style="background: var(--osea-ink); color: #fff;">Shop Complexion</a>
+          <button class="trigger-pill" data-trigger="find-shade" aria-label="Find my shade">
+            <span class="trigger-pill__sparkle"></span>
+            <svg class="trigger-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+            Find my shade in 3 questions
+          </button>
+        </div>
+      </div>
+      <div class="hero__visual">
+        <img src="https://cdn.shopify.com/s/files/1/0560/0673/8000/files/Skyeppageimage_5450a883-1724-4b79-960c-26a3874d09fc.jpg?v=1710264" alt="ILIA Super Serum Skin Tint shade range" onerror="this.style.opacity='0.3'"/>
+      </div>
+    </div>
+  </section>
+
+  <!-- Brand pillars -->
+  <section class="pillars">
+    <div class="container">
+      <div class="pillars__row">
+        <div class="pillar"><strong>34 shades</strong><span>Skin Blur Concealer</span></div>
+        <div class="pillar"><strong>30 shades</strong><span>True Skin Foundation</span></div>
+        <div class="pillar"><strong>Clean Beauty</strong><span>No talc, parabens, mineral oil</span></div>
+        <div class="pillar"><strong>1% for the Planet</strong><span>Recycled packaging</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bestsellers -->
+  <section class="section">
+    <div class="container">
+      <div class="section__head">
+        <div>
+          <h2 class="section__title">Bestsellers</h2>
+          <p class="section__sub">The ILIA classics. Loved by editors, makeup artists, and 1M+ shoppers.</p>
+        </div>
+        <a class="section__link" href="collection-complexion.html">Shop all →</a>
+      </div>
+      <div class="product-grid" id="bestsellers-grid"></div>
+    </div>
+  </section>
+
+  <!-- Mid-page band — secondary trigger -->
+  <section class="kit-band">
+    <div class="container">
+      <div class="kit-band__inner">
+        <div>
+          <p style="font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--osea-sand);font-weight:600;margin:0 0 10px;">New to ILIA?</p>
+          <h2>We'll build your starter routine in 3 questions.</h2>
+          <p>Tell us your look, your skin, and what matters most. We'll match you to 3 products that work together. No emails, no commitment.</p>
+          <button class="kit-band__btn" data-trigger="routine-builder">Build my routine →</button>
+        </div>
+        <div style="font-family:var(--osea-font-display);font-size:140px;font-weight:400;color:rgba(217,168,146,0.18);line-height:1;letter-spacing:0.04em;font-style:italic;">ilia</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Complexion grid -->
+  <section class="section section--cream">
+    <div class="container">
+      <div class="section__head">
+        <div>
+          <h2 class="section__title">Complexion heroes</h2>
+          <p class="section__sub">Pick the formula that fits your day — sheer skin tint, buildable foundation, or skincare-infused concealer.</p>
+        </div>
+        <a class="section__link" href="collection-complexion.html">View all →</a>
+      </div>
+      <div class="product-grid" id="complexion-grid"></div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="site-footer__grid">
+        <div>
+          <h4 style="font-family:var(--osea-font-display);font-size:24px;letter-spacing:0.24em;text-transform:none;font-weight:600;color:var(--osea-ink);">ILIA</h4>
+          <p>Skincare-infused clean makeup. Founded in 2011, made in California. Cruelty-free, vegan, and committed to using safe, sustainable ingredients.</p>
+        </div>
+        <div>
+          <h4>Shop</h4>
+          <ul>
+            <li><a href="collection-complexion.html">Complexion</a></li>
+            <li><a href="#">Eyes</a></li>
+            <li><a href="#">Lips</a></li>
+            <li><a href="#">Skincare</a></li>
+            <li><a href="#">Sets</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Help</h4>
+          <ul>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Shipping</a></li>
+            <li><a href="#">Returns</a></li>
+            <li><a href="#">FAQ</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>About</h4>
+          <ul>
+            <li><a href="#">Our story</a></li>
+            <li><a href="#">Sustainability</a></li>
+            <li><a href="#">Press</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Region</h4>
+          <ul>
+            <li><a href="#">United States</a></li>
+            <li><a href="#">Canada</a></li>
+            <li><a href="#">Europe</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="site-footer__bottom">© ILIA Beauty · Laguna Beach, California · Prototype for Shopping Triggers research.</div>
+    </div>
+  </footer>
+
+  <script src="assets/data.js"></script>
+  <script src="assets/chat.js"></script>
+  <script>
+    (function () {
+      const D = window.ILIA_DATA;
+
+      function renderCard(key) {
+        const p = D.products[key];
+        if (!p) return '';
+        let link = '#';
+        if (key === 'skin_blur_concealer') link = 'pdp-skin-blur-serum-concealer.html';
+        else if (key === 'true_skin_foundation' || key === 'skin_tint_spf40' || key === 'skin_rewind_stick') link = 'collection-complexion.html';
+        return `
+          <a class="product-card" href="${link}">
+            <div class="product-card__media"><img src="${p.image}" alt="${p.title}" onerror="this.style.opacity='0.2'"/></div>
+            <div class="product-card__body">
+              <p class="product-card__type">${p.product_type}</p>
+              <h3 class="product-card__title">${p.title}</h3>
+              <p class="product-card__variants">${(p.blurb || '').slice(0, 75)}${(p.blurb || '').length > 75 ? '…' : ''}</p>
+              <p class="product-card__price">$${p.price}</p>
+            </div>
+          </a>`;
+      }
+
+      document.getElementById('bestsellers-grid').innerHTML =
+        ['skin_tint_spf40', 'skin_blur_concealer', 'true_skin_foundation', 'multi_stick'].map(renderCard).join('');
+      document.getElementById('complexion-grid').innerHTML =
+        ['skin_tint_spf40', 'true_skin_foundation', 'skin_blur_concealer', 'skin_rewind_stick'].map(renderCard).join('');
+    })();
+  </script>
+</body>
+</html>

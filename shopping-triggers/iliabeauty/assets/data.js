@@ -1,0 +1,215 @@
+// ILIA Beauty — real catalog snapshot for Shopping Triggers prototype.
+// Pulled from iliabeauty.com Shopify storefront. Image URLs are live CDN.
+
+window.ILIA_DATA = {
+  products: {
+    // === Complexion (the shade-matching hero category) ===
+    skin_blur_concealer: {
+      handle: 'hydrating-skin-blur-serum-concealer',
+      title: 'Skin Blur Serum Concealer',
+      product_type: 'Concealer',
+      price: '32',
+      image: 'https://cdn.shopify.com/s/files/1/0560/0673/8000/files/ILIA_SBSC_1N_TWILL_OPEN_WHITE.jpg?v=1771531742',
+      blurb: 'Buildable serum concealer in 34 shades. Hydrates while it covers.',
+      shades: ['Twill 1N', 'Gossamer 2C', 'Chambray 3W', 'Organza 4C', 'Satin 5N', 'Challis 6N', 'Damask 7W', 'Brocade 8N', 'Velvet 9C', 'Suede 10W', 'Tweed 11N', 'Linen 12C', 'Cashmere 13W', 'Voile 14N'],
+      shade_count: 34,
+    },
+    true_skin_foundation: {
+      handle: 'true-skin-serum-foundation-medium-coverage',
+      title: 'True Skin Serum Foundation',
+      product_type: 'Foundation',
+      price: '56',
+      image: 'https://cdn.shopify.com/s/files/1/0560/0673/8000/files/TSSF_Open_White_SF6-5_8c7ca77c-bb7a-4c1e-a731-09d29aec0eb1.jpg?v=1754026624',
+      blurb: 'Buildable medium-coverage liquid foundation. 30 shades. Skincare-infused.',
+      shades: ['Mindoro SF.25', 'Sable SF.5', 'Formentera SF1', 'Mallorca SF1.5', 'Cozumel SF1.75', 'Tavarua SF2', 'Wategos SF2.5', 'Bantayan SF3', 'Cocoa SF3.5'],
+      shade_count: 30,
+    },
+    skin_tint_spf40: {
+      handle: 'super-serum-skin-tint-spf-40-tinted-moisturizer',
+      title: 'Super Serum Skin Tint SPF 40',
+      product_type: 'Skin Tint',
+      price: '48',
+      image: 'https://cdn.shopify.com/s/files/1/0560/0673/8000/files/Skyeppageimage_5450a883-1724-4b79-960c-26a3874d09fc.jpg?v=1710264865',
+      blurb: 'Sheer-to-light coverage tinted moisturizer with mineral SPF 40. Bestseller.',
+      shades: ['Skye ST.5', 'Rendezvous ST1', 'Tulum ST2', 'Sombrio ST2.5', 'Balos ST3', 'Formosa ST4', 'Mallorca ST5', 'Hanalei ST6', 'Bantayan ST7'],
+      shade_count: 30,
+    },
+    skin_rewind_stick: {
+      handle: 'skin-rewind-complexion-stick-foundation-concealer',
+      title: 'Skin Rewind Complexion Stick',
+      product_type: 'Foundation Stick',
+      price: '50',
+      image: 'https://cdn.shopify.com/s/files/1/0560/0673/8000/files/ILIA_2024_COMPLEXION_STICK_5C_PINE_3201b3d8-db78-48d3-8fae-61fd37ecbaf5.jpg?v=1754023808',
+      blurb: 'A 2-in-1 foundation + concealer stick. 42 shades. Buildable.',
+      shades: ['Hinoki 1N', 'Balsa 2C', 'Spruce 3W', 'Holly 4N', 'Pine 5C'],
+      shade_count: 42,
+    },
+
+    // === SPF ===
+    sun_serum_spf50: {
+      handle: 'sun-serum-mineral-sunscreen-spf-50',
+      title: 'Sun Serum Mineral Sunscreen SPF 50',
+      product_type: 'Sunscreen',
+      price: '40',
+      image: 'https://cdn.shopify.com/s/files/1/0560/0673/8000/files/ILIA_2026_SUN_SERUM_CLOSED_US_WHITE.jpg?v=1772221633',
+      blurb: 'Daily mineral SPF 50, weightless, no white cast on most tones. Pairs under makeup.',
+    },
+
+    // === Skincare prep ===
+    priming_serum: {
+      handle: 'true-skin-radiant-priming-serum',
+      title: 'True Skin Radiant Priming Serum',
+      product_type: 'Primer / Serum',
+      price: '52',
+      image: 'https://cdn.shopify.com/s/files/1/0560/0673/8000/files/Priming_Serum_B_resizedandbaseline_White_Background_4b7310da-75dc-4c71-944a-f43ef7b2c896.jpg?v=1754026434',
+      blurb: 'Primer + serum hybrid. Smooths and brightens before makeup.',
+    },
+    base_face_milk: {
+      handle: 'the-base-face-milk-essence-lightweight-moisturizer',
+      title: 'The Base Face Milk',
+      product_type: 'Moisturizer',
+      price: '58',
+      image: 'https://cdn.shopify.com/s/files/1/0560/0673/8000/files/ILIA_Face_Milk_Open_Seal_1200x1600_b95745b1-7c84-4cbd-8a95-a38b67eeb8ad.jpg?v=1754024021',
+      blurb: 'Lightweight hydrating milk. Layer under SPF or makeup.',
+    },
+    the_cleanse: {
+      handle: 'the-cleanse-ph-balanced-foaming-facial-cleanser',
+      title: 'The Cleanse Soft Foaming Cleanser',
+      product_type: 'Cleanser',
+      price: '32',
+      image: 'https://cdn.shopify.com/s/files/1/0560/0673/8000/files/ILIA_The_Cleanse_Open_White_1200x1600_c35fa173-4898-4d64-8650-5e7a53def2ed.jpg?v=1719853688',
+      blurb: 'pH-balanced gentle foaming cleanser. Removes makeup, doesn\'t strip.',
+    },
+    bright_start_eye: {
+      handle: 'bright-start-retinol-alternative-brightening-eye-cream',
+      title: 'Bright Start Eye Cream',
+      product_type: 'Eye Cream',
+      price: '46',
+      image: 'https://cdn.shopify.com/s/files/1/0560/0673/8000/files/IMG-3401.jpg?v=1754023555',
+      blurb: 'Retinol-alternative eye cream. Brightens, smooths.',
+    },
+
+    // === Cheek / Lip color ===
+    multi_stick: {
+      handle: 'multi-stick-cream-blush-stick-lip-cheek-tint',
+      title: 'Multi-Stick',
+      product_type: 'Lip & Cheek Tint',
+      price: '36',
+      image: 'https://cdn.shopify.com/s/files/1/0560/0673/8000/files/Multi-Stick_Open_Tenderly-White.jpg?v=1754026302',
+      blurb: '12 shades, cream stick for lips + cheeks. The most versatile single product.',
+      shade_count: 12,
+    },
+    blurring_blush: {
+      handle: 'soft-focus-blurring-powder-blush',
+      title: 'Soft Focus Blurring Blush',
+      product_type: 'Blush',
+      price: '36',
+      image: 'https://cdn.shopify.com/s/files/1/0560/0673/8000/files/ILIA_SFBB_Glimpse_Open.jpg?v=1754026716',
+      blurb: 'Soft-focus powder blush. 8 shades, blurred finish.',
+      shade_count: 8,
+    },
+    bronzer: {
+      handle: 'sunshift-cream-bronzer',
+      title: 'Sunshift Cream Bronzer',
+      product_type: 'Bronzer',
+      price: '40',
+      image: 'https://cdn.shopify.com/s/files/1/0560/0673/8000/files/ILIA_2024_SUNSHIFT_BRONZER_FULLY_OPEN_ECLIPSE_1200x1600_dbd9f6f5-e814-43d9-9db7-091aea6c351a.jpg?v=1754025247',
+      blurb: 'Cream bronzer in 4 shades. Sun-warmed, sheer.',
+      shade_count: 4,
+    },
+    highlighter: {
+      handle: 'lightshift-cream-highlighter-non-comedogenic',
+      title: 'Lightshift Cream Highlighter',
+      product_type: 'Highlighter',
+      price: '40',
+      image: 'https://cdn.shopify.com/s/files/1/0560/0673/8000/files/ILIA_2024_LIGHTSHIFT_HIGHLIGHTER_FULLY_OPEN_GLINT_1200x1600_e645263f-ab6b-4dc0-b068-d95c04f4288c.jpg?v=1754025483',
+      blurb: 'Buildable cream highlighter, glass-like glow.',
+    },
+
+    // === Lips ===
+    balmy_gloss: {
+      handle: 'balmy-gloss-hydrating-tinted-lip-oil',
+      title: 'Balmy Gloss Tinted Lip Oil',
+      product_type: 'Lip Oil',
+      price: '26',
+      image: 'https://cdn.shopify.com/s/files/1/0560/0673/8000/files/0017_Balmy_Gloss_Components-on-Smears_Blush_2.jpg?v=1754023369',
+      blurb: 'Tinted hydrating lip oil. 6 shades, comfortable shine.',
+    },
+    overglaze: {
+      handle: 'overglaze-hydrating-tinted-lip-gloss',
+      title: 'Overglaze Hydrating Lip Gloss',
+      product_type: 'Lip Gloss',
+      price: '26',
+      image: 'https://cdn.shopify.com/s/files/1/0560/0673/8000/files/ILIA_OVERGLAZE_LIPGLOSS_OPEN_PORCELAIN_WHITE.jpg?v=1766165397',
+      blurb: 'High-shine, plumping hydrating gloss. 12 shades.',
+    },
+    balmy_tint: {
+      handle: 'balmy-tint-hydrating-tinted-lip-balm',
+      title: 'Balmy Tint Hydrating Lip Balm',
+      product_type: 'Lip Balm',
+      price: '29',
+      image: 'https://cdn.shopify.com/s/files/1/0560/0673/8000/files/balmy-tint-faded-whiteBG.jpg?v=1723164906',
+      blurb: 'Hydrating tinted lip balm. 8 shades, sheer wash of color.',
+    },
+    lip_sketch: {
+      handle: 'lip-sketch-hydrating-crayon-lipstick-lip-liner',
+      title: 'Lip Sketch Hydrating Crayon',
+      product_type: 'Lip Crayon',
+      price: '27',
+      image: 'https://cdn.shopify.com/s/files/1/0560/0673/8000/files/CASE-STUDY_OPEN.jpg?v=1754025887',
+      blurb: '2-in-1 lip liner + lipstick crayon. 15 shades, hydrating.',
+    },
+
+    // === Eyes / Brows ===
+    eye_stylus: {
+      handle: 'eye-stylus-eyeshadow-stick',
+      title: 'Eye Stylus Shadow Stick',
+      product_type: 'Eyeshadow',
+      price: '33',
+      image: 'https://cdn.shopify.com/s/files/1/0560/0673/8000/files/ILIA_2023_Eye_Stylus_ArmSwatches_1200x1600_SHIMMER.jpg?v=1754025348',
+      blurb: 'Crease-proof shadow stick. 20 shades.',
+    },
+    brow_pencil: {
+      handle: 'in-full-micro-tip-eyebrow-pencil',
+      title: 'In Full Micro-Tip Brow Pencil',
+      product_type: 'Brow Pencil',
+      price: '26',
+      image: 'https://cdn.shopify.com/s/files/1/0560/0673/8000/files/ILIA_2023_BROW_PENCIL_OPEN_AUBURN_89e98255-dd03-4c76-9c02-44eac8ba4558.jpg?v=1722887383',
+      blurb: 'Ultra-fine brow pencil. 8 shades.',
+    },
+    limitless_lash: {
+      handle: 'limitless-lash-lengthening-mascara',
+      title: 'Limitless Lash Mascara',
+      product_type: 'Mascara',
+      price: '29',
+      image: 'https://cdn.shopify.com/s/files/1/0560/0673/8000/files/Frame_4.jpg?v=1773793088',
+      blurb: 'Lengthening mascara, no flaking, no smudging.',
+    },
+
+    // === Sets / Bundles ===
+    skin_tint_blur_duo: {
+      handle: 'the-skin-tint-blur-complexion-duo',
+      title: 'The Skin Tint + Blur Complexion Duo',
+      product_type: 'Duo',
+      price: '80',
+      image: 'https://cdn.shopify.com/s/files/1/0560/0673/8000/files/ILIA_2026_SSST_SBCS_SILO_PDP_Silo.jpg?v=1772221032',
+      blurb: 'Skin tint + concealer in your shade. Save 5%.',
+    },
+    protect_blur_duo: {
+      handle: 'the-protect-blur-duo',
+      title: 'The Protect + Blur Duo',
+      product_type: 'Duo',
+      price: '72',
+      image: 'https://cdn.shopify.com/s/files/1/0560/0673/8000/files/ILIA_2026_SunSerum_SBCS_PDP_Silo_White_2.jpg?v=1775488516',
+      blurb: 'Sunscreen + concealer pairing. SPF 50 + your shade.',
+    },
+    hero_set: {
+      handle: 'the-hero-set',
+      title: 'The Hero Set',
+      product_type: 'Bestsellers Set',
+      price: '171',
+      image: 'https://cdn.shopify.com/s/files/1/0560/0673/8000/files/ILIA_2024_APRIL_BUNDLE_BESTSELLERS_SILO.jpg?v=1764694267',
+      blurb: 'The 4 bestsellers, in your shades. Skin tint + concealer + mascara + lip oil.',
+    },
+  },
+};

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Skin Blur Serum Concealer | ILIA Beauty</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/chat.css" />
+  <style>
+    /* Shade grid (PDP-specific) */
+    .shade-grid {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      gap: 6px;
+      margin-bottom: 20px;
+    }
+    @media (max-width: 600px) {
+      .shade-grid { grid-template-columns: repeat(6, 1fr); }
+    }
+    .shade-chip {
+      aspect-ratio: 1;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: all 0.15s;
+      position: relative;
+    }
+    .shade-chip:hover {
+      transform: scale(1.08);
+      border-color: var(--osea-ink);
+    }
+    .shade-chip.is-active {
+      border-color: var(--osea-ink);
+      box-shadow: 0 0 0 2px #fff inset, 0 4px 12px rgba(0,0,0,0.16);
+    }
+    .shade-chip[title]::after {
+      content: attr(title);
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--osea-ink);
+      color: #fff;
+      font-size: 10px;
+      padding: 4px 8px;
+      border-radius: 3px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.15s;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+    }
+    .shade-chip:hover::after { opacity: 1; }
+    .shade-helper-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--osea-text-muted);
+      margin: 8px 0 12px;
+    }
+    .shade-helper-row a {
+      color: var(--osea-ink);
+      border-bottom: 1px solid var(--osea-ink);
+      font-weight: 600;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-bar">Free shipping over <strong>$50</strong> · Find your shade match in 3 questions</div>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="site-header__logo" href="index.html">ILIA</a>
+      <nav>
+        <ul class="nav">
+          <li><a href="collection-complexion.html" class="is-active">Complexion</a></li>
+          <li><a href="#">Eyes</a></li>
+          <li><a href="#">Lips</a></li>
+          <li><a href="#">Cheeks</a></li>
+          <li><a href="#">Skincare</a></li>
+          <li><a href="#">Sets</a></li>
+        </ul>
+      </nav>
+      <div class="header-actions">
+        <svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      </div>
+    </div>
+  </header>
+
+  <section class="pdp">
+    <div class="container">
+      <p class="pdp__breadcrumb"><a href="index.html">Home</a> · <a href="collection-complexion.html">Complexion</a> · Skin Blur Serum Concealer</p>
+      <div class="pdp__grid">
+        <div class="pdp__media">
+          <img src="https://cdn.shopify.com/s/files/1/0560/0673/8000/files/ILIA_SBSC_1N_TWILL_OPEN_WHITE.jpg?v=1771531742" alt="Skin Blur Serum Concealer" onerror="this.style.opacity='0.3'"/>
+        </div>
+        <div>
+          <h1 class="pdp__title">Skin Blur Serum Concealer</h1>
+          <p class="pdp__subtitle">Buildable serum concealer that brightens and covers without creasing. Skincare-active, in 34 shades.</p>
+          <div class="pdp__rating">
+            <span class="pdp__stars">★★★★★</span>
+            <span>4.6 · 3,142 reviews</span>
+          </div>
+          <div class="pdp__price">$32.00</div>
+
+          <!-- Entry point #2 — Cross-brand shade matcher (above shade grid, prominent) -->
+          <button class="compare-helper" data-trigger="cross-brand-shade">
+            <div class="compare-helper__txt">
+              Already wear NARS, Charlotte Tilbury, or Tower 28? Convert your shade.
+              <span>Tell me what you wear, I'll match it to ILIA in 3 questions.</span>
+            </div>
+            <span class="compare-helper__arrow">→</span>
+          </button>
+
+          <p class="pdp__section-label">Shade · <span style="color: var(--osea-text-dim); font-weight: 400; letter-spacing: 0; text-transform: none;">34 shades</span></p>
+          <div class="shade-grid">
+            <button class="shade-chip is-active" style="background:#F5DDC2;" title="Twill 1N"></button>
+            <button class="shade-chip" style="background:#F0CFAE;" title="Gossamer 2C"></button>
+            <button class="shade-chip" style="background:#EAC299;" title="Chambray 3W"></button>
+            <button class="shade-chip" style="background:#E2B689;" title="Organza 4C"></button>
+            <button class="shade-chip" style="background:#D7A57A;" title="Satin 5N"></button>
+            <button class="shade-chip" style="background:#C99368;" title="Challis 6N"></button>
+            <button class="shade-chip" style="background:#BC8459;" title="Damask 7W"></button>
+            <button class="shade-chip" style="background:#AD7349;" title="Brocade 8N"></button>
+            <button class="shade-chip" style="background:#9E633C;" title="Velvet 9C"></button>
+            <button class="shade-chip" style="background:#8E5532;" title="Suede 10W"></button>
+            <button class="shade-chip" style="background:#7E4828;" title="Tweed 11N"></button>
+            <button class="shade-chip" style="background:#6E3D21;" title="Linen 12C"></button>
+            <button class="shade-chip" style="background:#5C341B;" title="Cashmere 13W"></button>
+            <button class="shade-chip" style="background:#4C2A15;" title="Voile 14N"></button>
+            <button class="shade-chip" style="background:#3D2210;" title="Deeper shade"></button>
+            <button class="shade-chip" style="background:#2F1B0B;" title="Deepest shade"></button>
+          </div>
+
+          <div class="shade-helper-row">
+            <span>Hover over a shade for its name</span>
+            <a data-trigger="find-shade">Don't know your shade? Find it →</a>
+          </div>
+
+          <div class="pdp__atc">
+            <button class="btn btn--block" style="background: var(--osea-ink); color: #fff;">Add to bag · $32</button>
+          </div>
+
+          <!-- Entry point #3 — Complexion router (below ATC, lighter weight) -->
+          <button class="surface-helper" data-trigger="complexion-router">
+            <span class="surface-helper__icon" style="background: var(--osea-sand); color: #fff;">?</span>
+            <span class="surface-helper__txt">
+              <strong>Skin Tint, Foundation, or Concealer?</strong>
+              <span>Tell me your look. I'll point to the one product that fits.</span>
+            </span>
+            <span class="surface-helper__arrow">→</span>
+          </button>
+
+          <div class="pdp__features">
+            <h3>Why Skin Blur</h3>
+            <ul>
+              <li>Hyaluronic acid + niacinamide blur fine lines and hydrate</li>
+              <li>Sheer-buildable: 1 layer for tone, 2 for full coverage</li>
+              <li>34 shades across N (neutral), W (warm), C (cool) undertones</li>
+              <li>Vegan, fragrance-free, clean ingredients</li>
+              <li>Pairs over Skin Tint, under Foundation, or solo</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pdp__recs">
+    <div class="section__head">
+      <div>
+        <h2 class="section__title">Pair it with</h2>
+      </div>
+    </div>
+    <div class="product-grid" id="recs-grid"></div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="site-footer__grid">
+        <div>
+          <h4 style="font-family:var(--osea-font-display);font-size:24px;letter-spacing:0.24em;text-transform:none;font-weight:600;color:var(--osea-ink);">ILIA</h4>
+          <p>Skincare-infused clean makeup. Laguna Beach, California.</p>
+        </div>
+        <div>
+          <h4>Shop</h4>
+          <ul>
+            <li><a href="collection-complexion.html">Complexion</a></li>
+            <li><a href="#">Eyes</a></li>
+            <li><a href="#">Lips</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Help</h4>
+          <ul>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Returns</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="site-footer__bottom">© ILIA Beauty · Prototype for Shopping Triggers research.</div>
+    </div>
+  </footer>
+
+  <script src="assets/data.js"></script>
+  <script src="assets/chat.js"></script>
+  <script>
+    (function () {
+      const D = window.ILIA_DATA;
+      function renderCard(key) {
+        const p = D.products[key];
+        if (!p) return '';
+        return `
+          <a class="product-card" href="#">
+            <div class="product-card__media"><img src="${p.image}" alt="${p.title}" onerror="this.style.opacity='0.2'"/></div>
+            <div class="product-card__body">
+              <p class="product-card__type">${p.product_type}</p>
+              <h3 class="product-card__title">${p.title}</h3>
+              <p class="product-card__variants">${(p.blurb || '').slice(0, 70)}${(p.blurb || '').length > 70 ? '…' : ''}</p>
+              <p class="product-card__price">$${p.price}</p>
+            </div>
+          </a>`;
+      }
+      document.getElementById('recs-grid').innerHTML =
+        ['skin_tint_spf40', 'true_skin_foundation', 'skin_tint_blur_duo', 'priming_serum'].map(renderCard).join('');
+
+      // Shade chip toggle
+      document.querySelectorAll('.shade-chip').forEach(c => c.addEventListener('click', () => {
+        document.querySelectorAll('.shade-chip').forEach(x => x.classList.remove('is-active'));
+        c.classList.add('is-active');
+      }));
+    })();
+  </script>
+</body>
+</html>
