@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sticky Product Card · Variant Comparison</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Prototype chrome / dev control bar -->
+  <div class="proto-chrome" role="toolbar" aria-label="Prototype controls">
+    <div class="proto-chrome__inner">
+      <div class="proto-chrome__title">
+        <span class="proto-chrome__dot"></span>
+        Sticky Product Card
+      </div>
+
+      <div class="proto-chrome__segment" role="tablist" aria-label="Variant">
+        <button class="proto-seg is-active" data-variant="v1" role="tab" aria-selected="true">V1 Full</button>
+        <button class="proto-seg" data-variant="v2" role="tab" aria-selected="false">V2 Compact</button>
+        <button class="proto-seg" data-variant="v3" role="tab" aria-selected="false">V3 Carousel</button>
+      </div>
+
+      <div class="proto-chrome__actions">
+        <span class="proto-chrome__counter" id="step-counter">Step 0 / 7</span>
+        <button class="proto-btn proto-btn--ghost" id="reset-btn" aria-label="Reset conversation">Reset</button>
+        <button class="proto-btn proto-btn--primary" id="step-btn" aria-label="Advance to next step">Next step ›</button>
+      </div>
+    </div>
+    <div class="proto-chrome__debug" id="debug-badge">
+      <span class="debug-key">step</span>=<span id="dbg-step">0</span>
+      <span class="debug-sep">·</span>
+      <span class="debug-key">focused</span>=<span id="dbg-focused">null</span>
+      <span class="debug-sep">·</span>
+      <span class="debug-key">recent</span>=<span id="dbg-recent">[]</span>
+    </div>
+  </div>
+
+  <!-- Storefront backdrop -->
+  <div class="storefront" aria-hidden="false">
+
+    <header class="store-header">
+      <div class="store-header__inner">
+        <a class="store-logo" href="#">BIVOUAC<span>OUTFITTERS</span></a>
+        <nav class="store-nav">
+          <a href="#">Tents</a>
+          <a href="#">Sleep</a>
+          <a href="#">Cook</a>
+          <a href="#">Packs</a>
+          <a href="#">Sale</a>
+        </nav>
+        <div class="store-actions">
+          <button class="store-icon" aria-label="Search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </button>
+          <button class="store-icon" aria-label="Account">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </button>
+          <button class="store-cart" aria-label="Cart">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            <span id="cart-count">Cart (0)</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <section class="store-hero">
+      <div class="store-hero__inner">
+        <p class="store-hero__eyebrow">SPRING 2026 · NEW IN</p>
+        <h1 class="store-hero__title">Gear up for the trail.</h1>
+        <p class="store-hero__sub">Tents, packs, and sleep systems built for weekends out and weeks away. Free shipping over $99.</p>
+        <a href="#" class="store-hero__btn">Shop the collection</a>
+      </div>
+    </section>
+
+    <section class="store-collection">
+      <div class="store-collection__head">
+        <h2>Camping Essentials</h2>
+        <a href="#">View all 24 →</a>
+      </div>
+      <div class="store-grid" id="store-grid"></div>
+    </section>
+
+    <footer class="store-footer">
+      <span>© 2026 Bivouac Outfitters</span>
+      <span>Free returns within 30 days</span>
+    </footer>
+  </div>
+
+  <!-- Storefront toast (cart confirmation) -->
+  <div class="store-toast" id="store-toast" role="status" aria-live="polite"></div>
+
+  <!-- Chat widget (foreground) -->
+  <div class="chat-widget" id="chat-widget">
+
+    <header class="chat-header">
+      <div class="chat-header__brand">
+        <div class="chat-header__logo">B</div>
+        <div class="chat-header__meta">
+          <div class="chat-header__name">Bivouac Outfitters</div>
+          <div class="chat-header__status"><span class="status-dot"></span>Online · replies in seconds</div>
+        </div>
+      </div>
+      <button class="chat-header__close" aria-label="Close chat">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </header>
+
+    <!-- Sticky banner zone -->
+    <div class="sticky-banner-zone" id="banner-zone" aria-live="polite"></div>
+
+    <!-- Conversation area -->
+    <div class="chat-conversation" id="chat-conversation">
+      <div class="chat-conversation__inner" id="messages"></div>
+    </div>
+
+    <!-- Footer / input -->
+    <footer class="chat-footer">
+      <div class="chat-input" role="textbox" aria-disabled="true" aria-label="Message input (disabled in prototype)">
+        <span class="chat-input__placeholder">Message...</span>
+        <button class="chat-input__send" aria-label="Send" disabled>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="currentColor" stroke="none"/></svg>
+        </button>
+      </div>
+      <div class="chat-footer__legal">Powered by <strong>Gorgias</strong></div>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
