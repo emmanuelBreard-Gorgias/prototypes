@@ -470,11 +470,7 @@
   function clearBody() {
     document.getElementById('chat-body').innerHTML = '';
     const footer = document.querySelector('.chat-footer');
-    if (footer) {
-      footer.querySelector('.email-capture')?.remove();
-      const f = footer.querySelector('#chat-input-form');
-      if (f) f.style.display = '';
-    }
+    if (footer) footer.style.display = '';
   }
 
   function scroll() {
@@ -645,15 +641,14 @@
     scroll();
   }
 
-  // Email capture shown after results — replaces the footer input (Osea only for now)
+  // Email capture shown after results — floats in the conversation, footer hidden (Osea only for now)
   function addEmailCapture() {
     addAgentMsg("Your diagnostic is ready. To get your full routine plus how-to-layer tips sent to you, enter your email below.");
 
+    const body = document.getElementById('chat-body');
     const footer = document.querySelector('.chat-footer');
-    if (!footer) return;
-    const inputForm = footer.querySelector('#chat-input-form');
-    if (inputForm) inputForm.style.display = 'none';
-    footer.querySelector('.email-capture')?.remove();
+    if (footer) footer.style.display = 'none';
+    body.querySelector('.email-capture')?.remove();
 
     const wrap = document.createElement('div');
     wrap.className = 'email-capture';
@@ -668,17 +663,16 @@
       </form>
       <button type="button" class="email-capture__skip">Skip this step</button>
     `;
-    const legal = footer.querySelector('.chat-footer__legal');
-    footer.insertBefore(wrap, legal);
+    body.appendChild(wrap);
 
     const form = wrap.querySelector('.email-capture__form');
     const input = wrap.querySelector('.email-capture__input');
     const consent = wrap.querySelector('.email-capture__check');
     const skip = wrap.querySelector('.email-capture__skip');
 
-    const restoreInput = () => {
+    const restoreFooter = () => {
       wrap.remove();
-      if (inputForm) inputForm.style.display = '';
+      if (footer) footer.style.display = '';
     };
 
     input.addEventListener('input', () => input.classList.remove('is-error'));
@@ -692,7 +686,7 @@
         return;
       }
       const marketing = consent.checked;
-      restoreInput();
+      restoreFooter();
       addUserMsg(email);
       addTypingThen(() => {
         addAgentMsg(marketing
@@ -704,7 +698,7 @@
     });
 
     skip.addEventListener('click', () => {
-      restoreInput();
+      restoreFooter();
       addAgentMsg("No problem. Your recommendations are saved above.");
       setTimeout(addFollowup, 400);
     });
