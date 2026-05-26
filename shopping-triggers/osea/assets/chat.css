@@ -1126,6 +1126,83 @@ img { max-width: 100%; display: block; }
   line-height: 1.55;
 }
 
+/* Email capture (replaces the footer input after quiz results) */
+.email-capture {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 8px;
+  animation: msgIn 0.3s ease;
+}
+.email-capture__consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 11px;
+  line-height: 1.45;
+  color: var(--osea-text-muted);
+  cursor: pointer;
+}
+.email-capture__check {
+  width: 15px;
+  height: 15px;
+  margin: 1px 0 0;
+  accent-color: var(--osea-green);
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.email-capture__form {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  background: #fff;
+  border: 1px solid var(--osea-line);
+  border-radius: 999px;
+  padding: 4px 6px 4px 16px;
+  transition: border-color 0.15s;
+}
+.email-capture__form:has(.is-error) { border-color: #C0392B; }
+.email-capture__input {
+  flex: 1;
+  background: none;
+  border: none;
+  color: var(--osea-ink);
+  font-size: 14px;
+  padding: 8px 0;
+  outline: none;
+  font-family: inherit;
+}
+.email-capture__input::placeholder { color: var(--osea-text-dim); }
+.email-capture__input.is-error::placeholder { color: #C0392B; }
+.email-capture__send {
+  width: 36px;
+  height: 36px;
+  background: var(--osea-green);
+  border: none;
+  border-radius: 50%;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+.email-capture__send:hover { background: var(--osea-green-hover); }
+.email-capture__skip {
+  align-self: center;
+  background: none;
+  border: none;
+  color: var(--osea-text-muted);
+  font-size: 12px;
+  text-decoration: underline;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 2px;
+}
+.email-capture__skip:hover { color: var(--osea-green); }
+
 .chat-footer {
   border-top: 1px solid var(--osea-line);
   padding: 12px 14px;

@@ -469,6 +469,12 @@
 
   function clearBody() {
     document.getElementById('chat-body').innerHTML = '';
+    const footer = document.querySelector('.chat-footer');
+    if (footer) {
+      footer.querySelector('.email-capture')?.remove();
+      const f = footer.querySelector('#chat-input-form');
+      if (f) f.style.display = '';
+    }
   }
 
   function scroll() {
@@ -614,22 +620,97 @@
         body.appendChild(sum);
       }
 
-      const followup = document.createElement('div');
-      followup.style.paddingLeft = '38px';
-      followup.style.marginTop = '4px';
-      const startOver = document.createElement('button');
-      startOver.className = 'chip';
-      startOver.type = 'button';
-      startOver.textContent = 'Try a different question';
-      startOver.addEventListener('click', () => {
-        clearBody();
-        runFlow(currentFlowKey);
-      });
-      followup.appendChild(startOver);
-      body.appendChild(followup);
-
       scroll();
+
+      // Email capture, then the "try again" follow-up once it resolves
+      setTimeout(addEmailCapture, 500);
     }, 300);
+  }
+
+  function addFollowup() {
+    const body = document.getElementById('chat-body');
+    const followup = document.createElement('div');
+    followup.style.paddingLeft = '38px';
+    followup.style.marginTop = '4px';
+    const startOver = document.createElement('button');
+    startOver.className = 'chip';
+    startOver.type = 'button';
+    startOver.textContent = 'Try a different question';
+    startOver.addEventListener('click', () => {
+      clearBody();
+      runFlow(currentFlowKey);
+    });
+    followup.appendChild(startOver);
+    body.appendChild(followup);
+    scroll();
+  }
+
+  // Email capture shown after results — replaces the footer input (Osea only for now)
+  function addEmailCapture() {
+    addAgentMsg("Your diagnostic is ready. To get your full routine plus how-to-layer tips sent to you, enter your email below.");
+
+    const footer = document.querySelector('.chat-footer');
+    if (!footer) return;
+    const inputForm = footer.querySelector('#chat-input-form');
+    if (inputForm) inputForm.style.display = 'none';
+    footer.querySelector('.email-capture')?.remove();
+
+    const wrap = document.createElement('div');
+    wrap.className = 'email-capture';
+    wrap.innerHTML = `
+      <label class="email-capture__consent">
+        <input type="checkbox" class="email-capture__check" />
+        <span>By checking this box, you agree to receive communications from Osea.</span>
+      </label>
+      <form class="email-capture__form">
+        <input type="text" inputmode="email" class="email-capture__input" placeholder="Enter your email" autocomplete="email" />
+        <button type="submit" class="email-capture__send" aria-label="Send">→</button>
+      </form>
+      <button type="button" class="email-capture__skip">Skip this step</button>
+    `;
+    const legal = footer.querySelector('.chat-footer__legal');
+    footer.insertBefore(wrap, legal);
+
+    const form = wrap.querySelector('.email-capture__form');
+    const input = wrap.querySelector('.email-capture__input');
+    const consent = wrap.querySelector('.email-capture__check');
+    const skip = wrap.querySelector('.email-capture__skip');
+
+    const restoreInput = () => {
+      wrap.remove();
+      if (inputForm) inputForm.style.display = '';
+    };
+
+    input.addEventListener('input', () => input.classList.remove('is-error'));
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const email = input.value.trim();
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+        input.classList.add('is-error');
+        input.focus();
+        return;
+      }
+      const marketing = consent.checked;
+      restoreInput();
+      addUserMsg(email);
+      addTypingThen(() => {
+        addAgentMsg(marketing
+          ? `Done. Your routine and layering guide are on the way to ${email}. We'll also keep you posted on new drops.`
+          : `Done. Your routine is on the way to ${email}.`);
+        showToast('Results sent');
+        setTimeout(addFollowup, 400);
+      }, 500);
+    });
+
+    skip.addEventListener('click', () => {
+      restoreInput();
+      addAgentMsg("No problem. Your recommendations are saved above.");
+      setTimeout(addFollowup, 400);
+    });
+
+    input.focus();
+    scroll();
   }
 
   // === Flow runner ===
