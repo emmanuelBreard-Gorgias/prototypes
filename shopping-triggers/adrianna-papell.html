@@ -765,6 +765,89 @@ body {
 }
 .skip-btn.visible { display: inline-block; }
 .skip-btn:hover { color: var(--accent-red); border-color: var(--accent-red); }
+
+/* ===== Email Capture (after final recommendation) ===== */
+.email-capture {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-self: stretch;
+  animation: msg-fade-in 0.3s ease;
+}
+.email-capture__consent {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 0 2px;
+}
+.email-capture__check {
+  width: 13px;
+  height: 13px;
+  margin: 0;
+  accent-color: var(--charcoal);
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.email-capture__form {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  background: var(--white);
+  border: 1px solid var(--border-light);
+  border-radius: 24px;
+  padding: 4px 6px 4px 16px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.email-capture__form:focus-within {
+  border-color: var(--charcoal);
+  box-shadow: 0 2px 12px rgba(35,35,35,0.12);
+}
+.email-capture__form:has(.is-error) { border-color: var(--sale-red); }
+.email-capture__input {
+  flex: 1;
+  background: none;
+  border: none;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--charcoal);
+  padding: 8px 0;
+  outline: none;
+}
+.email-capture__input::placeholder { color: var(--text-secondary); }
+.email-capture__input.is-error::placeholder { color: var(--sale-red); }
+.email-capture__send {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  border-radius: 50%;
+  color: var(--charcoal);
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, color 0.2s;
+}
+.email-capture__send:hover { background: var(--bg-light); color: var(--accent-red); }
+.email-capture__skip {
+  align-self: center;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-family: var(--font-body);
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 2px;
+}
+.email-capture__skip:hover { color: var(--accent-red); }
 </style>
 </head>
 <body>
@@ -1052,7 +1135,8 @@ body {
     isOpen: false,
     currentSystemPrompt: '',
     isWaiting: false,
-    turnCount: 0
+    turnCount: 0,
+    emailCaptured: false
   };
 
   // ===== SYSTEM PROMPTS =====
@@ -1167,6 +1251,7 @@ REQUIRED FORMAT — include these tags at the END of every message:
   const chatClose = document.getElementById('chatClose');
   const quickRepliesEl = document.getElementById('quickReplies');
   const skipBtn = document.getElementById('skipBtn');
+  const chatInputArea = document.querySelector('.chat-input-area');
   const progressEl = document.getElementById('chatProgress');
   const progressFill = document.getElementById('progressFill');
   const progressLabel = document.getElementById('progressLabel');
@@ -1196,11 +1281,13 @@ REQUIRED FORMAT — include these tags at the END of every message:
     state.currentSystemPrompt = systemPrompts[ctaType];
     state.isWaiting = false;
     state.turnCount = 0;
+    state.emailCaptured = false;
     chatMessages.innerHTML = '';
     clearQuickReplies();
     progressEl.classList.remove('visible');
     progressFill.style.width = '0%';
     skipBtn.classList.remove('visible');
+    if (chatInputArea) chatInputArea.style.display = '';
 
     // Add system message to state
     state.messages.push({ role: 'system', content: state.currentSystemPrompt });
@@ -1353,6 +1440,98 @@ REQUIRED FORMAT — include these tags at the END of every message:
     state.isWaiting = !enabled;
   }
 
+  // ===== EMAIL CAPTURE =====
+
+  // Decide whether the assistant just delivered the final results.
+  // Primary signal: the LLM sets step === total on the recommendation turn
+  // (per the system-prompt contract). Fallback: the message contains product
+  // recommendations, which only appear at the final step.
+  function isResultsMoment(progress, content) {
+    const finalStep = progress
+      && typeof progress.step === 'number'
+      && typeof progress.total === 'number'
+      && progress.step >= progress.total;
+    const hasProducts = /\[PRODUCT\]/.test(content || '');
+    return Boolean(finalStep || hasProducts);
+  }
+
+  // Float the email capture into the conversation and hide the composer,
+  // matching the other Shopping Triggers prototypes.
+  function showEmailCapture() {
+    if (state.emailCaptured) return;
+    state.emailCaptured = true;
+    clearQuickReplies();
+    skipBtn.classList.remove('visible');
+    progressEl.classList.remove('visible');
+    if (chatInputArea) chatInputArea.style.display = 'none';
+
+    const lead = document.createElement('div');
+    lead.className = 'chat-msg chat-msg--assistant';
+    lead.innerHTML = '<span>Want your edit saved? Drop your email and we’ll send your dress picks plus a quick fit guide.</span>';
+    chatMessages.appendChild(lead);
+
+    const wrap = document.createElement('div');
+    wrap.className = 'email-capture';
+    wrap.innerHTML = `
+      <label class="email-capture__consent">
+        <input type="checkbox" class="email-capture__check" />
+        <span>By checking this box, you agree to receive communications from Adrianna Papell.</span>
+      </label>
+      <form class="email-capture__form">
+        <input type="text" inputmode="email" class="email-capture__input" placeholder="Enter your email" autocomplete="email" />
+        <button type="submit" class="email-capture__send" aria-label="Send">&rarr;</button>
+      </form>
+      <button type="button" class="email-capture__skip">Skip this step</button>
+    `;
+    chatMessages.appendChild(wrap);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+    const form = wrap.querySelector('.email-capture__form');
+    const input = wrap.querySelector('.email-capture__input');
+    const consent = wrap.querySelector('.email-capture__check');
+    const skip = wrap.querySelector('.email-capture__skip');
+
+    const restoreComposer = () => {
+      wrap.remove();
+      if (chatInputArea) chatInputArea.style.display = '';
+      setInputEnabled(true);
+      setTimeout(() => chatInput.focus(), 200);
+    };
+
+    const addNote = msg => {
+      const note = document.createElement('div');
+      note.className = 'chat-msg chat-msg--assistant';
+      note.innerHTML = '<span>' + msg + '</span>';
+      chatMessages.appendChild(note);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    };
+
+    input.addEventListener('input', () => input.classList.remove('is-error'));
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const email = input.value.trim();
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+        input.classList.add('is-error');
+        input.focus();
+        return;
+      }
+      const marketing = consent.checked;
+      restoreComposer();
+      appendMessage('user', email);
+      addNote(marketing
+        ? 'Done. Your dress edit is on the way to ' + escapeHtml(email) + '. We’ll also send styling tips and early access to new arrivals.'
+        : 'Done. Your dress edit is on the way to ' + escapeHtml(email) + '.');
+    });
+
+    skip.addEventListener('click', () => {
+      restoreComposer();
+      addNote('No problem — your picks are saved above. Anything else I can help with?');
+    });
+
+    setTimeout(() => input.focus(), 200);
+  }
+
   async function sendMessage() {
     const text = chatInput.value.trim();
     if (!text || state.isWaiting) return;
@@ -1437,6 +1616,11 @@ REQUIRED FORMAT — include these tags at the END of every message:
 
       state.messages.push({ role: 'assistant', content: fullContent });
       state.turnCount++;
+
+      // Trigger email capture once, when the results have been delivered
+      if (!state.emailCaptured && isResultsMoment(progress, fullContent)) {
+        setTimeout(showEmailCapture, 450);
+      }
 
     } catch (err) {
       hideTyping();
