@@ -439,7 +439,6 @@
           <input type="text" placeholder="Type a message…" autocomplete="off" />
           <button type="submit" aria-label="Send">→</button>
         </form>
-        <p class="chat-footer__legal">Powered by Osea · Seaweed-powered skincare</p>
       </div>
     `;
     document.body.appendChild(overlay);
