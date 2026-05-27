@@ -13,7 +13,9 @@ export default async function handler(req) {
     return new Response('Method not allowed', { status: 405 });
   }
 
-  const key = process.env.OPENAI_API_KEY;
+  // Trim: a key pasted into the env with a trailing newline/space produces an
+  // "Invalid header value" when used in the Authorization header.
+  const key = (process.env.OPENAI_API_KEY || '').trim();
   if (!key) {
     return new Response(
       JSON.stringify({ error: 'OPENAI_API_KEY is not set on the server.' }),
