@@ -521,13 +521,40 @@ body {
 .rv-aspect-name { font-size: 12px; font-weight: 600; min-width: 78px; display: flex; align-items: center; gap: 6px; }
 .rv-aspect-text { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
 .rv-aspect-text .caveat { color: #a33; }
+
+/* ──────────────────────────── */
+/* V12: Subtle — tiny rating, full summary folded */
+/* ──────────────────────────── */
+.rv-subtle { margin-top: 12px; }
+.rv-subtle-toggle {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  width: 100%; background: none; border: none; padding: 0;
+  font-family: inherit; text-align: left; cursor: pointer;
+}
+.rv-mini-rating { display: inline-flex; align-items: center; gap: 6px; }
+.rv-mini-rating .stars .s { font-size: 11px; }
+.rv-mini-meta { font-size: 11.5px; color: var(--text-muted); font-weight: 500; }
+.rv-subtle-trigger {
+  display: inline-flex; align-items: center; gap: 5px; flex: none;
+  font-size: 11.5px; font-weight: 500; color: var(--text-muted);
+}
+.rv-subtle-trigger .sparkle { font-size: 11px; }
+.rv-subtle-trigger .chev { font-size: 11px; line-height: 1; transition: transform 0.15s ease; }
+.rv-subtle-toggle.open .chev { transform: rotate(180deg); }
+.rv-subtle-content {
+  max-height: 0; overflow: hidden; margin-top: 0;
+  transition: max-height 0.28s ease, margin-top 0.28s ease;
+}
+.rv-subtle-content.open { max-height: 460px; margin-top: 10px; }
+.rv-subtle-content .rv-headline { margin-top: 0; font-size: 12.5px; }
+.rv-subtle-aspects { margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--border); }
 </style>
 </head>
 <body>
 
 <header class="page-header">
   <h1>In-chat PDP — Review Summary Placements</h1>
-  <p>Two shortlisted ways to surface an <strong>AI-generated review summary</strong> on the in-chat PDP: <strong>V3</strong> (dedicated summary block above the subscribe options) and <strong>V10</strong> (headline with click-to-expand per-topic detail, no sentiment color). Each shows the rating signal (stars, number, count) and a short text summary of what reviewers are saying. No "See all" CTA. Both render the full PDP including left-aligned quick-reply pills to show how components compete for attention.</p>
+  <p>Three ways to surface an <strong>AI-generated review summary</strong> on the in-chat PDP, ordered by how much they assert themselves: <strong>V3</strong> (dedicated summary block above the subscribe options), <strong>V10</strong> (headline always visible, per-topic detail one click away), and <strong>V12</strong> (most subtle: a small rating line with the entire summary, headline and topics, folded behind one toggle). All show the rating signal and a short text summary of what reviewers are saying. No "See all" CTA. Each renders the full PDP including left-aligned quick-reply pills to show how components compete for attention.</p>
   <div class="legend">
     <span><strong>Product:</strong> Seabiotic® Water Cream · $54 · 4.7 (128 reviews)</span>
     <span><strong>Widget width:</strong> 360px</span>
@@ -662,6 +689,67 @@ body {
     </div>
   </article>
 
+  <!-- V12: Subtle — tiny rating, full summary folded -->
+  <article class="variant">
+    <header class="variant-header">
+      <span class="variant-tag">Variant 12</span>
+      <div class="variant-title">Subtle — minimal rating, full summary folded</div>
+      <div class="variant-desc">Compact rating line (small stars + count) with one discreet toggle. The entire summary, headline and per-topic detail, stays folded until the shopper opts in. Nothing reads as a review block at a glance.</div>
+    </header>
+
+    <div class="pdp">
+      <div class="pdp-close">×</div>
+      <div class="pdp-image-wrap">
+        <div class="pdp-image"><span class="pdp-image-label">OSEA</span></div>
+        <div class="pdp-next">›</div>
+      </div>
+      <div class="pdp-body">
+        <div class="pdp-title-row">
+          <div class="pdp-title">Seabiotic® Water Cream</div>
+          <div class="pdp-price">$54.00</div>
+        </div>
+        <div class="rv-subtle">
+          <button class="rv-subtle-toggle" data-target="v12-summary">
+            <span class="rv-mini-rating">
+              <span class="stars"><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s empty">★</span></span>
+              <span class="rv-mini-meta">4.7 · 128 reviews</span>
+            </span>
+            <span class="rv-subtle-trigger"><span class="sparkle">✨</span><span class="label">What reviewers say</span><span class="chev">⌄</span></span>
+          </button>
+          <div class="rv-subtle-content" id="v12-summary">
+            <div class="rv-headline">Most reviewers love the deep hydration and lightweight feel; a few find the jar small for the price.</div>
+            <div class="rv-subtle-aspects">
+              <div class="rv-aspect-row"><div class="rv-aspect-name">Hydration</div><div class="rv-aspect-text">Deep, long-lasting hydration; skin feels plump and quenched.</div></div>
+              <div class="rv-aspect-row"><div class="rv-aspect-name">Feel</div><div class="rv-aspect-text">Lightweight and non-greasy, absorbs quickly.</div></div>
+              <div class="rv-aspect-row"><div class="rv-aspect-name">Results</div><div class="rv-aspect-text">Many report calmer, less reactive skin within a week.</div></div>
+              <div class="rv-aspect-row"><div class="rv-aspect-name">Value</div><div class="rv-aspect-text">Generally seen as worth it, though a few feel the jar is small for the price.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="pdp-options">
+          <div class="pdp-option selected"><span class="pdp-radio"></span>One-time purchase</div>
+          <div class="pdp-option"><span class="pdp-radio"></span>Subscribe and save</div>
+        </div>
+        <div class="pdp-desc"><span class="pdp-desc-text">Next-wave hydration. Our nutrient-rich water cream delivers 72+ hours of clinically proven, deep hydration to thirsty skin exposed to pollution and environmental stress. Formulated with 6 species of algae for antioxidant-rich defense, visibly plumper skin, and a smoothed complexion. Free from parabens, sulfates, and synthetic fragrance.</span><button class="read-more-btn">Read more</button></div>
+        <div class="pdp-quick-replies">
+          <button class="pdp-quick-reply">Is this water cream suitable for sensitive skin?</button>
+          <button class="pdp-quick-reply">How long does the hydration last?</button>
+          <button class="pdp-quick-reply">What is a water cream?</button>
+        </div>
+      </div>
+      <div class="pdp-footer">
+        <div class="qty-stepper"><button>−</button><span class="qty-val">1</span><button>+</button></div>
+        <button class="pdp-cta">Add to cart</button>
+      </div>
+    </div>
+
+    <div class="variant-note">
+      <span class="pro">Lowest visual footprint. Rating stays glanceable, but the summary never competes with price or options until requested.</span>
+      <span class="con">Summary is fully hidden by default; most shoppers won't expand it, so the differentiator is invisible at a glance.</span>
+      <span class="note">Click the rating row to expand the headline + topics.</span>
+    </div>
+  </article>
+
 </section>
 
 <section class="rec">
@@ -669,6 +757,7 @@ body {
   <ul>
     <li><strong>Placement: V3 (block above options).</strong> Review summary is the clearest differentiator SA can offer over a Shopify-native PDP — putting it above the fold honors that. The dedicated block gives the text summary visual authority and doesn't blend into the product description.</li>
     <li><strong>Content depth: V10 (headline + click to expand aspects, no color).</strong> The headline keeps momentum for scanners, and neutral per-topic detail stays one tap away, off the card face, with no colored dots that could read as a caution flag on the merchant's product. Always pass the full aspect structure to SA so it answers per-aspect questions in conversation.</li>
+    <li><strong>Most subtle: V12 (tiny rating, full summary folded).</strong> For merchants who want the lightest footprint, or as the low-disclosure arm of an A/B test. Trade-off: the summary is invisible until a shopper expands it, so we lose the at-a-glance differentiator. Worth testing whether the smaller signal still lifts conversion or just disappears.</li>
     <li><strong>Open:</strong> how long should the summary be? Current draft is 2–3 sentences (~30 words). Anything longer hurts PDP density. Anything shorter loses the "texture" that makes it useful.</li>
     <li><strong>Open:</strong> how is the summary generated and refreshed? Live at PDP open, cached per product, nightly batch? Latency target &lt;500ms for PDP open.</li>
   </ul>
@@ -722,6 +811,15 @@ document.querySelectorAll('.rv-aspect-toggle').forEach(btn => {
     const isOpen = btn.classList.toggle('open');
     target.classList.toggle('open', isOpen);
     btn.querySelector('.label').textContent = isOpen ? 'Hide details' : 'See details';
+  });
+});
+
+document.querySelectorAll('.rv-subtle-toggle').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = document.getElementById(btn.dataset.target);
+    const isOpen = btn.classList.toggle('open');
+    target.classList.toggle('open', isOpen);
+    btn.querySelector('.rv-subtle-trigger .label').textContent = isOpen ? 'Hide' : 'What reviewers say';
   });
 });
 </script>
