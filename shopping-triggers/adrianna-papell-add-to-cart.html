@@ -4,104 +4,59 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Add-to-Cart Cross-Sell Nudge - Adrianna Papell</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
+  /* Storefront brand */
   --charcoal: #232323;
   --accent-red: #9d0000;
   --sale-red: #e9514b;
   --gold: #d4a853;
   --white: #ffffff;
   --bg-light: #fafafa;
-  --bg-lighter: #f8f8f8;
   --border: #cbcbcb;
   --border-light: #e8e8e8;
   --text-secondary: #969696;
   --font-heading: 'Playfair Display', Georgia, serif;
   --font-body: 'Poppins', Helvetica, Arial, sans-serif;
-  --panel-w: 420px;
+
+  /* Gorgias widget (themed to AP). mainColor = merchant brand colour */
+  --gw-main: #9d0000;
+  --gw-font: 'Inter', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  --gw-agent-bg: #F4F5F7;
+  --gw-agent-text: #424242;
+  --gw-neutral10: #1D365C;
+  --gw-neutral8: #556885;
+  --gw-neutral4: #D2D7DE;
 }
 
-body {
-  font-family: var(--font-body);
-  color: var(--charcoal);
-  background: var(--white);
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-}
+body { font-family: var(--font-body); color: var(--charcoal); background: var(--white); line-height: 1.6; -webkit-font-smoothing: antialiased; }
 
 /* ===== ANNOTATION BAR ===== */
-.annotation-bar {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 1000;
-  background: var(--charcoal);
-  color: var(--white);
-  padding: 10px 24px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  font-size: 13px;
-}
+.annotation-bar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: var(--charcoal); color: var(--white); padding: 10px 24px; display: flex; align-items: center; gap: 16px; font-size: 13px; }
 .annotation-bar strong { font-weight: 600; white-space: nowrap; }
 .annotation-bar span { color: var(--text-secondary); font-size: 12px; }
-.annotation-bar .pill {
-  margin-left: auto;
-  background: rgba(255,255,255,0.1);
-  color: rgba(255,255,255,0.85);
-  font-size: 11px;
-  padding: 3px 10px;
-  border-radius: 20px;
-  white-space: nowrap;
-}
+.annotation-bar .pill { margin-left: auto; background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.85); font-size: 11px; padding: 3px 10px; border-radius: 20px; white-space: nowrap; }
 
-/* Storefront gets right padding so the docked chat never covers it */
-.main-content { padding-top: 52px; padding-right: var(--panel-w); }
+.main-content { padding-top: 52px; }
 
-/* ===== AP HEADER ===== */
-.ap-header {
-  border-bottom: 1px solid var(--border-light);
-  padding: 20px 0 0;
-  text-align: center;
-  position: relative;
-}
-.ap-logo {
-  font-family: var(--font-heading);
-  font-size: 28px;
-  font-weight: 400;
-  letter-spacing: 6px;
-  text-transform: uppercase;
-  margin-bottom: 16px;
-}
+/* ===== AP STOREFRONT ===== */
+.ap-header { border-bottom: 1px solid var(--border-light); padding: 20px 0 0; text-align: center; position: relative; }
+.ap-logo { font-family: var(--font-heading); font-size: 28px; font-weight: 400; letter-spacing: 6px; text-transform: uppercase; margin-bottom: 16px; }
 .ap-nav { display: flex; justify-content: center; gap: 32px; padding-bottom: 14px; }
-.ap-nav a {
-  font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px;
-  color: var(--charcoal); text-decoration: none; transition: color 0.2s;
-}
+.ap-nav a { font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; color: var(--charcoal); text-decoration: none; transition: color 0.2s; }
 .ap-nav a:hover { color: var(--accent-red); }
 .ap-nav a.sale { color: var(--sale-red); }
-
-/* Bag pill */
-.bag-pill {
-  position: absolute; right: 24px; top: 22px;
-  display: inline-flex; align-items: center; gap: 8px;
-  background: var(--white); border: 1px solid var(--border); border-radius: 30px;
-  padding: 8px 16px; font-size: 13px; font-weight: 600; color: var(--charcoal);
-}
-.bag-pill .bag-count {
-  background: var(--charcoal); color: var(--white); border-radius: 50%;
-  width: 20px; height: 20px; display: inline-flex; align-items: center; justify-content: center; font-size: 11px;
-}
+.bag-pill { position: absolute; right: 24px; top: 22px; display: inline-flex; align-items: center; gap: 8px; background: var(--white); border: 1px solid var(--border); border-radius: 30px; padding: 8px 16px; font-size: 13px; font-weight: 600; }
+.bag-pill .bag-count { background: var(--charcoal); color: var(--white); border-radius: 50%; width: 20px; height: 20px; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; }
 .bag-pill.bump { animation: bag-bump 0.4s ease; }
 @keyframes bag-bump { 0%,100%{transform:scale(1);} 40%{transform:scale(1.12); border-color: var(--accent-red);} }
 
-/* ===== BREADCRUMB + PDP ===== */
 .breadcrumb { font-size: 12px; color: var(--text-secondary); padding: 16px 48px; border-bottom: 1px solid var(--border-light); }
 .breadcrumb a { color: var(--text-secondary); text-decoration: none; }
-
-.pdp-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; max-width: 980px; margin: 0 auto; padding: 36px 48px; }
+.pdp-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; max-width: 920px; margin: 0 auto; padding: 36px 48px; }
 .pdp-image { width: 100%; aspect-ratio: 3/4; background: linear-gradient(135deg, #1a1a3a 0%, #2a2a4a 50%, #1a1a3a 100%); border-radius: 4px; position: relative; }
 .pdp-image::after { content: 'Beaded Flutter Sleeve Gown'; position: absolute; bottom: 16px; left: 16px; color: rgba(255,255,255,0.35); font-family: var(--font-heading); font-size: 13px; letter-spacing: 1px; }
 .pdp-info h1 { font-family: var(--font-heading); font-size: 26px; font-weight: 400; margin-bottom: 12px; }
@@ -124,89 +79,121 @@ body {
 .pdp-note { font-size: 11px; color: var(--text-secondary); margin-top: 10px; }
 
 /* ===== TOAST ===== */
-.toast { position: fixed; bottom: 24px; left: calc((100% - var(--panel-w)) / 2); transform: translateX(-50%) translateY(20px); background: var(--charcoal); color: var(--white); padding: 12px 22px; border-radius: 30px; font-size: 13px; font-weight: 500; box-shadow: 0 6px 24px rgba(0,0,0,0.2); opacity: 0; pointer-events: none; transition: opacity 0.25s, transform 0.25s; z-index: 1300; }
-.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.toast { position: fixed; bottom: 24px; left: 40px; background: var(--charcoal); color: var(--white); padding: 12px 22px; border-radius: 30px; font-size: 13px; font-weight: 500; box-shadow: 0 6px 24px rgba(0,0,0,0.2); opacity: 0; pointer-events: none; transition: opacity 0.25s, transform 0.25s; transform: translateY(20px); z-index: 1300; font-family: var(--gw-font); }
+.toast.show { opacity: 1; transform: translateY(0); }
 
-/* ===== CHAT PANEL (persistent, docked) ===== */
-.chat-panel {
-  position: fixed; top: 0; right: 0; width: var(--panel-w); height: 100%;
-  background: var(--white); z-index: 900; border-left: 1px solid var(--border-light);
-  box-shadow: -4px 0 24px rgba(0,0,0,0.06);
-  display: flex; flex-direction: column;
+/* =====================================================================
+   GORGIAS-STYLE CHAT WIDGET (themed to AP red as mainColor)
+   ===================================================================== */
+.gw { font-family: var(--gw-font); }
+
+/* Launcher bubble */
+.gw-launcher {
+  position: fixed; right: 22px; bottom: 16px; z-index: 2147483636;
+  width: 60px; height: 60px; border-radius: 100px;
+  background: var(--gw-main); border: 3px solid transparent;
+  box-shadow: 0px 2px 4px rgba(22,22,22,0.16);
+  display: flex; align-items: center; justify-content: center; cursor: pointer;
+  transition: transform 200ms ease-out;
 }
-.chat-header { border-bottom: 1px solid var(--border-light); flex-shrink: 0; }
-.chat-header-accent { height: 3px; background: var(--accent-red); }
-.chat-header-content { display: flex; align-items: center; gap: 10px; padding: 14px 20px; }
-.chat-header-title { font-family: var(--font-heading); font-size: 16px; font-weight: 500; }
-.chat-header-sub { font-size: 11px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; }
-.chat-header-dot { width: 8px; height: 8px; border-radius: 50%; background: #2e9e5b; flex-shrink: 0; }
+.gw-launcher:hover { transform: scale(1.1); }
+.gw-launcher:active { transform: scale(0.95); }
+.gw-launcher svg { width: 28px; height: 28px; color: #fff; }
+.gw-launcher.hidden { display: none; }
 
-.chat-messages { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 16px; }
-.chat-msg { max-width: 90%; font-size: 14px; line-height: 1.6; animation: msg-fade-in 0.3s ease; }
-@keyframes msg-fade-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-.chat-msg--assistant { align-self: flex-start; background: var(--bg-light); padding: 14px 16px; border-radius: 2px 16px 16px 16px; }
-.chat-msg--user { align-self: flex-end; background: var(--charcoal); color: var(--white); padding: 14px 16px; border-radius: 16px 2px 16px 16px; }
+/* Window */
+.gw-window {
+  position: fixed; right: 20px; bottom: 20px; z-index: 2147483648;
+  width: 392px; height: min(704px, calc(100vh - 90px));
+  background: var(--white); border-radius: 16px; overflow: hidden;
+  box-shadow: 2px 2px 14px 0 rgba(0,0,0,0.20);
+  display: flex; flex-direction: column;
+  transform-origin: bottom right;
+  animation: gw-open 360ms cubic-bezier(0.2, 1.1, 0.4, 1);
+}
+.gw-window.hidden { display: none; }
+@keyframes gw-open { from { opacity: 0; transform: scale(0.6); } to { opacity: 1; transform: scale(1); } }
 
-/* Product card in chat */
-.chat-product { border: 1px solid var(--border-light); border-left: 4px solid var(--accent-red); padding: 12px 14px; margin-top: 10px; background: var(--white); border-radius: 0 8px 8px 0; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
-.chat-product-name { font-weight: 600; font-size: 13px; margin-bottom: 2px; }
-.chat-product-price { color: var(--accent-red); font-weight: 600; font-size: 13px; margin-bottom: 4px; }
-.chat-product-desc { color: #666; font-size: 12px; line-height: 1.5; margin-bottom: 10px; }
-.chat-product-add { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; background: var(--charcoal); color: var(--white); border: none; border-radius: 4px; padding: 8px 14px; cursor: pointer; transition: background 0.2s; }
-.chat-product-add:hover { background: #3a3a3a; }
-.chat-product-add.added { background: #2e7d32; cursor: default; }
+/* Header (mainColor) */
+.gw-header { background: var(--gw-main); color: #fff; padding: 20px 16px 18px 20px; position: relative; flex-shrink: 0; }
+.gw-header-top { display: flex; align-items: flex-start; gap: 10px; }
+.gw-avatar { width: 30px; height: 30px; border-radius: 50%; background: rgba(255,255,255,0.18); display: flex; align-items: center; justify-content: center; font-family: var(--font-heading); font-size: 13px; flex-shrink: 0; }
+.gw-title { font-size: 16px; font-weight: 600; line-height: 24px; }
+.gw-online { font-size: 12px; font-weight: 400; opacity: 0.85; display: flex; align-items: center; gap: 5px; }
+.gw-online::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: #4ade80; display: inline-block; }
+.gw-close { margin-left: auto; background: none; border: none; color: #fff; cursor: pointer; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; opacity: 0.9; transition: background 0.15s; flex-shrink: 0; }
+.gw-close:hover { background: rgba(255,255,255,0.15); }
+.gw-close svg { width: 18px; height: 18px; }
+.gw-subtitle { font-size: 19px; font-weight: 600; line-height: 26px; margin-top: 14px; }
+
+/* Messages */
+.gw-messages { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 4px; background: linear-gradient(180deg, #FAFAFA 0%, #F3F4F6 100%); }
+.gw-msg { max-width: 86%; font-size: 14px; line-height: 20px; padding: 8px 12px; border-radius: 20px; box-shadow: 0px 1px 1px rgba(0,0,0,0.05); word-break: break-word; animation: gw-msg-in 0.3s ease; margin-top: 8px; }
+@keyframes gw-msg-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+.gw-msg--agent { align-self: flex-start; background: var(--gw-agent-bg); color: var(--gw-agent-text); border-bottom-left-radius: 4px; }
+.gw-msg--user { align-self: flex-end; background: var(--gw-main); color: #fff; border-bottom-right-radius: 4px; }
+
+/* Product card (Gorgias horizontal style) */
+.gw-product { display: flex; align-items: center; gap: 12px; padding: 8px; border: 1px solid var(--gw-neutral4); border-radius: 4px; margin-top: 8px; background: #fff; }
+.gw-product-thumb { width: 56px; height: 56px; border-radius: 4px; flex-shrink: 0; background: linear-gradient(135deg, #e6d9c7, #cdb89c); }
+.gw-product-thumb.t1 { background: linear-gradient(135deg,#cfd3df,#aab0c4); }
+.gw-product-thumb.t2 { background: linear-gradient(135deg,#e7dcc6,#cbb88f); }
+.gw-product-thumb.t3 { background: linear-gradient(135deg,#dcd2e3,#c3b3d2); }
+.gw-product-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.gw-product-name { color: var(--gw-neutral10); font-weight: 500; font-size: 14px; line-height: 18px; }
+.gw-product-desc { color: var(--gw-neutral8); font-size: 12px; line-height: 16px; }
+.gw-product-row { display: flex; align-items: center; justify-content: space-between; margin-top: 4px; }
+.gw-product-price { color: var(--gw-neutral10); font-weight: 600; font-size: 14px; }
+.gw-product-add { font-size: 12px; font-weight: 600; background: var(--gw-main); color: #fff; border: none; border-radius: 4px; padding: 6px 12px; cursor: pointer; transition: opacity 0.2s; white-space: nowrap; }
+.gw-product-add:hover { opacity: 0.88; }
+.gw-product-add.added { background: #2e7d32; cursor: default; }
 
 /* Typing */
-.typing-indicator { display: flex; gap: 4px; padding: 14px 16px; align-self: flex-start; background: var(--bg-light); border-radius: 2px 16px 16px 16px; }
-.typing-indicator span { width: 7px; height: 7px; background: var(--text-secondary); border-radius: 50%; animation: typing-bounce 1.4s ease-in-out infinite; }
-.typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
-.typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
-@keyframes typing-bounce { 0%,60%,100%{transform:translateY(0);opacity:0.4;} 30%{transform:translateY(-6px);opacity:1;} }
+.gw-typing { display: flex; gap: 4px; padding: 12px 14px; align-self: flex-start; background: var(--gw-agent-bg); border-radius: 20px; border-bottom-left-radius: 4px; margin-top: 8px; }
+.gw-typing span { width: 7px; height: 7px; background: #99A5B6; border-radius: 50%; animation: gw-bounce 1.4s ease-in-out infinite; }
+.gw-typing span:nth-child(2){animation-delay:.2s;} .gw-typing span:nth-child(3){animation-delay:.4s;}
+@keyframes gw-bounce { 0%,60%,100%{transform:translateY(0);opacity:.4;} 30%{transform:translateY(-6px);opacity:1;} }
 
 /* Bag summary */
-.chat-bag-summary { flex-shrink: 0; border-top: 1px solid var(--border-light); padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; font-size: 12px; background: var(--bg-lighter); }
-.chat-bag-summary .label { color: var(--text-secondary); }
-.chat-bag-summary .total { font-weight: 600; font-size: 14px; }
-.chat-bag-summary .uplift { color: #2e7d32; font-weight: 600; font-size: 11px; }
+.gw-bag { flex-shrink: 0; border-top: 1px solid var(--border-light); padding: 9px 16px; display: flex; align-items: center; justify-content: space-between; font-size: 12px; background: #fff; }
+.gw-bag .label { color: var(--gw-neutral8); }
+.gw-bag .total { font-weight: 600; font-size: 14px; color: var(--gw-neutral10); }
+.gw-bag .uplift { color: #2e7d32; font-weight: 600; font-size: 11px; }
 
-/* Quick replies */
-.quick-replies { padding: 8px 20px 0; display: flex; flex-wrap: wrap; gap: 8px; }
-.quick-reply-btn { padding: 8px 14px; border: 1px solid var(--border); border-radius: 20px; background: var(--white); font-size: 13px; color: var(--charcoal); cursor: pointer; transition: all 0.2s; }
-.quick-reply-btn:hover { border-color: var(--accent-red); color: var(--accent-red); background: #fdf5f5; }
+/* Quick replies (outlined in mainColor, right aligned, fill on hover) */
+.gw-quick { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; padding: 12px 16px 4px; background: #fff; }
+.gw-quick-btn { font-size: 14px; line-height: 20px; padding: 5px 12px; border: 1px solid var(--gw-main); border-radius: 4px; background: #fff; color: var(--gw-main); cursor: pointer; transition: 0.3s; }
+.gw-quick-btn:hover { background: var(--gw-main); color: #fff; }
 
-/* ===== FLOATING NUDGE (SPQ / AI-FAQ style, above the input) ===== */
-.chat-nudge-wrap { padding: 10px 16px 0; flex-shrink: 0; }
-.chat-nudge {
-  display: flex; align-items: center; gap: 10px;
-  background: linear-gradient(135deg, #fdf5f5 0%, #fbeeee 100%);
-  border: 1px solid #f0d6d6; border-radius: 14px;
-  padding: 11px 12px 11px 14px;
-  box-shadow: 0 4px 16px rgba(157,0,0,0.08);
-  cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
-  animation: nudge-in 0.3s ease;
+/* Conversation-starter nudge (frosted pill, above composer) */
+.gw-nudge-wrap { padding: 8px 16px 0; flex-shrink: 0; display: flex; justify-content: flex-end; }
+.gw-nudge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,0.72); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 1px solid #fff; border-radius: 32px; padding: 8px 16px;
+  font-size: 12px; font-weight: 400; color: rgba(34,34,34,0.85);
+  box-shadow: 0px 2px 4px 0px rgba(22,22,22,0.16);
+  cursor: pointer; user-select: none; transition: 0.3s; max-width: 100%;
+  animation: gw-nudge-in 0.3s ease;
 }
-.chat-nudge:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(157,0,0,0.14); }
-@keyframes nudge-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-.chat-nudge .spark { font-size: 16px; flex-shrink: 0; }
-.chat-nudge .nudge-text { flex: 1; font-size: 13px; font-weight: 500; color: var(--charcoal); line-height: 1.4; }
-.chat-nudge .nudge-arrow { color: var(--accent-red); font-size: 16px; flex-shrink: 0; }
-.chat-nudge .nudge-dismiss { border: none; background: none; color: var(--text-secondary); font-size: 16px; cursor: pointer; padding: 0 2px; flex-shrink: 0; line-height: 1; }
-.chat-nudge .nudge-dismiss:hover { color: var(--charcoal); }
+.gw-nudge:hover { background: #ddd; border-color: #ddd; }
+@keyframes gw-nudge-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.gw-nudge .nudge-text { line-height: 1.35; }
+.gw-nudge .nudge-x { color: rgba(34,34,34,0.5); font-size: 14px; line-height: 1; flex-shrink: 0; }
+.gw-nudge .nudge-x:hover { color: rgba(34,34,34,0.9); }
 
-/* Input (always present) */
-.chat-input-area { padding: 12px 20px 16px; display: flex; gap: 8px; flex-shrink: 0; }
-.chat-input { flex: 1; padding: 12px 16px; border: 1px solid var(--border-light); border-radius: 24px; font-family: var(--font-body); font-size: 14px; outline: none; transition: border-color 0.2s; }
-.chat-input:focus { border-color: var(--charcoal); }
-.chat-input:disabled { background: var(--bg-light); }
-.chat-send { width: 44px; height: 44px; border-radius: 50%; border: none; background: var(--charcoal); color: var(--white); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; flex-shrink: 0; }
-.chat-send:hover { background: #3a3a3a; }
-.chat-send:disabled { background: var(--border); cursor: not-allowed; }
-.chat-send svg { width: 18px; height: 18px; }
+/* Composer */
+.gw-composer { padding: 12px 16px 16px; display: flex; gap: 8px; align-items: center; flex-shrink: 0; background: #fff; border-top: 1px solid var(--border-light); }
+.gw-input { flex: 1; padding: 10px 14px; border: 1px solid var(--gw-neutral4); border-radius: 24px; font-family: var(--gw-font); font-size: 14px; outline: none; transition: border-color 0.2s; }
+.gw-input:focus { border-color: var(--gw-main); }
+.gw-input:disabled { background: var(--bg-light); }
+.gw-send { width: 40px; height: 40px; border-radius: 50%; border: none; background: var(--gw-main); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: opacity 0.2s; flex-shrink: 0; }
+.gw-send:hover { opacity: 0.88; }
+.gw-send:disabled { background: var(--gw-neutral4); cursor: not-allowed; }
+.gw-send svg { width: 17px; height: 17px; }
 
-@media (max-width: 880px) {
-  .main-content { padding-right: 0; padding-bottom: 60vh; }
-  .chat-panel { width: 100%; height: 58vh; top: auto; bottom: 0; border-left: none; border-top: 1px solid var(--border-light); }
-  .toast { left: 50%; }
+@media (max-width: 480px) {
+  .gw-window { right: 0; bottom: 0; width: 100vw; height: 100svh; border-radius: 0; }
 }
 </style>
 </head>
@@ -214,7 +201,7 @@ body {
 
 <div class="annotation-bar">
   <strong>Add-to-Cart Cross-Sell Nudge</strong>
-  <span>Persistent chat. Adding the gown surfaces a soft nudge above the input; tapping it (or adding a recommended card) runs the live-LLM up-sell flow.</span>
+  <span>Gorgias-style widget. Adding the gown surfaces a conversation-starter nudge; tapping it (or adding a recommended card) runs the live-LLM up-sell flow.</span>
   <span class="pill">Shopping Assistant concept</span>
 </div>
 
@@ -228,78 +215,72 @@ body {
       <a href="#">Wedding</a>
       <a href="#" class="sale">Sale</a>
     </nav>
-    <div class="bag-pill" id="bagPill">
-      <span>Bag</span>
-      <span class="bag-count" id="bagCount">0</span>
-      <span id="bagTotal">$0</span>
-    </div>
+    <div class="bag-pill" id="bagPill"><span>Bag</span><span class="bag-count" id="bagCount">0</span><span id="bagTotal">$0</span></div>
   </div>
 
-  <div class="breadcrumb">
-    <a href="#">Home</a> &rsaquo; <a href="#">Wedding</a> &rsaquo; <a href="#">Wedding Guest Dresses</a> &rsaquo; Beaded Flutter Sleeve Gown
-  </div>
+  <div class="breadcrumb"><a href="#">Home</a> &rsaquo; <a href="#">Wedding</a> &rsaquo; <a href="#">Wedding Guest Dresses</a> &rsaquo; Beaded Flutter Sleeve Gown</div>
 
   <div class="pdp-layout">
     <div class="pdp-image"></div>
     <div class="pdp-info">
       <h1>Beaded Flutter Sleeve Gown</h1>
-      <div class="pdp-rating">
-        <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9734;</span>
-        <span>4.6</span>
-        <span class="count">(142 reviews)</span>
-      </div>
+      <div class="pdp-rating"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9734;</span><span>4.6</span><span class="count">(142 reviews)</span></div>
       <div class="pdp-price">$299</div>
       <div class="pdp-color"><strong>Color:</strong> Navy</div>
       <p class="pdp-desc">A floor-length A-line gown with signature beading and flutter sleeves. A black-tie favourite in deep navy.</p>
-
       <div class="size-label">Select Size</div>
       <div class="size-grid">
-        <button class="size-btn">0</button>
-        <button class="size-btn">2</button>
-        <button class="size-btn selected">4</button>
-        <button class="size-btn">6</button>
-        <button class="size-btn">8</button>
-        <button class="size-btn sold-out">10</button>
-        <button class="size-btn sold-out">12</button>
-        <button class="size-btn">20</button>
+        <button class="size-btn">0</button><button class="size-btn">2</button><button class="size-btn selected">4</button>
+        <button class="size-btn">6</button><button class="size-btn">8</button><button class="size-btn sold-out">10</button>
+        <button class="size-btn sold-out">12</button><button class="size-btn">20</button>
       </div>
-
       <button class="btn-add-to-bag" id="addToBagBtn">Add to Bag &mdash; $299</button>
       <p class="pdp-note">Free returns within 30 days.</p>
     </div>
   </div>
 </div>
 
-<!-- ==================== PERSISTENT CHAT PANEL ==================== -->
-<div class="chat-panel" id="chatPanel">
-  <div class="chat-header">
-    <div class="chat-header-accent"></div>
-    <div class="chat-header-content">
-      <span class="chat-header-dot"></span>
-      <div>
-        <div class="chat-header-title">Adrianna Papell Styling</div>
-        <div class="chat-header-sub">Here to help you find &amp; finish a look</div>
+<!-- ==================== GORGIAS-STYLE WIDGET ==================== -->
+<div class="gw">
+  <!-- Launcher -->
+  <button class="gw-launcher hidden" id="launcher" aria-label="Open chat">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+  </button>
+
+  <!-- Window -->
+  <div class="gw-window" id="chatWindow">
+    <div class="gw-header">
+      <div class="gw-header-top">
+        <div class="gw-avatar">AP</div>
+        <div>
+          <div class="gw-title">Adrianna Papell</div>
+          <div class="gw-online">Online now</div>
+        </div>
+        <button class="gw-close" id="chatClose" aria-label="Close chat">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
       </div>
+      <div class="gw-subtitle">Style &amp; support, anytime ✨</div>
     </div>
-  </div>
 
-  <div class="chat-messages" id="chatMessages"></div>
+    <div class="gw-messages" id="chatMessages"></div>
 
-  <div class="chat-bag-summary" id="chatBagSummary" style="display:none;">
-    <span class="label">Your look</span>
-    <span><span class="total" id="chatBagTotal">$0</span> <span class="uplift" id="chatBagUplift"></span></span>
-  </div>
+    <div class="gw-bag" id="chatBag" style="display:none;">
+      <span class="label">Your look</span>
+      <span><span class="total" id="chatBagTotal">$0</span> <span class="uplift" id="chatBagUplift"></span></span>
+    </div>
 
-  <div class="quick-replies" id="quickReplies"></div>
+    <div class="gw-quick" id="quickReplies"></div>
 
-  <!-- Floating nudge slot (SPQ / AI-FAQ style), populated on PDP add-to-cart -->
-  <div class="chat-nudge-wrap" id="nudgeWrap"></div>
+    <!-- conversation-starter nudge slot -->
+    <div class="gw-nudge-wrap" id="nudgeWrap"></div>
 
-  <div class="chat-input-area">
-    <input type="text" class="chat-input" id="chatInput" placeholder="Ask me anything, or describe your look..." />
-    <button class="chat-send" id="chatSend" aria-label="Send">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-    </button>
+    <div class="gw-composer">
+      <input type="text" class="gw-input" id="chatInput" placeholder="Send a message..." />
+      <button class="gw-send" id="chatSend" aria-label="Send">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </div>
   </div>
 </div>
 
@@ -311,18 +292,11 @@ body {
   'use strict';
 
   const ANCHOR = { name: 'Beaded Flutter Sleeve Gown', price: 299 };
+  const state = { messages: [], isWaiting: false, bag: [], nudgeShown: false };
 
-  const state = {
-    messages: [],
-    isWaiting: false,
-    bag: [],
-    nudgeShown: false
-  };
-
-  // ===== SYSTEM PROMPT =====
   const SYSTEM_PROMPT = `You are Adrianna Papell's styling team inside the store's chat. You help shoppers find and FINISH looks. You are warm, specific, and never pushy.
 
-You will sometimes get a context line in brackets telling you the shopper just added an item to their bag and what the full bag now contains. When that happens, your job is to suggest genuinely complementary pieces to complete the look.
+You will sometimes get a context line in brackets telling you the shopper just added an item to their bag and what the full bag now contains. When that happens, suggest genuinely complementary pieces to complete the look.
 
 ACCESSORIES CATALOG — recommend ONLY from this list, never invent products or prices:
 - Strappy Metallic Heels — $119 — silver metallic, 3" heel; elongates a floor-length gown
@@ -337,7 +311,7 @@ ACCESSORIES CATALOG — recommend ONLY from this list, never invent products or 
 ANCHOR DRESS (if in the bag): Beaded Flutter Sleeve Gown, $299, navy, floor-length A-line, beaded, black-tie/formal.
 
 RULES:
-- Recommend COMPLEMENTS ONLY (shoes, bags, jewelry, wraps, hair). NEVER recommend a dress/gown, and NEVER recommend an item that is already in the bag.
+- Recommend COMPLEMENTS ONLY (shoes, bags, jewelry, wraps, hair). NEVER recommend a dress/gown, and NEVER recommend an item already in the bag.
 - First time you suggest: 2-3 items. After the shopper adds another piece: only 1-2 NEW items.
 - One short reason per item (color / formality / silhouette / coverage vs the gown).
 - Match the gown's formality. No casual pieces.
@@ -353,10 +327,12 @@ ALWAYS end every message with 2-4 quick replies, using BOTH tags exactly:
 
 You are "the Adrianna Papell styling team", never an AI. Never ask for an email.`;
 
-  const GREETING = "Hi, I'm your Adrianna Papell stylist ✨ I'm right here if you'd like help finding a piece or finishing a look.";
+  const GREETING = "Hi, I'm your Adrianna Papell stylist ✨ I'm here if you'd like help finding a piece or finishing a look.";
   const INITIAL_REPLIES = ["Help me complete a look", "What pairs with a navy gown?"];
 
-  // ===== DOM =====
+  const launcher = document.getElementById('launcher');
+  const chatWindow = document.getElementById('chatWindow');
+  const chatClose = document.getElementById('chatClose');
   const chatMessages = document.getElementById('chatMessages');
   const chatInput = document.getElementById('chatInput');
   const chatSend = document.getElementById('chatSend');
@@ -366,88 +342,76 @@ You are "the Adrianna Papell styling team", never an AI. Never ask for an email.
   const bagPill = document.getElementById('bagPill');
   const bagCount = document.getElementById('bagCount');
   const bagTotal = document.getElementById('bagTotal');
-  const chatBagSummary = document.getElementById('chatBagSummary');
+  const chatBag = document.getElementById('chatBag');
   const chatBagTotal = document.getElementById('chatBagTotal');
   const chatBagUplift = document.getElementById('chatBagUplift');
   const toast = document.getElementById('toast');
 
-  // ===== SIZE =====
+  let thumbIdx = 0;
+  const THUMBS = ['t1','t2','t3'];
+
+  // ===== open / close =====
+  function openChat() { chatWindow.classList.remove('hidden'); launcher.classList.add('hidden'); setTimeout(() => chatInput.focus(), 200); }
+  function closeChat() { chatWindow.classList.add('hidden'); launcher.classList.remove('hidden'); }
+  launcher.addEventListener('click', openChat);
+  chatClose.addEventListener('click', closeChat);
+
+  // ===== size =====
   document.querySelectorAll('.size-btn:not(.sold-out)').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
-    });
+    btn.addEventListener('click', () => { document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected')); btn.classList.add('selected'); });
   });
 
-  // ===== BAG =====
+  // ===== bag =====
   function bagSum() { return state.bag.reduce((s, i) => s + i.price, 0); }
   function fmt(n) { return '$' + n.toLocaleString('en-US'); }
   function bagNames() { return state.bag.map(i => i.name); }
-
   function updateBagUI() {
     const total = bagSum();
-    bagCount.textContent = state.bag.length;
-    bagTotal.textContent = fmt(total);
+    bagCount.textContent = state.bag.length; bagTotal.textContent = fmt(total);
     bagPill.classList.remove('bump'); void bagPill.offsetWidth; bagPill.classList.add('bump');
-    if (state.bag.length) chatBagSummary.style.display = 'flex';
+    if (state.bag.length) chatBag.style.display = 'flex';
     chatBagTotal.textContent = fmt(total);
     const uplift = total - (state.bag.some(i => i.name === ANCHOR.name) ? ANCHOR.price : 0);
     chatBagUplift.textContent = uplift > 0 ? '(+' + fmt(uplift) + ' added in chat)' : '';
   }
-
-  function addToBag(name, price) {
-    state.bag.push({ name, price });
-    updateBagUI();
-    showToast(name + ' added to bag');
-  }
+  function addToBag(name, price) { state.bag.push({ name, price }); updateBagUI(); showToast(name + ' added to bag'); }
 
   let toastTimer = null;
-  function showToast(msg) {
-    toast.textContent = msg;
-    toast.classList.add('show');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
-  }
+  function showToast(msg) { toast.textContent = msg; toast.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => toast.classList.remove('show'), 2200); }
 
-  // ===== PDP ADD-TO-CART -> soft floating nudge (no auto-flow) =====
+  // ===== PDP add-to-cart -> open chat + conversation-starter nudge =====
   addToBagBtn.addEventListener('click', () => {
-    if (state.bag.some(i => i.name === ANCHOR.name)) { chatInput.focus(); return; }
+    if (state.bag.some(i => i.name === ANCHOR.name)) { openChat(); return; }
     addToBag(ANCHOR.name, ANCHOR.price);
     addToBagBtn.textContent = 'Added to Bag ✓';
+    openChat();
     showNudge(ANCHOR.name);
   });
 
-  // Templated, product-aware nudge copy.
   function showNudge(productName) {
     if (state.nudgeShown) return;
     state.nudgeShown = true;
-    nudgeWrap.innerHTML = `
-      <div class="chat-nudge" id="nudgeChip" role="button" tabindex="0">
-        <span class="spark">✨</span>
-        <span class="nudge-text">Want shoes &amp; accessories that go with the ${escapeHtml(productName)}?</span>
-        <span class="nudge-arrow">&rarr;</span>
-        <button class="nudge-dismiss" id="nudgeDismiss" aria-label="Dismiss">&times;</button>
-      </div>`;
+    nudgeWrap.innerHTML = `<div class="gw-nudge" id="nudgeChip" role="button" tabindex="0">
+      <span class="nudge-text">Want pieces that complete the ${escapeHtml(productName)}?</span>
+      <span class="nudge-x" id="nudgeX" role="button" aria-label="Dismiss">&times;</span></div>`;
     const chip = document.getElementById('nudgeChip');
-    const dismiss = document.getElementById('nudgeDismiss');
+    const x = document.getElementById('nudgeX');
     chip.addEventListener('click', onNudgeTap);
     chip.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onNudgeTap(); } });
-    dismiss.addEventListener('click', e => { e.stopPropagation(); clearNudge(); });
+    x.addEventListener('click', e => { e.stopPropagation(); clearNudge(); });
   }
   function clearNudge() { nudgeWrap.innerHTML = ''; }
-
   function onNudgeTap() {
     clearNudge();
     if (state.isWaiting) return;
-    const text = `I just added the ${ANCHOR.name} to my bag — what shoes and accessories go with it?`;
-    pushUserVisible(text);
+    pushUserVisible(`I just added the ${ANCHOR.name} to my bag — what shoes and accessories go with it?`);
     runAssistantTurn();
   }
 
-  // ===== CHAT RENDER =====
+  // ===== render =====
   function appendMessage(role, content) {
     const div = document.createElement('div');
-    div.className = 'chat-msg chat-msg--' + role;
+    div.className = 'gw-msg gw-msg--' + (role === 'assistant' ? 'agent' : 'user');
     div.innerHTML = renderContent(content);
     chatMessages.appendChild(div);
     wireProductButtons(div);
@@ -455,48 +419,47 @@ You are "the Adrianna Papell styling team", never an AI. Never ask for an email.
   }
 
   function renderContent(text) {
-    const parts = [];
-    let lastIndex = 0;
-    const regex = /\[PRODUCT\](.*?)\[\/PRODUCT\]/gs;
-    let match; regex.lastIndex = 0;
-    while ((match = regex.exec(text)) !== null) {
-      if (match.index > lastIndex) parts.push('<span>' + escapeHtml(text.slice(lastIndex, match.index)).replace(/\n/g, '<br>') + '</span>');
+    // product cards are rendered as siblings AFTER the bubble text, Gorgias-style
+    const products = [];
+    let clean = text.replace(/\[PRODUCT\](.*?)\[\/PRODUCT\]/gs, (m, p) => { products.push(p); return ''; }).trim();
+    let html = clean ? '<span>' + escapeHtml(clean).replace(/\n/g, '<br>') + '</span>' : '';
+    products.forEach(p => {
       try {
-        const p = JSON.parse(match[1]);
-        const priceNum = parseFloat(String(p.price).replace(/[^0-9.]/g, '')) || 0;
-        parts.push(`
-          <div class="chat-product">
-            <div class="chat-product-name">${escapeHtml(p.name)}</div>
-            <div class="chat-product-price">${escapeHtml(p.price)}</div>
-            <div class="chat-product-desc">${escapeHtml(p.description || '')}</div>
-            <button class="chat-product-add" data-name="${escapeHtml(p.name)}" data-price="${priceNum}">Add to bag &mdash; ${escapeHtml(p.price)}</button>
-          </div>`);
-      } catch (e) { parts.push('<span>' + escapeHtml(match[0]) + '</span>'); }
-      lastIndex = match.index + match[0].length;
-    }
-    if (lastIndex < text.length) parts.push('<span>' + escapeHtml(text.slice(lastIndex)).replace(/\n/g, '<br>') + '</span>');
-    return parts.join('');
+        const o = JSON.parse(p);
+        const priceNum = parseFloat(String(o.price).replace(/[^0-9.]/g, '')) || 0;
+        const t = THUMBS[thumbIdx++ % THUMBS.length];
+        html += `<div class="gw-product">
+          <div class="gw-product-thumb ${t}"></div>
+          <div class="gw-product-body">
+            <div class="gw-product-name">${escapeHtml(o.name)}</div>
+            <div class="gw-product-desc">${escapeHtml(o.description || '')}</div>
+            <div class="gw-product-row">
+              <span class="gw-product-price">${escapeHtml(o.price)}</span>
+              <button class="gw-product-add" data-name="${escapeHtml(o.name)}" data-price="${priceNum}">Add to bag</button>
+            </div>
+          </div>
+        </div>`;
+      } catch (e) {}
+    });
+    return html;
   }
 
-  // In-chat product card add-to-cart -> add + RE-TRIGGER the up-sell flow
   function wireProductButtons(scope) {
-    scope.querySelectorAll('.chat-product-add:not(.added)').forEach(btn => {
+    scope.querySelectorAll('.gw-product-add:not(.added)').forEach(btn => {
       btn.addEventListener('click', () => {
         if (btn.classList.contains('added')) return;
         const name = btn.dataset.name;
         addToBag(name, parseFloat(btn.dataset.price) || 0);
-        btn.classList.add('added');
-        btn.textContent = 'Added ✓';
-        triggerComplements(name);   // chain: suggest pieces that finish the look
+        btn.classList.add('added'); btn.textContent = 'Added ✓';
+        triggerComplements(name);
       });
     });
   }
 
   function triggerComplements(addedName) {
     if (state.isWaiting) return;
-    const others = bagNames();
-    const note = `[The shopper just added "${addedName}" to their bag. Bag now contains: ${others.join(', ')}. Suggest a couple of complementary pieces to finish the look, nothing already in the bag. If the look feels complete, warmly say so instead of pushing more.]`;
-    state.messages.push({ role: 'user', content: note });  // hidden context (not rendered)
+    const note = `[The shopper just added "${addedName}" to their bag. Bag now contains: ${bagNames().join(', ')}. Suggest a couple of complementary pieces to finish the look, nothing already in the bag. If the look feels complete, warmly say so instead of pushing more.]`;
+    state.messages.push({ role: 'user', content: note });
     runAssistantTurn();
   }
 
@@ -514,8 +477,7 @@ You are "the Adrianna Papell styling team", never an AI. Never ask for an email.
     quickRepliesEl.innerHTML = '';
     (options || []).forEach(opt => {
       const btn = document.createElement('button');
-      btn.className = 'quick-reply-btn';
-      btn.textContent = opt;
+      btn.className = 'gw-quick-btn'; btn.textContent = opt;
       btn.onclick = () => { chatInput.value = opt; sendMessage(); };
       quickRepliesEl.appendChild(btn);
     });
@@ -523,78 +485,56 @@ You are "the Adrianna Papell styling team", never an AI. Never ask for an email.
   function clearQuickReplies() { quickRepliesEl.innerHTML = ''; }
 
   function showTyping() {
-    const div = document.createElement('div');
-    div.className = 'typing-indicator'; div.id = 'typingIndicator';
-    div.innerHTML = '<span></span><span></span><span></span>';
-    chatMessages.appendChild(div);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
+    const d = document.createElement('div'); d.className = 'gw-typing'; d.id = 'gwTyping';
+    d.innerHTML = '<span></span><span></span><span></span>'; chatMessages.appendChild(d); chatMessages.scrollTop = chatMessages.scrollHeight;
   }
-  function hideTyping() { const el = document.getElementById('typingIndicator'); if (el) el.remove(); }
-
-  function setInputEnabled(enabled) { chatInput.disabled = !enabled; chatSend.disabled = !enabled; state.isWaiting = !enabled; }
-
+  function hideTyping() { const el = document.getElementById('gwTyping'); if (el) el.remove(); }
+  function setInputEnabled(on) { chatInput.disabled = !on; chatSend.disabled = !on; state.isWaiting = !on; }
   function pushUserVisible(text) { state.messages.push({ role: 'user', content: text }); appendMessage('user', text); }
 
   function sendMessage() {
     const text = chatInput.value.trim();
     if (!text || state.isWaiting) return;
-    chatInput.value = '';
-    clearNudge();
-    pushUserVisible(text);
-    runAssistantTurn();
+    chatInput.value = ''; clearNudge(); pushUserVisible(text); runAssistantTurn();
   }
 
   async function runAssistantTurn() {
-    setInputEnabled(false);
-    clearQuickReplies();
-    showTyping();
+    setInputEnabled(false); clearQuickReplies(); showTyping();
     try {
       const hasLocalKey = typeof OPENAI_API_KEY !== 'undefined' && OPENAI_API_KEY && OPENAI_API_KEY.indexOf('REPLACE') === -1;
       const endpoint = hasLocalKey ? 'https://api.openai.com/v1/chat/completions' : '/api/chat';
       const headers = { 'Content-Type': 'application/json' };
       if (hasLocalKey) headers['Authorization'] = 'Bearer ' + OPENAI_API_KEY;
-
-      const response = await fetch(endpoint, {
-        method: 'POST', headers,
-        body: JSON.stringify({ model: 'gpt-4o', messages: state.messages, stream: true })
-      });
+      const response = await fetch(endpoint, { method: 'POST', headers, body: JSON.stringify({ model: 'gpt-4o', messages: state.messages, stream: true }) });
       if (!response.ok) throw new Error('API error: ' + response.status);
-
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
       let fullContent = '';
       hideTyping();
       const streamDiv = document.createElement('div');
-      streamDiv.className = 'chat-msg chat-msg--assistant';
+      streamDiv.className = 'gw-msg gw-msg--agent';
       chatMessages.appendChild(streamDiv);
-
       let buffer = '';
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
         buffer += decoder.decode(value, { stream: true });
-        const lines = buffer.split('\n');
-        buffer = lines.pop() || '';
+        const lines = buffer.split('\n'); buffer = lines.pop() || '';
         for (const line of lines) {
           if (!line.startsWith('data: ')) continue;
           const data = line.slice(6).trim();
           if (data === '[DONE]') continue;
           try {
-            const parsed = JSON.parse(data);
-            const delta = parsed.choices?.[0]?.delta?.content;
+            const delta = JSON.parse(data).choices?.[0]?.delta?.content;
             if (delta) {
               fullContent += delta;
-              const display = fullContent
-                .replace(/\[QUICK_REPLIES\][\s\S]*$/g, '')
-                .replace(/\[PRODUCT\][\s\S]*?\[\/PRODUCT\]/g, '')
-                .replace(/\[PRODUCT\][\s\S]*$/g, '');
+              const display = fullContent.replace(/\[QUICK_REPLIES\][\s\S]*$/g, '').replace(/\[PRODUCT\][\s\S]*?\[\/PRODUCT\]/g, '').replace(/\[PRODUCT\][\s\S]*$/g, '');
               streamDiv.innerHTML = '<span>' + escapeHtml(display).replace(/\n/g, '<br>') + '</span>';
               chatMessages.scrollTop = chatMessages.scrollHeight;
             }
           } catch (e) {}
         }
       }
-
       const { text: cleanText, quickReplies } = extractAndStrip(fullContent);
       streamDiv.innerHTML = renderContent(cleanText);
       wireProductButtons(streamDiv);
@@ -603,22 +543,15 @@ You are "the Adrianna Papell styling team", never an AI. Never ask for an email.
       state.messages.push({ role: 'assistant', content: fullContent });
     } catch (err) {
       hideTyping();
-      const errDiv = document.createElement('div');
-      errDiv.className = 'chat-msg chat-msg--assistant';
-      errDiv.innerHTML = '<span style="color: var(--sale-red);">Sorry, something went wrong. Check the OPENAI_API_KEY on the server (or config.js locally) and try again.</span>';
-      chatMessages.appendChild(errDiv);
-      chatMessages.scrollTop = chatMessages.scrollHeight;
+      const e = document.createElement('div'); e.className = 'gw-msg gw-msg--agent';
+      e.innerHTML = '<span style="color:#c0392b;">Sorry, something went wrong. Check the OPENAI_API_KEY on the server (or config.js locally) and try again.</span>';
+      chatMessages.appendChild(e); chatMessages.scrollTop = chatMessages.scrollHeight;
     }
-    setInputEnabled(true);
-    chatInput.focus();
+    setInputEnabled(true); chatInput.focus();
   }
 
-  // ===== INIT (greeting only; no auto cards) =====
   function init() {
-    state.messages = [
-      { role: 'system', content: SYSTEM_PROMPT },
-      { role: 'assistant', content: GREETING }
-    ];
+    state.messages = [ { role: 'system', content: SYSTEM_PROMPT }, { role: 'assistant', content: GREETING } ];
     appendMessage('assistant', GREETING);
     renderQuickReplies(INITIAL_REPLIES);
   }
@@ -626,7 +559,7 @@ You are "the Adrianna Papell styling team", never an AI. Never ask for an email.
   chatSend.addEventListener('click', sendMessage);
   chatInput.addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } });
 
-  init();
+  init();   // window starts open (input always reachable; closable to the launcher)
 })();
 </script>
 </body>
