@@ -1169,7 +1169,8 @@ REQUIRED FORMAT — include these tags at the END of every message:
 - Progress: [PROGRESS]{"step": 1, "total": 4, "label": "The occasion"}[/PROGRESS]
 - Quick replies (2-4 short options): [QUICK_REPLIES]["Wedding guest", "Cocktail party", "Work event", "Date night"][/QUICK_REPLIES]
 - On the final recommendation message, set step equal to total.
-- Always include both tags.`,
+- Always include both tags.
+- If the shopper asks to share, save, or send their email (including re-requesting it after skipping earlier), end your reply with the tag [EMAIL_CAPTURE] and keep your message to one short sentence. A secure email field appears automatically, so never ask them to type their email in the chat.`,
 
     collection: `You are Adrianna Papell's style advisor. The shopper is browsing wedding guest dresses and needs help finding the right one.
 
@@ -1200,7 +1201,8 @@ REQUIRED FORMAT — include these tags at the END of every message:
 - Progress: [PROGRESS]{"step": 1, "total": 4, "label": "The wedding"}[/PROGRESS]
 - Quick replies (2-4 short options): [QUICK_REPLIES]["Indoor evening", "Outdoor garden", "Beach", "Not sure"][/QUICK_REPLIES]
 - On the final recommendation message, set step equal to total.
-- Always include both tags.`,
+- Always include both tags.
+- If the shopper asks to share, save, or send their email (including re-requesting it after skipping earlier), end your reply with the tag [EMAIL_CAPTURE] and keep your message to one short sentence. A secure email field appears automatically, so never ask them to type their email in the chat.`,
 
     pdp: `You are Adrianna Papell's fit advisor. The shopper is looking at the Beaded Flutter Sleeve Gown ($299) and wants sizing help.
 
@@ -1233,7 +1235,8 @@ REQUIRED FORMAT — include these tags at the END of every message:
 - Progress: [PROGRESS]{"step": 1, "total": 3, "label": "Your usual size"}[/PROGRESS]
 - Quick replies (2-4 short options): [QUICK_REPLIES]["Size 4-6", "Size 8-10", "Size 12-14", "Size 16+"][/QUICK_REPLIES]
 - On the final recommendation message, set step equal to total.
-- Always include both tags.`
+- Always include both tags.
+- If the shopper asks to share, save, or send their email (including re-requesting it after skipping earlier), end your reply with the tag [EMAIL_CAPTURE] and keep your message to one short sentence. A secure email field appears automatically, so never ask them to type their email in the chat.`
   };
 
   const openingMessages = {
@@ -1385,11 +1388,13 @@ REQUIRED FORMAT — include these tags at the END of every message:
   function extractAndStrip(text) {
     let qr = [];
     let progress = null;
+    let emailCapture = false;
     const qrMatch = text.match(/\[QUICK_REPLIES\](.*?)\[\/QUICK_REPLIES\]/s);
     if (qrMatch) { try { qr = JSON.parse(qrMatch[1]); } catch(e) {} text = text.replace(qrMatch[0], ''); }
     const pgMatch = text.match(/\[PROGRESS\](.*?)\[\/PROGRESS\]/s);
     if (pgMatch) { try { progress = JSON.parse(pgMatch[1]); } catch(e) {} text = text.replace(pgMatch[0], ''); }
-    return { text: text.trim(), quickReplies: qr, progress };
+    if (/\[EMAIL_CAPTURE\]/.test(text)) { emailCapture = true; text = text.replace(/\[EMAIL_CAPTURE\]/g, ''); }
+    return { text: text.trim(), quickReplies: qr, progress, emailCapture };
   }
 
   function renderQuickReplies(options) {
@@ -1597,7 +1602,7 @@ REQUIRED FORMAT — include these tags at the END of every message:
             const delta = parsed.choices?.[0]?.delta?.content;
             if (delta) {
               fullContent += delta;
-              const display = fullContent.replace(/\[QUICK_REPLIES\].*?(\[\/QUICK_REPLIES\])?/gs, '').replace(/\[PROGRESS\].*?(\[\/PROGRESS\])?/gs, '');
+              const display = fullContent.replace(/\[QUICK_REPLIES\].*?(\[\/QUICK_REPLIES\])?/gs, '').replace(/\[PROGRESS\].*?(\[\/PROGRESS\])?/gs, '').replace(/\[EMAIL_CAPTURE\]/g, '');
               streamDiv.innerHTML = '<span>' + escapeHtml(display).replace(/\n/g, '<br>') + '</span>';
               chatMessages.scrollTop = chatMessages.scrollHeight;
             }
@@ -1606,7 +1611,7 @@ REQUIRED FORMAT — include these tags at the END of every message:
       }
 
       // Parse tags from final content
-      const { text: cleanText, quickReplies, progress } = extractAndStrip(fullContent);
+      const { text: cleanText, quickReplies, progress, emailCapture } = extractAndStrip(fullContent);
       streamDiv.innerHTML = renderContent(cleanText);
       chatMessages.scrollTop = chatMessages.scrollHeight;
 
@@ -1622,8 +1627,12 @@ REQUIRED FORMAT — include these tags at the END of every message:
       state.messages.push({ role: 'assistant', content: fullContent });
       state.turnCount++;
 
-      // Trigger email capture once, when the results have been delivered
-      if (!state.emailCaptured && isResultsMoment(progress, fullContent)) {
+      // Show the email capture when the shopper explicitly asks for it
+      // (re-show even after a prior skip/submit), or once the results land.
+      if (emailCapture) {
+        state.emailCaptured = false;
+        setTimeout(showEmailCapture, 300);
+      } else if (!state.emailCaptured && isResultsMoment(progress, fullContent)) {
         setTimeout(showEmailCapture, 450);
       }
 
