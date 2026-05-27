@@ -1545,12 +1545,17 @@ REQUIRED FORMAT — include these tags at the END of every message:
     showTyping();
 
     try {
-      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      // If config.js provides a key (local dev), call OpenAI directly.
+      // Otherwise (production) call the serverless proxy, which holds the key
+      // server-side. `typeof` is safe even when config.js is absent.
+      const hasLocalKey = typeof OPENAI_API_KEY !== 'undefined' && OPENAI_API_KEY;
+      const endpoint = hasLocalKey ? 'https://api.openai.com/v1/chat/completions' : '/api/chat';
+      const headers = { 'Content-Type': 'application/json' };
+      if (hasLocalKey) headers['Authorization'] = 'Bearer ' + OPENAI_API_KEY;
+
+      const response = await fetch(endpoint, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + OPENAI_API_KEY
-        },
+        headers,
         body: JSON.stringify({
           model: 'gpt-5.4',
           messages: state.messages,
