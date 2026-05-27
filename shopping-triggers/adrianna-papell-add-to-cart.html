@@ -176,7 +176,8 @@ body { font-family: var(--font-body); color: var(--charcoal); background: var(--
 .gw-bag .uplift { color: #2e7d32; font-weight: 600; font-size: 11px; }
 
 /* Quick replies (outlined in mainColor, right aligned, fill on hover) */
-.gw-quick { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; padding: 12px 16px 4px; background: #fff; }
+/* Quick replies render inline in the conversation, on the conversation background */
+.gw-quick { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; margin-top: 8px; }
 .gw-quick-btn { font-size: 14px; line-height: 20px; padding: 5px 12px; border: 1px solid var(--gw-main); border-radius: 4px; background: #fff; color: var(--gw-main); cursor: pointer; transition: 0.3s; }
 .gw-quick-btn:hover { background: var(--gw-main); color: #fff; }
 
@@ -283,16 +284,6 @@ body { font-family: var(--font-body); color: var(--charcoal); background: var(--
 
     <div class="gw-messages" id="chatMessages"></div>
 
-    <div class="gw-bag" id="chatBag" style="display:none;">
-      <span class="label">Your look</span>
-      <span><span class="total" id="chatBagTotal">$0</span> <span class="uplift" id="chatBagUplift"></span></span>
-    </div>
-
-    <div class="gw-quick" id="quickReplies"></div>
-
-    <!-- conversation-starter nudge slot -->
-    <div class="gw-nudge-wrap" id="nudgeWrap"></div>
-
     <div class="gw-composer">
       <input type="text" class="gw-input" id="chatInput" placeholder="Send a message..." />
       <button class="gw-send" id="chatSend" aria-label="Send">
@@ -354,16 +345,11 @@ You are "the Adrianna Papell styling team", never an AI. Never ask for an email.
   const chatMessages = document.getElementById('chatMessages');
   const chatInput = document.getElementById('chatInput');
   const chatSend = document.getElementById('chatSend');
-  const quickRepliesEl = document.getElementById('quickReplies');
-  const nudgeWrap = document.getElementById('nudgeWrap');
   const proactiveNudge = document.getElementById('proactiveNudge');
   const addToBagBtn = document.getElementById('addToBagBtn');
   const bagPill = document.getElementById('bagPill');
   const bagCount = document.getElementById('bagCount');
   const bagTotal = document.getElementById('bagTotal');
-  const chatBag = document.getElementById('chatBag');
-  const chatBagTotal = document.getElementById('chatBagTotal');
-  const chatBagUplift = document.getElementById('chatBagUplift');
   const toast = document.getElementById('toast');
 
   let thumbIdx = 0;
@@ -388,10 +374,6 @@ You are "the Adrianna Papell styling team", never an AI. Never ask for an email.
     const total = bagSum();
     bagCount.textContent = state.bag.length; bagTotal.textContent = fmt(total);
     bagPill.classList.remove('bump'); void bagPill.offsetWidth; bagPill.classList.add('bump');
-    if (state.bag.length) chatBag.style.display = 'flex';
-    chatBagTotal.textContent = fmt(total);
-    const uplift = total - (state.bag.some(i => i.name === ANCHOR.name) ? ANCHOR.price : 0);
-    chatBagUplift.textContent = uplift > 0 ? '(+' + fmt(uplift) + ' added in chat)' : '';
   }
   function addToBag(name, price) { state.bag.push({ name, price }); updateBagUI(); showToast(name + ' added to bag'); }
 
@@ -492,14 +474,10 @@ You are "the Adrianna Papell styling team", never an AI. Never ask for an email.
     renderOfferReplies(addedName);
   }
   function renderOfferReplies(addedName) {
-    quickRepliesEl.innerHTML = '';
-    const yes = document.createElement('button');
-    yes.className = 'gw-quick-btn'; yes.textContent = 'Yes, show me';
-    yes.onclick = () => { clearQuickReplies(); appendMessage('user', 'Yes, show me'); triggerComplements(addedName); };
-    const no = document.createElement('button');
-    no.className = 'gw-quick-btn'; no.textContent = "I'm all set";
-    no.onclick = () => { chatInput.value = "I'm all set for now, thanks"; sendMessage(); };
-    quickRepliesEl.appendChild(yes); quickRepliesEl.appendChild(no);
+    buildQuickReplies([
+      { label: 'Yes, show me', onClick: () => { clearQuickReplies(); appendMessage('user', 'Yes, show me'); triggerComplements(addedName); } },
+      { label: "I'm all set", onClick: () => { chatInput.value = "I'm all set for now, thanks"; sendMessage(); } },
+    ]);
   }
 
   function escapeHtml(str) { const d = document.createElement('div'); d.textContent = str == null ? '' : String(str); return d.innerHTML; }
@@ -512,16 +490,28 @@ You are "the Adrianna Papell styling team", never an AI. Never ask for an email.
     return { text: text.trim(), quickReplies: qr };
   }
 
-  function renderQuickReplies(options) {
-    quickRepliesEl.innerHTML = '';
-    (options || []).forEach(opt => {
+  // Quick replies live INSIDE the message thread (below the latest message, on
+  // the conversation background), not in a separate bar above the composer.
+  let quickRepliesNode = null;
+  function clearQuickReplies() { if (quickRepliesNode) { quickRepliesNode.remove(); quickRepliesNode = null; } }
+  function buildQuickReplies(items) {
+    clearQuickReplies();
+    if (!items || !items.length) return;
+    const wrap = document.createElement('div');
+    wrap.className = 'gw-quick';
+    items.forEach(it => {
       const btn = document.createElement('button');
-      btn.className = 'gw-quick-btn'; btn.textContent = opt;
-      btn.onclick = () => { chatInput.value = opt; sendMessage(); };
-      quickRepliesEl.appendChild(btn);
+      btn.className = 'gw-quick-btn'; btn.textContent = it.label;
+      btn.onclick = it.onClick;
+      wrap.appendChild(btn);
     });
+    chatMessages.appendChild(wrap);
+    quickRepliesNode = wrap;
+    chatMessages.scrollTop = chatMessages.scrollHeight;
   }
-  function clearQuickReplies() { quickRepliesEl.innerHTML = ''; }
+  function renderQuickReplies(options) {
+    buildQuickReplies((options || []).map(opt => ({ label: opt, onClick: () => { chatInput.value = opt; sendMessage(); } })));
+  }
 
   function showTyping() {
     const d = document.createElement('div'); d.className = 'gw-typing'; d.id = 'gwTyping';
@@ -529,7 +519,7 @@ You are "the Adrianna Papell styling team", never an AI. Never ask for an email.
   }
   function hideTyping() { const el = document.getElementById('gwTyping'); if (el) el.remove(); }
   function setInputEnabled(on) { chatInput.disabled = !on; chatSend.disabled = !on; state.isWaiting = !on; }
-  function pushUserVisible(text) { state.messages.push({ role: 'user', content: text }); appendMessage('user', text); }
+  function pushUserVisible(text) { clearQuickReplies(); state.messages.push({ role: 'user', content: text }); appendMessage('user', text); }
 
   function sendMessage() {
     const text = chatInput.value.trim();
