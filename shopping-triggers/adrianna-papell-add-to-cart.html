@@ -486,8 +486,8 @@ CONVERSATION FLOW:
 FORMAT each recommended product EXACTLY as:
 [PRODUCT]{"name":"Exact catalog name","price":"$XX","description":"one line on why it pairs with the gown"}[/PRODUCT]
 
-ALWAYS end every message with 2-4 quick replies:
-[QUICK_REPLIES]["...","...","..."]
+ALWAYS end every message with 2-4 quick replies, on their own line, using BOTH tags exactly:
+[QUICK_REPLIES]["...","...","..."][/QUICK_REPLIES]
 
 Never say you are an AI; you are "the Adrianna Papell styling team". Never ask for an email.`;
 
@@ -644,8 +644,10 @@ Never say you are an AI; you are "the Adrianna Papell styling team". Never ask f
 
   function extractAndStrip(text) {
     let qr = [];
-    const qrMatch = text.match(/\[QUICK_REPLIES\](.*?)\[\/QUICK_REPLIES\]/s);
+    // Tolerate a missing [/QUICK_REPLIES] closing tag: capture the JSON array directly.
+    const qrMatch = text.match(/\[QUICK_REPLIES\]\s*(\[[\s\S]*?\])\s*(?:\[\/QUICK_REPLIES\])?/);
     if (qrMatch) { try { qr = JSON.parse(qrMatch[1]); } catch(e) {} text = text.replace(qrMatch[0], ''); }
+    text = text.replace(/\[\/?QUICK_REPLIES\]/g, '');   // strip any stray marker
     return { text: text.trim(), quickReplies: qr };
   }
 
@@ -732,8 +734,9 @@ Never say you are an AI; you are "the Adrianna Papell styling team". Never ask f
             if (delta) {
               fullContent += delta;
               const display = fullContent
-                .replace(/\[QUICK_REPLIES\].*?(\[\/QUICK_REPLIES\])?/gs, '')
-                .replace(/\[PRODUCT\].*?(\[\/PRODUCT\])?/gs, '');
+                .replace(/\[QUICK_REPLIES\][\s\S]*$/g, '')
+                .replace(/\[PRODUCT\][\s\S]*?\[\/PRODUCT\]/g, '')
+                .replace(/\[PRODUCT\][\s\S]*$/g, '');
               streamDiv.innerHTML = '<span>' + escapeHtml(display).replace(/\n/g, '<br>') + '</span>';
               chatMessages.scrollTop = chatMessages.scrollHeight;
             }
