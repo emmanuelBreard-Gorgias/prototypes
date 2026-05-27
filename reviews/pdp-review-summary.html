@@ -65,10 +65,10 @@ body {
 
 /* ── Variant grid ── */
 .variants {
-  max-width: 1200px; margin: 0 auto;
+  max-width: 1240px; margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-  gap: 28px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
 }
 .variant { display: flex; flex-direction: column; }
 .variant-header { margin-bottom: 16px; }
@@ -554,7 +554,7 @@ body {
 
 <header class="page-header">
   <h1>In-chat PDP — Review Summary Placements</h1>
-  <p>Three ways to surface an <strong>AI-generated review summary</strong> on the in-chat PDP, ordered by how much they assert themselves: <strong>V3</strong> (dedicated summary block above the subscribe options), <strong>V10</strong> (headline always visible, per-topic detail one click away), and <strong>V12</strong> (most subtle: a small rating line with the entire summary, headline and topics, folded behind one toggle). All show the rating signal and a short text summary of what reviewers are saying. No "See all" CTA. Each renders the full PDP including left-aligned quick-reply pills to show how components compete for attention.</p>
+  <p>Three ways to surface an <strong>AI-generated review summary</strong> on the in-chat PDP, ordered by how much they assert themselves: <strong>Option 1</strong> (dedicated summary block above the subscribe options), <strong>Option 2</strong> (headline always visible, per-topic detail one click away), and <strong>Option 3</strong> (most subtle: a small rating line with the entire summary, headline and topics, folded behind one toggle). All show the rating signal and a short text summary of what reviewers are saying. No "See all" CTA. Each renders the full PDP including left-aligned quick-reply pills to show how components compete for attention.</p>
   <div class="legend">
     <span><strong>Product:</strong> Seabiotic® Water Cream · $54 · 4.7 (128 reviews)</span>
     <span><strong>Widget width:</strong> 360px</span>
@@ -564,13 +564,13 @@ body {
   </div>
 </header>
 
-<div class="section-title">Prominent placements (dedicated block)</div>
+<div class="section-title">Review summary — three display options</div>
 <section class="variants">
 
   <!-- V3: Block above options -->
   <article class="variant">
     <header class="variant-header">
-      <span class="variant-tag">Variant 3</span>
+      <span class="variant-tag">Variant 1</span>
       <div class="variant-title">Summary block above subscribe options</div>
       <div class="variant-desc">Dedicated cream-tinted block with big rating, count, and AI summary. Placed right under title/price.</div>
     </header>
@@ -619,16 +619,10 @@ body {
     </div>
   </article>
 
-</section>
-
-<hr class="section-divider">
-<div class="section-title">Content depth — headline vs aspects</div>
-<section class="variants">
-
   <!-- V10: Headline + expandable aspects -->
   <article class="variant">
     <header class="variant-header">
-      <span class="variant-tag">Variant 10</span>
+      <span class="variant-tag">Variant 2</span>
       <div class="variant-title">Headline + click to expand aspects (no sentiment color)</div>
       <div class="variant-desc">Headline always visible. A "See details by topic" toggle reveals per-topic detail on click. No sentiment dots or colored flags — neutral styling so nothing reads as a caution mark on the merchant's card.</div>
     </header>
@@ -692,7 +686,7 @@ body {
   <!-- V12: Subtle — tiny rating, full summary folded -->
   <article class="variant">
     <header class="variant-header">
-      <span class="variant-tag">Variant 12</span>
+      <span class="variant-tag">Variant 3</span>
       <div class="variant-title">Subtle — minimal rating, full summary folded</div>
       <div class="variant-desc">Compact rating line (small stars + count) with one discreet toggle. The entire summary, headline and per-topic detail, stays folded until the shopper opts in. Nothing reads as a review block at a glance.</div>
     </header>
@@ -755,9 +749,9 @@ body {
 <section class="rec">
   <h3>Recommendation</h3>
   <ul>
-    <li><strong>Placement: V3 (block above options).</strong> Review summary is the clearest differentiator SA can offer over a Shopify-native PDP — putting it above the fold honors that. The dedicated block gives the text summary visual authority and doesn't blend into the product description.</li>
-    <li><strong>Content depth: V10 (headline + click to expand aspects, no color).</strong> The headline keeps momentum for scanners, and neutral per-topic detail stays one tap away, off the card face, with no colored dots that could read as a caution flag on the merchant's product. Always pass the full aspect structure to SA so it answers per-aspect questions in conversation.</li>
-    <li><strong>Most subtle: V12 (tiny rating, full summary folded).</strong> For merchants who want the lightest footprint, or as the low-disclosure arm of an A/B test. Trade-off: the summary is invisible until a shopper expands it, so we lose the at-a-glance differentiator. Worth testing whether the smaller signal still lifts conversion or just disappears.</li>
+    <li><strong>Option 1 (block above options).</strong> Review summary is the clearest differentiator SA can offer over a Shopify-native PDP — putting it above the fold honors that. The dedicated block gives the text summary visual authority and doesn't blend into the product description.</li>
+    <li><strong>Option 2 (headline + click to expand aspects, no color).</strong> The headline keeps momentum for scanners, and neutral per-topic detail stays one tap away, off the card face, with no colored dots that could read as a caution flag on the merchant's product. Always pass the full aspect structure to SA so it answers per-aspect questions in conversation.</li>
+    <li><strong>Option 3 (tiny rating, full summary folded).</strong> For merchants who want the lightest footprint, or as the low-disclosure arm of an A/B test. Trade-off: the summary is invisible until a shopper expands it, so we lose the at-a-glance differentiator. Worth testing whether the smaller signal still lifts conversion or just disappears.</li>
     <li><strong>Open:</strong> how long should the summary be? Current draft is 2–3 sentences (~30 words). Anything longer hurts PDP density. Anything shorter loses the "texture" that makes it useful.</li>
     <li><strong>Open:</strong> how is the summary generated and refreshed? Live at PDP open, cached per product, nightly batch? Latency target &lt;500ms for PDP open.</li>
   </ul>
