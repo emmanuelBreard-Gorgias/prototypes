@@ -21,27 +21,35 @@ export default async function handler(req) {
     );
   }
 
-  let payload = {};
-  try { payload = await req.json(); } catch (e) { /* keep defaults */ }
-  const messages = Array.isArray(payload.messages) ? payload.messages : [];
-  const model = process.env.OPENAI_MODEL || payload.model || 'gpt-4o';
+  try {
+    let payload = {};
+    try { payload = await req.json(); } catch (e) { /* keep defaults */ }
+    const messages = Array.isArray(payload.messages) ? payload.messages : [];
+    const model = process.env.OPENAI_MODEL || payload.model || 'gpt-4o';
 
-  const upstream = await fetch('https://api.openai.com/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + key
-    },
-    body: JSON.stringify({ model, messages, stream: true })
-  });
+    const upstream = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + key
+      },
+      body: JSON.stringify({ model, messages, stream: true })
+    });
 
-  // Pass the streamed response straight through to the client.
-  return new Response(upstream.body, {
-    status: upstream.status,
-    headers: {
-      'Content-Type': 'text/event-stream; charset=utf-8',
-      'Cache-Control': 'no-cache',
-      'Connection': 'keep-alive'
-    }
-  });
+    // Pass the streamed response straight through to the client.
+    // (No `Connection` header — it's a forbidden response header and throws
+    // in the spec-strict Edge runtime.)
+    return new Response(upstream.body, {
+      status: upstream.status,
+      headers: {
+        'Content-Type': 'text/event-stream; charset=utf-8',
+        'Cache-Control': 'no-cache'
+      }
+    });
+  } catch (err) {
+    return new Response(
+      JSON.stringify({ error: 'Proxy error: ' + ((err && err.message) || String(err)) }),
+      { status: 502, headers: { 'Content-Type': 'application/json' } }
+    );
+  }
 }
