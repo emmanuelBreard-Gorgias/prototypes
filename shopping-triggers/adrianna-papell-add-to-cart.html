@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add-to-Cart Cross-Sell Nudge - Adrianna Papell</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --charcoal: #232323;
+  --accent-red: #9d0000;
+  --sale-red: #e9514b;
+  --gold: #d4a853;
+  --white: #ffffff;
+  --bg-light: #fafafa;
+  --bg-lighter: #f8f8f8;
+  --border: #cbcbcb;
+  --border-light: #e8e8e8;
+  --text-secondary: #969696;
+  --font-heading: 'Playfair Display', Georgia, serif;
+  --font-body: 'Poppins', Helvetica, Arial, sans-serif;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--charcoal);
+  background: var(--white);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===== ANNOTATION BAR ===== */
+.annotation-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  background: var(--charcoal);
+  color: var(--white);
+  padding: 10px 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 13px;
+  font-family: var(--font-body);
+}
+.annotation-bar strong { font-weight: 600; white-space: nowrap; }
+.annotation-bar span { color: var(--text-secondary); font-size: 12px; }
+.annotation-bar .pill {
+  margin-left: auto;
+  background: rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.85);
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.main-content { padding-top: 52px; }
+
+/* ===== AP HEADER ===== */
+.ap-header {
+  border-bottom: 1px solid var(--border-light);
+  padding: 20px 0 0;
+  text-align: center;
+  position: relative;
+}
+.ap-logo {
+  font-family: var(--font-heading);
+  font-size: 28px;
+  font-weight: 400;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  color: var(--charcoal);
+  margin-bottom: 16px;
+}
+.ap-nav {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  padding-bottom: 14px;
+}
+.ap-nav a {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--charcoal);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.ap-nav a:hover { color: var(--accent-red); }
+.ap-nav a.sale { color: var(--sale-red); }
+
+/* Bag pill in header */
+.bag-pill {
+  position: absolute;
+  right: 24px;
+  top: 22px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 30px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--charcoal);
+  transition: all 0.2s;
+}
+.bag-pill .bag-count {
+  background: var(--charcoal);
+  color: var(--white);
+  border-radius: 50%;
+  width: 20px; height: 20px;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 11px;
+}
+.bag-pill.bump { animation: bag-bump 0.4s ease; }
+@keyframes bag-bump {
+  0%,100% { transform: scale(1); }
+  40% { transform: scale(1.12); border-color: var(--accent-red); }
+}
+
+/* ===== BREADCRUMB ===== */
+.breadcrumb {
+  font-size: 12px;
+  color: var(--text-secondary);
+  padding: 16px 48px;
+  border-bottom: 1px solid var(--border-light);
+}
+.breadcrumb a { color: var(--text-secondary); text-decoration: none; }
+.breadcrumb a:hover { color: var(--charcoal); }
+
+/* ===== PDP PAGE ===== */
+.pdp-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 48px;
+}
+.pdp-image {
+  width: 100%;
+  aspect-ratio: 3/4;
+  background: linear-gradient(135deg, #1a1a3a 0%, #2a2a4a 50%, #1a1a3a 100%);
+  border-radius: 4px;
+  position: relative;
+}
+.pdp-image::after {
+  content: 'Beaded Flutter Sleeve Gown';
+  position: absolute;
+  bottom: 16px; left: 16px;
+  color: rgba(255,255,255,0.35);
+  font-family: var(--font-heading);
+  font-size: 13px;
+  letter-spacing: 1px;
+}
+.pdp-info h1 {
+  font-family: var(--font-heading);
+  font-size: 28px;
+  font-weight: 400;
+  margin-bottom: 12px;
+}
+.pdp-rating { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; font-size: 13px; }
+.pdp-rating .stars { color: var(--gold); }
+.pdp-rating .count { color: var(--text-secondary); }
+.pdp-price { font-size: 24px; font-weight: 600; margin-bottom: 24px; }
+.pdp-color { font-size: 13px; margin-bottom: 20px; }
+.pdp-color strong { font-weight: 600; }
+.pdp-desc { font-size: 13px; color: #555; margin-bottom: 24px; max-width: 440px; }
+
+.size-label { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
+.size-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+.size-btn {
+  width: 44px; height: 44px;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--border);
+  background: var(--white);
+  font-family: var(--font-body);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.size-btn:hover { border-color: var(--charcoal); }
+.size-btn.selected { background: var(--charcoal); color: var(--white); border-color: var(--charcoal); }
+.size-btn.sold-out { color: var(--border); cursor: not-allowed; position: relative; }
+.size-btn.sold-out::after {
+  content: ''; position: absolute; width: 110%; height: 1px;
+  background: var(--border); transform: rotate(-45deg);
+}
+
+.btn-add-to-bag {
+  display: block;
+  width: 100%;
+  max-width: 440px;
+  padding: 16px;
+  background: var(--charcoal);
+  color: var(--white);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-add-to-bag:hover { background: #3a3a3a; }
+.pdp-note {
+  font-size: 11px; color: var(--text-secondary); margin-top: 10px; max-width: 440px;
+}
+
+/* ===== TOAST ===== */
+.toast {
+  position: fixed;
+  bottom: 24px; left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--charcoal);
+  color: var(--white);
+  padding: 12px 22px;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: 500;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.2);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s, transform 0.25s;
+  z-index: 1300;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ===== CHAT PANEL ===== */
+.chat-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.3);
+  z-index: 1100;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s;
+}
+.chat-overlay.open { opacity: 1; pointer-events: all; }
+.chat-panel {
+  position: fixed;
+  top: 0; right: -440px;
+  width: 420px; height: 100%;
+  background: var(--white);
+  z-index: 1200;
+  box-shadow: -4px 0 24px rgba(0,0,0,0.15);
+  display: flex; flex-direction: column;
+  transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.chat-panel.open { right: 0; }
+
+.chat-header { padding: 0; border-bottom: 1px solid var(--border-light); flex-shrink: 0; }
+.chat-header-accent { height: 3px; background: var(--accent-red); }
+.chat-header-content { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; }
+.chat-header-title { font-family: var(--font-heading); font-size: 16px; font-weight: 500; }
+.chat-header-sub { font-size: 11px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; }
+.chat-close {
+  width: 32px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
+  border: none; background: none; font-size: 20px; cursor: pointer;
+  color: var(--text-secondary); border-radius: 50%; transition: background 0.15s;
+}
+.chat-close:hover { background: var(--bg-light); }
+
+.chat-messages {
+  flex: 1; overflow-y: auto; padding: 20px;
+  display: flex; flex-direction: column; gap: 16px;
+}
+.chat-msg { max-width: 90%; font-size: 14px; line-height: 1.6; animation: msg-fade-in 0.3s ease; }
+@keyframes msg-fade-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.chat-msg--assistant { align-self: flex-start; background: var(--bg-light); padding: 14px 16px; border-radius: 2px 16px 16px 16px; color: var(--charcoal); }
+.chat-msg--user { align-self: flex-end; background: var(--charcoal); color: var(--white); padding: 14px 16px; border-radius: 16px 2px 16px 16px; }
+
+/* Product card in chat */
+.chat-product {
+  border: 1px solid var(--border-light);
+  border-left: 4px solid var(--accent-red);
+  padding: 12px 14px;
+  margin-top: 10px;
+  background: var(--white);
+  border-radius: 0 8px 8px 0;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+.chat-product-name { font-weight: 600; font-size: 13px; margin-bottom: 2px; }
+.chat-product-price { color: var(--accent-red); font-weight: 600; font-size: 13px; margin-bottom: 4px; }
+.chat-product-desc { color: #666; font-size: 12px; line-height: 1.5; margin-bottom: 10px; }
+.chat-product-add {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
+  background: var(--charcoal); color: var(--white);
+  border: none; border-radius: 4px; padding: 8px 14px; cursor: pointer;
+  transition: background 0.2s;
+}
+.chat-product-add:hover { background: #3a3a3a; }
+.chat-product-add.added { background: #2e7d32; cursor: default; }
+
+/* Typing indicator */
+.typing-indicator {
+  display: flex; gap: 4px; padding: 14px 16px; align-self: flex-start;
+  background: var(--bg-light); border-radius: 2px 16px 16px 16px;
+}
+.typing-indicator span { width: 7px; height: 7px; background: var(--text-secondary); border-radius: 50%; animation: typing-bounce 1.4s ease-in-out infinite; }
+.typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+.typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typing-bounce { 0%, 60%, 100% { transform: translateY(0); opacity: 0.4; } 30% { transform: translateY(-6px); opacity: 1; } }
+
+/* Bag summary inside chat */
+.chat-bag-summary {
+  flex-shrink: 0;
+  border-top: 1px solid var(--border-light);
+  padding: 10px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 12px; background: var(--bg-lighter);
+}
+.chat-bag-summary .label { color: var(--text-secondary); }
+.chat-bag-summary .total { font-weight: 600; font-size: 14px; }
+.chat-bag-summary .uplift { color: #2e7d32; font-weight: 600; font-size: 11px; }
+
+.chat-input-area { padding: 16px 20px; border-top: 1px solid var(--border-light); display: flex; gap: 8px; flex-shrink: 0; }
+.chat-input {
+  flex: 1; padding: 12px 16px; border: 1px solid var(--border-light);
+  border-radius: 24px; font-family: var(--font-body); font-size: 14px;
+  outline: none; transition: border-color 0.2s;
+}
+.chat-input:focus { border-color: var(--charcoal); }
+.chat-input:disabled { background: var(--bg-light); }
+.chat-send {
+  width: 44px; height: 44px; border-radius: 50%; border: none;
+  background: var(--charcoal); color: var(--white); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s; flex-shrink: 0;
+}
+.chat-send:hover { background: #3a3a3a; }
+.chat-send:disabled { background: var(--border); cursor: not-allowed; }
+.chat-send svg { width: 18px; height: 18px; }
+
+/* Quick Replies */
+.quick-replies { padding: 8px 20px 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.quick-reply-btn {
+  padding: 8px 14px; border: 1px solid var(--border); border-radius: 20px;
+  background: var(--white); font-size: 13px; font-family: var(--font-body);
+  color: var(--charcoal); cursor: pointer; transition: all 0.2s; white-space: nowrap;
+}
+.quick-reply-btn:hover { border-color: var(--accent-red); color: var(--accent-red); background: #fdf5f5; }
+</style>
+</head>
+<body>
+
+<!-- Annotation Bar -->
+<div class="annotation-bar">
+  <strong>Add-to-Cart Cross-Sell Nudge</strong>
+  <span>Prototype: adding the gown triggers an AI styling nudge that recommends complementary pieces. Live LLM, grounded in the catalog.</span>
+  <span class="pill">Shopping Assistant concept</span>
+</div>
+
+<div class="main-content">
+  <div class="ap-header">
+    <div class="ap-logo">Adrianna Papell</div>
+    <nav class="ap-nav">
+      <a href="#">New &amp; Trending</a>
+      <a href="#">Day Dresses</a>
+      <a href="#">Evening Dresses</a>
+      <a href="#">Wedding</a>
+      <a href="#" class="sale">Sale</a>
+    </nav>
+    <div class="bag-pill" id="bagPill">
+      <span>Bag</span>
+      <span class="bag-count" id="bagCount">0</span>
+      <span id="bagTotal">$0</span>
+    </div>
+  </div>
+
+  <div class="breadcrumb">
+    <a href="#">Home</a> &rsaquo; <a href="#">Wedding</a> &rsaquo; <a href="#">Wedding Guest Dresses</a> &rsaquo; Beaded Flutter Sleeve Gown
+  </div>
+
+  <div class="pdp-layout">
+    <div class="pdp-image"></div>
+    <div class="pdp-info">
+      <h1>Beaded Flutter Sleeve Gown</h1>
+      <div class="pdp-rating">
+        <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9734;</span>
+        <span>4.6</span>
+        <span class="count">(142 reviews)</span>
+      </div>
+      <div class="pdp-price">$299</div>
+      <div class="pdp-color"><strong>Color:</strong> Navy</div>
+      <p class="pdp-desc">A floor-length A-line gown with signature beading and flutter sleeves. A black-tie favourite in deep navy.</p>
+
+      <div class="size-label">Select Size</div>
+      <div class="size-grid">
+        <button class="size-btn">0</button>
+        <button class="size-btn">2</button>
+        <button class="size-btn selected">4</button>
+        <button class="size-btn">6</button>
+        <button class="size-btn">8</button>
+        <button class="size-btn sold-out">10</button>
+        <button class="size-btn sold-out">12</button>
+        <button class="size-btn">20</button>
+      </div>
+
+      <button class="btn-add-to-bag" id="addToBagBtn">Add to Bag &mdash; $299</button>
+      <p class="pdp-note">Free returns within 30 days.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHAT PANEL ==================== -->
+<div class="chat-overlay" id="chatOverlay"></div>
+<div class="chat-panel" id="chatPanel">
+  <div class="chat-header">
+    <div class="chat-header-accent"></div>
+    <div class="chat-header-content">
+      <div>
+        <div class="chat-header-title">Adrianna Papell Styling</div>
+        <div class="chat-header-sub">Complete your look</div>
+      </div>
+      <button class="chat-close" id="chatClose">&times;</button>
+    </div>
+  </div>
+  <div class="chat-messages" id="chatMessages"></div>
+  <div class="quick-replies" id="quickReplies"></div>
+  <div class="chat-bag-summary" id="chatBagSummary" style="display:none;">
+    <span class="label">Your look</span>
+    <span><span class="total" id="chatBagTotal">$299</span> <span class="uplift" id="chatBagUplift"></span></span>
+  </div>
+  <div class="chat-input-area">
+    <input type="text" class="chat-input" id="chatInput" placeholder="Ask for shoes, a clutch, jewelry..." />
+    <button class="chat-send" id="chatSend">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    </button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="config.js"></script>
+<script>
+(function() {
+  'use strict';
+
+  // ===== ANCHOR PRODUCT + STATE =====
+  const ANCHOR = { name: 'Beaded Flutter Sleeve Gown', price: 299 };
+
+  const state = {
+    messages: [],
+    isOpen: false,
+    isWaiting: false,
+    bag: [],        // [{name, price}]
+    triggered: false
+  };
+
+  // ===== SYSTEM PROMPT (cross-sell stylist, grounded + not pushy) =====
+  const SYSTEM_PROMPT = `You are Adrianna Papell's styling team, helping a shopper who JUST ADDED the Beaded Flutter Sleeve Gown ($299, navy, floor-length A-line, beaded, flutter sleeves, black-tie/formal) to their bag. Your job is to help them finish the look with genuinely complementary pieces, the way a great in-store stylist would: warm, specific, and never pushy.
+
+ANCHOR ITEM (already in the bag, do NOT re-recommend it): Beaded Flutter Sleeve Gown, $299, navy, floor-length, A-line, beaded, flutter sleeves, formal / black-tie.
+
+ACCESSORIES CATALOG — recommend ONLY from this list, never invent products or prices:
+- Strappy Metallic Heels — $119 — silver metallic, 3" heel; elongates a floor-length gown
+- Satin Block Heel Sandal — $99 — navy satin, comfortable 2" block heel; tonal with the gown
+- Crystal Envelope Clutch — $79 — silver crystal; structured evening clutch
+- Beaded Minaudiere — $89 — navy beaded box clutch; echoes the gown's beading
+- Satin Wrap Shawl — $49 — champagne satin wrap; coverage for cooler or formal venues
+- Pave Drop Earrings — $39 — silver crystal drops; frame the neckline
+- Crystal Tennis Bracelet — $59 — delicate silver; adds sparkle at the wrist
+- Embellished Hair Comb — $35 — silver; for an updo
+
+HARD RULES:
+- Recommend COMPLEMENTS ONLY (shoes, bags, jewelry, wraps, hair). NEVER recommend another dress, gown, or jumpsuit — the shopper already chose their dress.
+- Keep formality matched to a navy beaded black-tie gown. No casual pieces.
+- Suggest 2-3 items per message (never a wall of products). It should feel curated, not pushy.
+- One short reason per item explaining why it pairs with THIS gown (color, formality, silhouette, coverage).
+- Be helpful first. If the shopper says no or seems done, gracefully stop selling and offer other help.
+
+CONVERSATION FLOW:
+1) FIRST message: warmly acknowledge the gown they added (one sentence), proactively suggest 2-3 complements with reasons, then ask ONE quick question to tailor (e.g. how formal the event is, or whether they need coverage).
+2) Use their answer to refine the edit (black-tie wedding -> heels + clutch + earrings; cool/outdoor venue -> add the wrap; wants comfort -> block heel).
+3) Keep rounding out the look with complements until they're set.
+
+FORMAT each recommended product EXACTLY as:
+[PRODUCT]{"name":"Exact catalog name","price":"$XX","description":"one line on why it pairs with the gown"}[/PRODUCT]
+
+ALWAYS end every message with 2-4 quick replies:
+[QUICK_REPLIES]["...","...","..."]
+
+Never say you are an AI; you are "the Adrianna Papell styling team". Never ask for an email.`;
+
+  // Hidden trigger that produces the proactive opener via the live LLM (not scripted).
+  const TRIGGER_PROMPT = `The shopper just added the Beaded Flutter Sleeve Gown ($299, navy) to their bag. Greet them in one warm sentence, then proactively recommend 2-3 complementary pieces from your catalog (each with a one-line reason it pairs with the gown), and finish by asking one quick question about the occasion or coverage. Keep it concise.`;
+
+  // ===== DOM REFS =====
+  const chatPanel = document.getElementById('chatPanel');
+  const chatOverlay = document.getElementById('chatOverlay');
+  const chatMessages = document.getElementById('chatMessages');
+  const chatInput = document.getElementById('chatInput');
+  const chatSend = document.getElementById('chatSend');
+  const chatClose = document.getElementById('chatClose');
+  const quickRepliesEl = document.getElementById('quickReplies');
+  const addToBagBtn = document.getElementById('addToBagBtn');
+  const bagPill = document.getElementById('bagPill');
+  const bagCount = document.getElementById('bagCount');
+  const bagTotal = document.getElementById('bagTotal');
+  const chatBagSummary = document.getElementById('chatBagSummary');
+  const chatBagTotal = document.getElementById('chatBagTotal');
+  const chatBagUplift = document.getElementById('chatBagUplift');
+  const toast = document.getElementById('toast');
+
+  // ===== SIZE SELECTOR =====
+  document.querySelectorAll('.size-btn:not(.sold-out)').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+    });
+  });
+
+  // ===== BAG =====
+  function bagSum() { return state.bag.reduce((s, i) => s + i.price, 0); }
+  function fmt(n) { return '$' + n.toLocaleString('en-US'); }
+
+  function updateBagUI() {
+    const total = bagSum();
+    bagCount.textContent = state.bag.length;
+    bagTotal.textContent = fmt(total);
+    bagPill.classList.remove('bump');
+    void bagPill.offsetWidth;
+    bagPill.classList.add('bump');
+    chatBagTotal.textContent = fmt(total);
+    const uplift = total - ANCHOR.price;
+    chatBagUplift.textContent = uplift > 0 ? '(+' + fmt(uplift) + ' added)' : '';
+  }
+
+  function addToBag(name, price) {
+    state.bag.push({ name, price });
+    updateBagUI();
+    showToast(name + ' added to bag');
+  }
+
+  let toastTimer = null;
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
+  }
+
+  // ===== ADD TO BAG (the trigger) =====
+  addToBagBtn.addEventListener('click', () => {
+    if (state.triggered) { openPanel(); return; }
+    state.triggered = true;
+    addToBag(ANCHOR.name, ANCHOR.price);
+    addToBagBtn.textContent = 'Added to Bag ✓';
+    chatBagSummary.style.display = 'flex';
+    startCrossSell();
+  });
+
+  // ===== CHAT =====
+  function openPanel() {
+    state.isOpen = true;
+    chatPanel.classList.add('open');
+    chatOverlay.classList.add('open');
+  }
+  function closePanel() {
+    state.isOpen = false;
+    chatPanel.classList.remove('open');
+    chatOverlay.classList.remove('open');
+  }
+
+  function startCrossSell() {
+    state.messages = [
+      { role: 'system', content: SYSTEM_PROMPT },
+      { role: 'user', content: TRIGGER_PROMPT }   // hidden, not rendered
+    ];
+    chatMessages.innerHTML = '';
+    clearQuickReplies();
+    openPanel();
+    chatInput.disabled = false;
+    chatSend.disabled = false;
+    runAssistantTurn();   // live LLM generates the proactive opener
+  }
+
+  function appendMessage(role, content) {
+    const div = document.createElement('div');
+    div.className = 'chat-msg chat-msg--' + role;
+    div.innerHTML = renderContent(content);
+    chatMessages.appendChild(div);
+    wireProductButtons(div);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+
+  function renderContent(text) {
+    const parts = [];
+    let lastIndex = 0;
+    const regex = /\[PRODUCT\](.*?)\[\/PRODUCT\]/gs;
+    let match;
+    regex.lastIndex = 0;
+    while ((match = regex.exec(text)) !== null) {
+      if (match.index > lastIndex) {
+        parts.push('<span>' + escapeHtml(text.slice(lastIndex, match.index)).replace(/\n/g, '<br>') + '</span>');
+      }
+      try {
+        const product = JSON.parse(match[1]);
+        const priceNum = parseFloat(String(product.price).replace(/[^0-9.]/g, '')) || 0;
+        parts.push(`
+          <div class="chat-product">
+            <div class="chat-product-name">${escapeHtml(product.name)}</div>
+            <div class="chat-product-price">${escapeHtml(product.price)}</div>
+            <div class="chat-product-desc">${escapeHtml(product.description || '')}</div>
+            <button class="chat-product-add" data-name="${escapeHtml(product.name)}" data-price="${priceNum}">Add to bag &mdash; ${escapeHtml(product.price)}</button>
+          </div>
+        `);
+      } catch (e) {
+        parts.push('<span>' + escapeHtml(match[0]) + '</span>');
+      }
+      lastIndex = match.index + match[0].length;
+    }
+    if (lastIndex < text.length) {
+      parts.push('<span>' + escapeHtml(text.slice(lastIndex)).replace(/\n/g, '<br>') + '</span>');
+    }
+    return parts.join('');
+  }
+
+  function wireProductButtons(scope) {
+    scope.querySelectorAll('.chat-product-add:not(.added)').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (btn.classList.contains('added')) return;
+        addToBag(btn.dataset.name, parseFloat(btn.dataset.price) || 0);
+        btn.classList.add('added');
+        btn.textContent = 'Added ✓';
+      });
+    });
+  }
+
+  function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str == null ? '' : String(str);
+    return div.innerHTML;
+  }
+
+  function extractAndStrip(text) {
+    let qr = [];
+    const qrMatch = text.match(/\[QUICK_REPLIES\](.*?)\[\/QUICK_REPLIES\]/s);
+    if (qrMatch) { try { qr = JSON.parse(qrMatch[1]); } catch(e) {} text = text.replace(qrMatch[0], ''); }
+    return { text: text.trim(), quickReplies: qr };
+  }
+
+  function renderQuickReplies(options) {
+    quickRepliesEl.innerHTML = '';
+    (options || []).forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'quick-reply-btn';
+      btn.textContent = opt;
+      btn.onclick = () => { chatInput.value = opt; sendMessage(); };
+      quickRepliesEl.appendChild(btn);
+    });
+  }
+  function clearQuickReplies() { quickRepliesEl.innerHTML = ''; }
+
+  function showTyping() {
+    const div = document.createElement('div');
+    div.className = 'typing-indicator';
+    div.id = 'typingIndicator';
+    div.innerHTML = '<span></span><span></span><span></span>';
+    chatMessages.appendChild(div);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+  function hideTyping() { const el = document.getElementById('typingIndicator'); if (el) el.remove(); }
+
+  function setInputEnabled(enabled) {
+    chatInput.disabled = !enabled;
+    chatSend.disabled = !enabled;
+    state.isWaiting = !enabled;
+  }
+
+  function sendMessage() {
+    const text = chatInput.value.trim();
+    if (!text || state.isWaiting) return;
+    chatInput.value = '';
+    clearQuickReplies();
+    state.messages.push({ role: 'user', content: text });
+    appendMessage('user', text);
+    runAssistantTurn();
+  }
+
+  // Shared streaming routine (used for both the proactive opener and replies).
+  async function runAssistantTurn() {
+    setInputEnabled(false);
+    clearQuickReplies();
+    showTyping();
+
+    try {
+      const hasLocalKey = typeof OPENAI_API_KEY !== 'undefined' && OPENAI_API_KEY && OPENAI_API_KEY.indexOf('REPLACE') === -1;
+      const endpoint = hasLocalKey ? 'https://api.openai.com/v1/chat/completions' : '/api/chat';
+      const headers = { 'Content-Type': 'application/json' };
+      if (hasLocalKey) headers['Authorization'] = 'Bearer ' + OPENAI_API_KEY;
+
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ model: 'gpt-4o', messages: state.messages, stream: true })
+      });
+      if (!response.ok) throw new Error('API error: ' + response.status);
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let fullContent = '';
+      hideTyping();
+
+      const streamDiv = document.createElement('div');
+      streamDiv.className = 'chat-msg chat-msg--assistant';
+      chatMessages.appendChild(streamDiv);
+
+      let buffer = '';
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
+        buffer = lines.pop() || '';
+        for (const line of lines) {
+          if (!line.startsWith('data: ')) continue;
+          const data = line.slice(6).trim();
+          if (data === '[DONE]') continue;
+          try {
+            const parsed = JSON.parse(data);
+            const delta = parsed.choices?.[0]?.delta?.content;
+            if (delta) {
+              fullContent += delta;
+              const display = fullContent
+                .replace(/\[QUICK_REPLIES\].*?(\[\/QUICK_REPLIES\])?/gs, '')
+                .replace(/\[PRODUCT\].*?(\[\/PRODUCT\])?/gs, '');
+              streamDiv.innerHTML = '<span>' + escapeHtml(display).replace(/\n/g, '<br>') + '</span>';
+              chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+          } catch (e) {}
+        }
+      }
+
+      const { text: cleanText, quickReplies } = extractAndStrip(fullContent);
+      streamDiv.innerHTML = renderContent(cleanText);
+      wireProductButtons(streamDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+      if (quickReplies.length) renderQuickReplies(quickReplies);
+
+      state.messages.push({ role: 'assistant', content: fullContent });
+    } catch (err) {
+      hideTyping();
+      const errDiv = document.createElement('div');
+      errDiv.className = 'chat-msg chat-msg--assistant';
+      errDiv.innerHTML = '<span style="color: var(--sale-red);">Sorry, something went wrong. Check that config.js has a valid API key (local) or OPENAI_API_KEY is set on the server, then try again.</span>';
+      chatMessages.appendChild(errDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    setInputEnabled(true);
+    chatInput.focus();
+  }
+
+  // ===== EVENTS =====
+  chatClose.addEventListener('click', closePanel);
+  chatOverlay.addEventListener('click', closePanel);
+  bagPill.addEventListener('click', () => { if (state.triggered) openPanel(); });
+  chatSend.addEventListener('click', sendMessage);
+  chatInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+  });
+
+})();
+</script>
+</body>
+</html>
