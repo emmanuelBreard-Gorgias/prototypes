@@ -362,6 +362,114 @@ body {
   line-height: 1.5;
 }
 
+/* ──────────────────────────── */
+/* V7: Inline accordion (text trigger) */
+/* ──────────────────────────── */
+.rv-collapsible { margin-top: 8px; }
+.rv-toggle {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: none; border: none; padding: 0;
+  margin-top: 6px;
+  font-family: inherit; font-size: 12.5px; font-weight: 500;
+  color: var(--text); cursor: pointer;
+}
+.rv-toggle .sparkle { font-size: 12px; }
+.rv-toggle .chev {
+  font-size: 12px; line-height: 1;
+  transition: transform 0.15s ease;
+}
+.rv-toggle.open .chev { transform: rotate(180deg); }
+.rv-collapsible-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.25s ease, margin-top 0.25s ease;
+  margin-top: 0;
+}
+.rv-collapsible-content.open {
+  max-height: 240px;
+  margin-top: 8px;
+}
+.rv-collapsible-content .rv-block {
+  padding: 12px 14px;
+}
+
+/* ──────────────────────────── */
+/* V8: Popover (pill trigger)  */
+/* ──────────────────────────── */
+.rv-pill-wrap {
+  position: relative;
+  margin-top: 10px;
+}
+.rv-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: #fff;
+  border: 1px solid var(--border-strong);
+  border-radius: 100px;
+  padding: 7px 12px;
+  font-family: inherit; font-size: 12px; font-weight: 500;
+  color: var(--text); cursor: pointer;
+  line-height: 1;
+}
+.rv-pill:hover { border-color: var(--text); }
+.rv-pill .sparkle {
+  font-size: 11px;
+  background: linear-gradient(135deg, var(--accent), #f5a623);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.rv-pill .chev {
+  font-size: 11px; line-height: 1; color: var(--text-muted);
+  transition: transform 0.15s ease;
+}
+.rv-pill.open .chev { transform: rotate(180deg); }
+.rv-popover {
+  position: absolute;
+  top: calc(100% + 8px); left: 0; right: 0;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.04);
+  padding: 14px;
+  z-index: 5;
+  opacity: 0;
+  transform: translateY(-4px);
+  pointer-events: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+.rv-popover.open {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.rv-popover::before {
+  content: '';
+  position: absolute;
+  top: -6px; left: 18px;
+  width: 10px; height: 10px;
+  background: #fff;
+  border-left: 1px solid var(--border);
+  border-top: 1px solid var(--border);
+  transform: rotate(45deg);
+}
+.rv-popover-head {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 8px;
+  font-size: 11px; font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: 0.06em;
+}
+.rv-popover-head .sparkle {
+  background: linear-gradient(135deg, var(--accent), #f5a623);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.rv-popover-summary {
+  font-size: 13px; color: var(--text);
+  line-height: 1.5;
+}
+
 /* ── Recommendation ── */
 .rec {
   max-width: 1200px; margin: 60px auto 0; padding: 24px;
@@ -383,13 +491,43 @@ body {
   font-size: 11px; font-weight: 700; text-transform: uppercase;
   letter-spacing: 0.1em; color: var(--text-faint);
 }
+
+/* ──────────────────────────── */
+/* V9-11: Content depth (headline vs aspects) */
+/* ──────────────────────────── */
+.rv-headline { font-size: 13px; line-height: 1.5; color: var(--text); margin-top: 8px; }
+.rv-aspects { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.rv-chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 12px; font-weight: 500; padding: 4px 10px;
+  border-radius: 100px; border: 1px solid var(--border); background: #fff; color: var(--text);
+}
+.rv-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; flex: none; }
+.rv-dot.pos { background: #1a7a3a; }
+.rv-dot.mix { background: #d08a00; }
+.rv-dot.neg { background: #a33; }
+.rv-aspect-toggle {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: none; border: none; padding: 0; margin-top: 10px;
+  font-family: inherit; font-size: 12.5px; font-weight: 500; color: var(--text); cursor: pointer;
+}
+.rv-aspect-toggle .sparkle { font-size: 12px; }
+.rv-aspect-toggle .chev { font-size: 12px; line-height: 1; transition: transform 0.15s ease; }
+.rv-aspect-toggle.open .chev { transform: rotate(180deg); }
+.rv-aspect-list { max-height: 0; overflow: hidden; transition: max-height 0.25s ease, margin-top 0.25s ease; margin-top: 0; }
+.rv-aspect-list.open { max-height: 360px; margin-top: 10px; }
+.rv-aspect-row { display: flex; gap: 8px; padding: 7px 0; border-top: 1px solid var(--border); }
+.rv-aspect-row:first-child { border-top: none; }
+.rv-aspect-name { font-size: 12px; font-weight: 600; min-width: 78px; display: flex; align-items: center; gap: 6px; }
+.rv-aspect-text { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+.rv-aspect-text .caveat { color: #a33; }
 </style>
 </head>
 <body>
 
 <header class="page-header">
   <h1>In-chat PDP — Review Summary Placements</h1>
-  <p>Six ways to surface an <strong>AI-generated review summary</strong> on the in-chat PDP. Each variant shows the rating signal (stars, number, count) and a short text summary of what reviewers are saying. No "See all" CTA. Every variant renders the full PDP including left-aligned quick-reply pills to show how components compete for attention.</p>
+  <p>Ways to surface an <strong>AI-generated review summary</strong> on the in-chat PDP, grouped by <strong>placement</strong> (V1-8) and by <strong>content depth</strong> (V9-11: headline only, headline + expandable aspects, or a full aspect breakdown). Each variant shows the rating signal (stars, number, count) and a short text summary of what reviewers are saying. No "See all" CTA. Every variant renders the full PDP including left-aligned quick-reply pills to show how components compete for attention.</p>
   <div class="legend">
     <span><strong>Product:</strong> Seabiotic® Water Cream · $54 · 4.7 (128 reviews)</span>
     <span><strong>Widget width:</strong> 360px</span>
@@ -719,6 +857,320 @@ body {
 
 </section>
 
+<hr class="section-divider">
+<div class="section-title">Hidden by default — click to reveal</div>
+<section class="variants">
+
+  <!-- V7: Inline accordion via text trigger -->
+  <article class="variant">
+    <header class="variant-header">
+      <span class="variant-tag">Variant 7</span>
+      <div class="variant-title">Inline accordion (text trigger)</div>
+      <div class="variant-desc">Rating row is visible. A discreet "See what reviewers say" link expands the summary inline below, pushing content down.</div>
+    </header>
+
+    <div class="pdp">
+      <div class="pdp-close">×</div>
+      <div class="pdp-image-wrap">
+        <div class="pdp-image"><span class="pdp-image-label">OSEA</span></div>
+        <div class="pdp-next">›</div>
+      </div>
+      <div class="pdp-body">
+        <div class="pdp-title-row">
+          <div class="pdp-title">Seabiotic® Water Cream</div>
+          <div class="pdp-price">$54.00</div>
+        </div>
+        <div class="rv-collapsible">
+          <div class="rv-inline-head">
+            <span class="stars"><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s empty">★</span></span>
+            <span class="num">4.7</span>
+            <span class="count">128 reviews</span>
+          </div>
+          <button class="rv-toggle" data-target="v7-summary">
+            <span class="sparkle">✨</span>
+            <span class="label">See what reviewers say</span>
+            <span class="chev">⌄</span>
+          </button>
+          <div class="rv-collapsible-content" id="v7-summary">
+            <div class="rv-block">
+              <div class="rv-block-summary">Customers love the deep hydration and lightweight, non-greasy feel. Many report calmer skin within a week. A few note the jar is small for the price.</div>
+            </div>
+          </div>
+        </div>
+        <div class="pdp-options">
+          <div class="pdp-option selected"><span class="pdp-radio"></span>One-time purchase</div>
+          <div class="pdp-option"><span class="pdp-radio"></span>Subscribe and save</div>
+        </div>
+        <div class="pdp-desc"><span class="pdp-desc-text">Next-wave hydration. Our nutrient-rich water cream delivers 72+ hours of clinically proven, deep hydration to thirsty skin exposed to pollution and environmental stress. Formulated with 6 species of algae for antioxidant-rich defense, visibly plumper skin, and a smoothed complexion. Free from parabens, sulfates, and synthetic fragrance.</span><button class="read-more-btn">Read more</button></div>
+        <div class="pdp-quick-replies">
+          <button class="pdp-quick-reply">Is this water cream suitable for sensitive skin?</button>
+          <button class="pdp-quick-reply">How long does the hydration last?</button>
+          <button class="pdp-quick-reply">What is a water cream?</button>
+        </div>
+      </div>
+      <div class="pdp-footer">
+        <div class="qty-stepper"><button>−</button><span class="qty-val">1</span><button>+</button></div>
+        <button class="pdp-cta">Add to cart</button>
+      </div>
+    </div>
+
+    <div class="variant-note">
+      <span class="pro">Zero vertical cost when collapsed. Shopper opts in to the summary.</span>
+      <span class="con">Easy to miss. Engagement depends on shopper noticing the trigger.</span>
+      <span class="note">Default state shown collapsed — click the trigger to expand.</span>
+    </div>
+  </article>
+
+  <!-- V8: Popover via pill trigger -->
+  <article class="variant">
+    <header class="variant-header">
+      <span class="variant-tag">Variant 8</span>
+      <div class="variant-title">Popover (pill trigger)</div>
+      <div class="variant-desc">Prominent AI-branded pill button next to rating. Click opens a popover floating above content. Layout never shifts.</div>
+    </header>
+
+    <div class="pdp">
+      <div class="pdp-close">×</div>
+      <div class="pdp-image-wrap">
+        <div class="pdp-image"><span class="pdp-image-label">OSEA</span></div>
+        <div class="pdp-next">›</div>
+      </div>
+      <div class="pdp-body">
+        <div class="pdp-title-row">
+          <div class="pdp-title">Seabiotic® Water Cream</div>
+          <div class="pdp-price">$54.00</div>
+        </div>
+        <div class="rv-inline-head">
+          <span class="stars"><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s empty">★</span></span>
+          <span class="num">4.7</span>
+          <span class="count">128 reviews</span>
+        </div>
+        <div class="rv-pill-wrap">
+          <button class="rv-pill" data-target="v8-popover">
+            <span class="sparkle">✨</span>
+            <span class="label">AI summary</span>
+            <span class="chev">⌄</span>
+          </button>
+          <div class="rv-popover" id="v8-popover">
+            <div class="rv-popover-head">
+              <span class="sparkle">✨</span>
+              <span>Summary of 128 reviews</span>
+            </div>
+            <div class="rv-popover-summary">Customers love the deep hydration and lightweight, non-greasy feel. Many report calmer, less reactive skin within a week. A few note the jar is smaller than expected for the price.</div>
+          </div>
+        </div>
+        <div class="pdp-options">
+          <div class="pdp-option selected"><span class="pdp-radio"></span>One-time purchase</div>
+          <div class="pdp-option"><span class="pdp-radio"></span>Subscribe and save</div>
+        </div>
+        <div class="pdp-desc"><span class="pdp-desc-text">Next-wave hydration. Our nutrient-rich water cream delivers 72+ hours of clinically proven, deep hydration to thirsty skin exposed to pollution and environmental stress. Formulated with 6 species of algae for antioxidant-rich defense, visibly plumper skin, and a smoothed complexion. Free from parabens, sulfates, and synthetic fragrance.</span><button class="read-more-btn">Read more</button></div>
+        <div class="pdp-quick-replies">
+          <button class="pdp-quick-reply">Is this water cream suitable for sensitive skin?</button>
+          <button class="pdp-quick-reply">How long does the hydration last?</button>
+          <button class="pdp-quick-reply">What is a water cream?</button>
+        </div>
+      </div>
+      <div class="pdp-footer">
+        <div class="qty-stepper"><button>−</button><span class="qty-val">1</span><button>+</button></div>
+        <button class="pdp-cta">Add to cart</button>
+      </div>
+    </div>
+
+    <div class="variant-note">
+      <span class="pro">More discoverable than V7. Popover floats — no layout shift.</span>
+      <span class="con">Popover overlaps subscribe options; shopper must dismiss to continue. Pill competes with quick-reply pills visually.</span>
+      <span class="note">Default state shown collapsed — click the pill to open the popover.</span>
+    </div>
+  </article>
+
+</section>
+
+<hr class="section-divider">
+<div class="section-title">Content depth — headline vs aspects</div>
+<section class="variants">
+
+  <!-- V9: Headline only -->
+  <article class="variant">
+    <header class="variant-header">
+      <span class="variant-tag">Variant 9</span>
+      <div class="variant-title">Headline only</div>
+      <div class="variant-desc">One calibrated sentence plus the rating. No aspect breakdown on the card — the full aspect structure still feeds SA in conversation.</div>
+    </header>
+
+    <div class="pdp">
+      <div class="pdp-close">×</div>
+      <div class="pdp-image-wrap">
+        <div class="pdp-image"><span class="pdp-image-label">OSEA</span></div>
+        <div class="pdp-next">›</div>
+      </div>
+      <div class="pdp-body">
+        <div class="pdp-title-row">
+          <div class="pdp-title">Seabiotic® Water Cream</div>
+          <div class="pdp-price">$54.00</div>
+        </div>
+        <div class="rv-block" style="margin-top: 14px;">
+          <div class="rv-block-head">
+            <div class="big-num">4.7</div>
+            <div class="meta">
+              <span class="stars"><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s empty">★</span></span>
+              <span>Based on 128 reviews</span>
+            </div>
+          </div>
+          <div class="rv-block-summary">Most reviewers love the deep hydration and lightweight, non-greasy feel; a few find the jar small for the price.</div>
+        </div>
+        <div class="pdp-options">
+          <div class="pdp-option selected"><span class="pdp-radio"></span>One-time purchase</div>
+          <div class="pdp-option"><span class="pdp-radio"></span>Subscribe and save</div>
+        </div>
+        <div class="pdp-desc"><span class="pdp-desc-text">Next-wave hydration. Our nutrient-rich water cream delivers 72+ hours of clinically proven, deep hydration to thirsty skin exposed to pollution and environmental stress. Formulated with 6 species of algae for antioxidant-rich defense, visibly plumper skin, and a smoothed complexion. Free from parabens, sulfates, and synthetic fragrance.</span><button class="read-more-btn">Read more</button></div>
+        <div class="pdp-quick-replies">
+          <button class="pdp-quick-reply">Is this water cream suitable for sensitive skin?</button>
+          <button class="pdp-quick-reply">How long does the hydration last?</button>
+          <button class="pdp-quick-reply">What is a water cream?</button>
+        </div>
+      </div>
+      <div class="pdp-footer">
+        <div class="qty-stepper"><button>−</button><span class="qty-val">1</span><button>+</button></div>
+        <button class="pdp-cta">Add to cart</button>
+      </div>
+    </div>
+
+    <div class="variant-note">
+      <span class="pro">Fastest gut-check. Minimal vertical cost. Keeps buying momentum.</span>
+      <span class="con">No scannable per-aspect signal on the card; shopper must ask for specifics.</span>
+    </div>
+  </article>
+
+  <!-- V10: Headline + expandable aspects -->
+  <article class="variant">
+    <header class="variant-header">
+      <span class="variant-tag">Variant 10</span>
+      <div class="variant-title">Headline + expandable aspects (recommended)</div>
+      <div class="variant-desc">Headline always visible, sentiment chips per topic for an at-a-glance read, and a tap to reveal each aspect's detail and caveat.</div>
+    </header>
+
+    <div class="pdp">
+      <div class="pdp-close">×</div>
+      <div class="pdp-image-wrap">
+        <div class="pdp-image"><span class="pdp-image-label">OSEA</span></div>
+        <div class="pdp-next">›</div>
+      </div>
+      <div class="pdp-body">
+        <div class="pdp-title-row">
+          <div class="pdp-title">Seabiotic® Water Cream</div>
+          <div class="pdp-price">$54.00</div>
+        </div>
+        <div class="rv-block" style="margin-top: 14px;">
+          <div class="rv-block-head">
+            <div class="big-num">4.7</div>
+            <div class="meta">
+              <span class="stars"><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s empty">★</span></span>
+              <span>Based on 128 reviews</span>
+            </div>
+          </div>
+          <div class="rv-headline">Most reviewers love the deep hydration and lightweight feel; a few find the jar small for the price.</div>
+          <div class="rv-aspects">
+            <span class="rv-chip"><span class="rv-dot pos"></span>Hydration</span>
+            <span class="rv-chip"><span class="rv-dot pos"></span>Feel</span>
+            <span class="rv-chip"><span class="rv-dot pos"></span>Results</span>
+            <span class="rv-chip"><span class="rv-dot mix"></span>Value</span>
+          </div>
+          <button class="rv-aspect-toggle" data-target="v10-aspects">
+            <span class="sparkle">✨</span>
+            <span class="label">See details</span>
+            <span class="chev">⌄</span>
+          </button>
+          <div class="rv-aspect-list" id="v10-aspects">
+            <div class="rv-aspect-row"><div class="rv-aspect-name"><span class="rv-dot pos"></span>Hydration</div><div class="rv-aspect-text">Deep, long-lasting hydration; skin feels plump and quenched.</div></div>
+            <div class="rv-aspect-row"><div class="rv-aspect-name"><span class="rv-dot pos"></span>Feel</div><div class="rv-aspect-text">Lightweight and non-greasy, absorbs quickly.</div></div>
+            <div class="rv-aspect-row"><div class="rv-aspect-name"><span class="rv-dot pos"></span>Results</div><div class="rv-aspect-text">Many report calmer, less reactive skin within a week.</div></div>
+            <div class="rv-aspect-row"><div class="rv-aspect-name"><span class="rv-dot mix"></span>Value</div><div class="rv-aspect-text">Generally seen as worth it, though <span class="caveat">a few feel the jar is small for the price.</span></div></div>
+          </div>
+        </div>
+        <div class="pdp-options">
+          <div class="pdp-option selected"><span class="pdp-radio"></span>One-time purchase</div>
+          <div class="pdp-option"><span class="pdp-radio"></span>Subscribe and save</div>
+        </div>
+        <div class="pdp-desc"><span class="pdp-desc-text">Next-wave hydration. Our nutrient-rich water cream delivers 72+ hours of clinically proven, deep hydration to thirsty skin exposed to pollution and environmental stress. Formulated with 6 species of algae for antioxidant-rich defense, visibly plumper skin, and a smoothed complexion. Free from parabens, sulfates, and synthetic fragrance.</span><button class="read-more-btn">Read more</button></div>
+        <div class="pdp-quick-replies">
+          <button class="pdp-quick-reply">Is this water cream suitable for sensitive skin?</button>
+          <button class="pdp-quick-reply">How long does the hydration last?</button>
+          <button class="pdp-quick-reply">What is a water cream?</button>
+        </div>
+      </div>
+      <div class="pdp-footer">
+        <div class="qty-stepper"><button>−</button><span class="qty-val">1</span><button>+</button></div>
+        <button class="pdp-cta">Add to cart</button>
+      </div>
+    </div>
+
+    <div class="variant-note">
+      <span class="pro">Scannable per-aspect sentiment at a glance; depth on demand; caveat shown only on expand, so the card face stays clean.</span>
+      <span class="con">More moving parts; chips add ~30px even when collapsed.</span>
+      <span class="note">Aspect list shown collapsed — click "See details" to expand.</span>
+    </div>
+  </article>
+
+  <!-- V11: Full aspect breakdown -->
+  <article class="variant">
+    <header class="variant-header">
+      <span class="variant-tag">Variant 11</span>
+      <div class="variant-title">Full aspect breakdown</div>
+      <div class="variant-desc">Every aspect with its sentiment and a sentence, always visible. Amazon / Best Buy style. Most informative, most vertical cost.</div>
+    </header>
+
+    <div class="pdp">
+      <div class="pdp-close">×</div>
+      <div class="pdp-image-wrap">
+        <div class="pdp-image"><span class="pdp-image-label">OSEA</span></div>
+        <div class="pdp-next">›</div>
+      </div>
+      <div class="pdp-body">
+        <div class="pdp-title-row">
+          <div class="pdp-title">Seabiotic® Water Cream</div>
+          <div class="pdp-price">$54.00</div>
+        </div>
+        <div class="rv-block" style="margin-top: 14px;">
+          <div class="rv-block-head">
+            <div class="big-num">4.7</div>
+            <div class="meta">
+              <span class="stars"><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s empty">★</span></span>
+              <span>Based on 128 reviews</span>
+            </div>
+          </div>
+          <div class="rv-headline">Most reviewers love the deep hydration and lightweight feel; a few find the jar small for the price.</div>
+          <div class="rv-aspect-list open" style="max-height: none; margin-top: 10px;">
+            <div class="rv-aspect-row"><div class="rv-aspect-name"><span class="rv-dot pos"></span>Hydration</div><div class="rv-aspect-text">Deep, long-lasting hydration; skin feels plump and quenched.</div></div>
+            <div class="rv-aspect-row"><div class="rv-aspect-name"><span class="rv-dot pos"></span>Feel</div><div class="rv-aspect-text">Lightweight and non-greasy, absorbs quickly.</div></div>
+            <div class="rv-aspect-row"><div class="rv-aspect-name"><span class="rv-dot pos"></span>Results</div><div class="rv-aspect-text">Many report calmer, less reactive skin within a week.</div></div>
+            <div class="rv-aspect-row"><div class="rv-aspect-name"><span class="rv-dot mix"></span>Value</div><div class="rv-aspect-text">Generally seen as worth it, though <span class="caveat">a few feel the jar is small for the price.</span></div></div>
+          </div>
+        </div>
+        <div class="pdp-options">
+          <div class="pdp-option selected"><span class="pdp-radio"></span>One-time purchase</div>
+          <div class="pdp-option"><span class="pdp-radio"></span>Subscribe and save</div>
+        </div>
+        <div class="pdp-desc"><span class="pdp-desc-text">Next-wave hydration. Our nutrient-rich water cream delivers 72+ hours of clinically proven, deep hydration to thirsty skin exposed to pollution and environmental stress. Formulated with 6 species of algae for antioxidant-rich defense, visibly plumper skin, and a smoothed complexion. Free from parabens, sulfates, and synthetic fragrance.</span><button class="read-more-btn">Read more</button></div>
+        <div class="pdp-quick-replies">
+          <button class="pdp-quick-reply">Is this water cream suitable for sensitive skin?</button>
+          <button class="pdp-quick-reply">How long does the hydration last?</button>
+          <button class="pdp-quick-reply">What is a water cream?</button>
+        </div>
+      </div>
+      <div class="pdp-footer">
+        <div class="qty-stepper"><button>−</button><span class="qty-val">1</span><button>+</button></div>
+        <button class="pdp-cta">Add to cart</button>
+      </div>
+    </div>
+
+    <div class="variant-note">
+      <span class="pro">Maximum trust signal; shows cons honestly; no interaction needed.</span>
+      <span class="con">Heavy vertical cost; pushes options and description well below the fold. A visible "mixed" tag may worry some merchants.</span>
+    </div>
+  </article>
+
+</section>
+
 <section class="rec">
   <h3>Recommendation</h3>
   <ul>
@@ -727,6 +1179,7 @@ body {
     <li><strong>Avoid V1 (plain paragraph).</strong> Summary visually merges with the description. Shoppers won't realize it's aggregated review content.</li>
     <li><strong>Avoid V4 (below description)</strong> unless we pair with a V2-style truncation elsewhere. Too easy to miss.</li>
     <li><strong>V6 (bottom band)</strong> is worth A/B testing — reassurance-at-decision-point is a known e-commerce pattern, but it's unconventional here.</li>
+    <li><strong>Content depth: default to V10 (headline + expandable aspects).</strong> The headline keeps momentum for scanners, sentiment chips give an at-a-glance read, and details plus the caveat stay one tap away, off the card face. Always pass the full aspect structure to SA so it answers per-aspect questions in conversation. Reserve V11 (full breakdown) for review-dense flagship PDPs; use V9 (headline only) on the tightest layouts.</li>
     <li><strong>Open:</strong> how long should the summary be? Current draft is 2–3 sentences (~30 words). Anything longer hurts PDP density. Anything shorter loses the "texture" that makes it useful.</li>
     <li><strong>Open:</strong> how is the summary generated and refreshed? Live at PDP open, cached per product, nightly batch? Latency target &lt;500ms for PDP open.</li>
   </ul>
@@ -738,6 +1191,48 @@ document.querySelectorAll('.read-more-btn').forEach(btn => {
     const parent = btn.parentElement;
     const isExpanded = parent.classList.toggle('expanded');
     btn.textContent = isExpanded ? 'Read less' : 'Read more';
+  });
+});
+
+document.querySelectorAll('.rv-toggle').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = document.getElementById(btn.dataset.target);
+    const isOpen = btn.classList.toggle('open');
+    target.classList.toggle('open', isOpen);
+    btn.querySelector('.label').textContent = isOpen ? 'Hide summary' : 'See what reviewers say';
+  });
+});
+
+document.querySelectorAll('.rv-pill').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const target = document.getElementById(btn.dataset.target);
+    const willOpen = !btn.classList.contains('open');
+    document.querySelectorAll('.rv-pill.open').forEach(b => {
+      b.classList.remove('open');
+      document.getElementById(b.dataset.target).classList.remove('open');
+    });
+    if (willOpen) {
+      btn.classList.add('open');
+      target.classList.add('open');
+    }
+  });
+});
+
+document.addEventListener('click', (e) => {
+  if (e.target.closest('.rv-pill') || e.target.closest('.rv-popover')) return;
+  document.querySelectorAll('.rv-pill.open').forEach(b => {
+    b.classList.remove('open');
+    document.getElementById(b.dataset.target).classList.remove('open');
+  });
+});
+
+document.querySelectorAll('.rv-aspect-toggle').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = document.getElementById(btn.dataset.target);
+    const isOpen = btn.classList.toggle('open');
+    target.classList.toggle('open', isOpen);
+    btn.querySelector('.label').textContent = isOpen ? 'Hide details' : 'See details';
   });
 });
 </script>
