@@ -13,9 +13,10 @@ export default async function handler(req) {
     return new Response('Method not allowed', { status: 405 });
   }
 
-  // Trim: a key pasted into the env with a trailing newline/space produces an
-  // "Invalid header value" when used in the Authorization header.
-  const key = (process.env.OPENAI_API_KEY || '').trim();
+  // Strip ALL whitespace: a key pasted into the env with a newline/space
+  // (even mid-string from a wrapped copy) produces an "Invalid header value"
+  // in the Authorization header. Real keys never contain whitespace.
+  const key = (process.env.OPENAI_API_KEY || '').replace(/\s/g, '');
   if (!key) {
     return new Response(
       JSON.stringify({ error: 'OPENAI_API_KEY is not set on the server.' }),
