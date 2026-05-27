@@ -1045,8 +1045,8 @@ body {
   <article class="variant">
     <header class="variant-header">
       <span class="variant-tag">Variant 10</span>
-      <div class="variant-title">Headline + expandable aspects (recommended)</div>
-      <div class="variant-desc">Headline always visible, sentiment chips per topic for an at-a-glance read, and a tap to reveal each aspect's detail and caveat.</div>
+      <div class="variant-title">Headline + click to expand aspects (no sentiment color)</div>
+      <div class="variant-desc">Headline always visible. A "See details by topic" toggle reveals per-topic detail on click. No sentiment dots or colored flags — neutral styling so nothing reads as a caution mark on the merchant's card.</div>
     </header>
 
     <div class="pdp">
@@ -1069,22 +1069,16 @@ body {
             </div>
           </div>
           <div class="rv-headline">Most reviewers love the deep hydration and lightweight feel; a few find the jar small for the price.</div>
-          <div class="rv-aspects">
-            <span class="rv-chip"><span class="rv-dot pos"></span>Hydration</span>
-            <span class="rv-chip"><span class="rv-dot pos"></span>Feel</span>
-            <span class="rv-chip"><span class="rv-dot pos"></span>Results</span>
-            <span class="rv-chip"><span class="rv-dot mix"></span>Value</span>
-          </div>
           <button class="rv-aspect-toggle" data-target="v10-aspects">
             <span class="sparkle">✨</span>
-            <span class="label">See details</span>
+            <span class="label">See details by topic</span>
             <span class="chev">⌄</span>
           </button>
           <div class="rv-aspect-list" id="v10-aspects">
-            <div class="rv-aspect-row"><div class="rv-aspect-name"><span class="rv-dot pos"></span>Hydration</div><div class="rv-aspect-text">Deep, long-lasting hydration; skin feels plump and quenched.</div></div>
-            <div class="rv-aspect-row"><div class="rv-aspect-name"><span class="rv-dot pos"></span>Feel</div><div class="rv-aspect-text">Lightweight and non-greasy, absorbs quickly.</div></div>
-            <div class="rv-aspect-row"><div class="rv-aspect-name"><span class="rv-dot pos"></span>Results</div><div class="rv-aspect-text">Many report calmer, less reactive skin within a week.</div></div>
-            <div class="rv-aspect-row"><div class="rv-aspect-name"><span class="rv-dot mix"></span>Value</div><div class="rv-aspect-text">Generally seen as worth it, though <span class="caveat">a few feel the jar is small for the price.</span></div></div>
+            <div class="rv-aspect-row"><div class="rv-aspect-name">Hydration</div><div class="rv-aspect-text">Deep, long-lasting hydration; skin feels plump and quenched.</div></div>
+            <div class="rv-aspect-row"><div class="rv-aspect-name">Feel</div><div class="rv-aspect-text">Lightweight and non-greasy, absorbs quickly.</div></div>
+            <div class="rv-aspect-row"><div class="rv-aspect-name">Results</div><div class="rv-aspect-text">Many report calmer, less reactive skin within a week.</div></div>
+            <div class="rv-aspect-row"><div class="rv-aspect-name">Value</div><div class="rv-aspect-text">Generally seen as worth it, though a few feel the jar is small for the price.</div></div>
           </div>
         </div>
         <div class="pdp-options">
@@ -1105,9 +1099,9 @@ body {
     </div>
 
     <div class="variant-note">
-      <span class="pro">Scannable per-aspect sentiment at a glance; depth on demand; caveat shown only on expand, so the card face stays clean.</span>
-      <span class="con">More moving parts; chips add ~30px even when collapsed.</span>
-      <span class="note">Aspect list shown collapsed — click "See details" to expand.</span>
+      <span class="pro">Clean card face (headline + a discreet trigger); per-topic detail on demand; no colored dots, so nothing reads as a caution flag on the merchant's product.</span>
+      <span class="con">Aspects hidden until the shopper opts in; no at-a-glance topic signal, and the sentiment cue is dropped entirely.</span>
+      <span class="note">Aspect list shown collapsed — click "See details by topic" to expand.</span>
     </div>
   </article>
 
@@ -1179,7 +1173,7 @@ body {
     <li><strong>Avoid V1 (plain paragraph).</strong> Summary visually merges with the description. Shoppers won't realize it's aggregated review content.</li>
     <li><strong>Avoid V4 (below description)</strong> unless we pair with a V2-style truncation elsewhere. Too easy to miss.</li>
     <li><strong>V6 (bottom band)</strong> is worth A/B testing — reassurance-at-decision-point is a known e-commerce pattern, but it's unconventional here.</li>
-    <li><strong>Content depth: default to V10 (headline + expandable aspects).</strong> The headline keeps momentum for scanners, sentiment chips give an at-a-glance read, and details plus the caveat stay one tap away, off the card face. Always pass the full aspect structure to SA so it answers per-aspect questions in conversation. Reserve V11 (full breakdown) for review-dense flagship PDPs; use V9 (headline only) on the tightest layouts.</li>
+    <li><strong>Content depth: default to V10 (headline + click to expand aspects, no color).</strong> The headline keeps momentum for scanners, and neutral per-topic detail stays one tap away, off the card face, with no colored dots that could read as a caution flag on the merchant's product. Always pass the full aspect structure to SA so it answers per-aspect questions in conversation. Reserve V11 (full breakdown, with sentiment color) for merchants who opt in; use V9 (headline only) on the tightest layouts.</li>
     <li><strong>Open:</strong> how long should the summary be? Current draft is 2–3 sentences (~30 words). Anything longer hurts PDP density. Anything shorter loses the "texture" that makes it useful.</li>
     <li><strong>Open:</strong> how is the summary generated and refreshed? Live at PDP open, cached per product, nightly batch? Latency target &lt;500ms for PDP open.</li>
   </ul>
