@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shopping Triggers — Merchant Settings (Helpdesk)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  /* axiom-mirrored tokens */
+  --surface-neutral-primary: #ffffff;
+  --surface-neutral-secondary: #f6f6f4;
+  --surface-page: #fbfbfa;
+  --border-neutral-default: #ececea;
+  --border-neutral-strong: #dcdcd7;
+  --content-neutral-default: #18181b;
+  --content-neutral-secondary: #6b6b66;
+  --content-neutral-faint: #9b9b95;
+  --content-accent-default: #0075FF;
+  --content-accent-soft: #f3f8ff;
+  --green: #16a34a;
+  --shopify: #5e8e3e;
+
+  --spacing-xxs: 2px;
+  --spacing-xs: 6px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+  color: var(--content-neutral-default);
+  background: var(--surface-page);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  font-size: 14px;
+}
+
+.icon { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.icon svg { display: block; }
+
+/* ===== Helpdesk shell ===== */
+.shell { display: flex; min-height: 100vh; }
+
+/* Secondary nav: Shopping Assistant submenu only */
+.nav {
+  width: 248px;
+  flex-shrink: 0;
+  background: var(--surface-neutral-primary);
+  border-right: 1px solid var(--border-neutral-default);
+  padding: 20px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.nav-brand {
+  display: flex; align-items: center; gap: 8px;
+  padding: 4px 8px 14px;
+}
+.nav-brand .logo {
+  width: 26px; height: 26px; border-radius: 6px;
+  background: linear-gradient(135deg, #0075FF, #00C2FF);
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-weight: 700; font-size: 14px;
+}
+.nav-brand .name { font-weight: 600; font-size: 14px; }
+.nav-group-label {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.04em;
+  text-transform: uppercase; color: var(--content-neutral-faint);
+  padding: 8px 8px 4px;
+}
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 10px; border-radius: 8px;
+  font-size: 14px; color: var(--content-neutral-secondary);
+  cursor: pointer; text-decoration: none; user-select: none;
+  transition: background 0.12s, color 0.12s;
+}
+.nav-item:hover { background: var(--surface-neutral-secondary); color: var(--content-neutral-default); }
+.nav-item.active { background: var(--content-accent-soft); color: var(--content-accent-default); font-weight: 600; }
+.nav-item.active .icon { color: var(--content-accent-default); }
+.nav-item .icon { color: var(--content-neutral-faint); }
+.nav-spacer { flex: 1; }
+.nav-foot {
+  font-size: 11px; color: var(--content-neutral-faint);
+  padding: 8px; border-top: 1px solid var(--border-neutral-default);
+}
+
+/* Main column */
+.main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+.topbar {
+  height: 56px; flex-shrink: 0;
+  border-bottom: 1px solid var(--border-neutral-default);
+  background: var(--surface-neutral-primary);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 24px;
+}
+.breadcrumb { display: flex; align-items: center; gap: 7px; font-size: 13px; color: var(--content-neutral-secondary); }
+.breadcrumb .sep { color: var(--content-neutral-faint); }
+.breadcrumb .current { color: var(--content-neutral-default); font-weight: 600; }
+
+.store-switch { display: flex; align-items: center; gap: 8px; }
+.store-switch label { font-size: 12px; color: var(--content-neutral-secondary); }
+.store-switch select {
+  font-family: inherit; font-size: 13px; font-weight: 500;
+  padding: 6px 10px; border: 1px solid var(--border-neutral-default);
+  border-radius: 8px; background: var(--surface-neutral-primary);
+  color: var(--content-neutral-default); cursor: pointer; outline: none;
+}
+.store-switch select:focus { border-color: var(--content-accent-default); }
+
+.content-scroll { flex: 1; overflow-y: auto; }
+
+/* ===== Triggers page (ported from ShoppingTriggersPage.less) ===== */
+.container {
+  max-width: 1078px;
+  padding: 24px;
+  display: flex; flex-direction: column; gap: var(--spacing-lg);
+}
+.infoBanner {
+  background: var(--surface-neutral-secondary);
+  border: 1px solid var(--border-neutral-default);
+  border-radius: 8px;
+  padding: var(--spacing-md) var(--spacing-lg);
+  display: flex; flex-direction: column; gap: var(--spacing-xs);
+}
+.infoBanner .head { display: flex; align-items: center; gap: var(--spacing-xs); }
+.infoBanner h2 { font-size: 16px; font-weight: 600; }
+.bannerDescription { color: var(--content-neutral-secondary); font-size: 14px; line-height: 1.5; max-width: 760px; }
+
+.section-head { display: flex; align-items: center; justify-content: space-between; }
+.section-head .left { display: flex; align-items: center; gap: var(--spacing-xs); }
+.section-head h3 { font-size: 13px; font-weight: 600; }
+.countBadge {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 22px; height: 22px; padding: 0 6px; border-radius: 11px;
+  background: var(--surface-neutral-secondary); color: var(--content-neutral-secondary);
+  font-size: 12px; font-weight: 600;
+}
+
+.trigger-list { display: flex; flex-direction: column; gap: var(--spacing-sm); }
+
+/* card */
+.card {
+  background: var(--surface-neutral-primary);
+  border: 1px solid var(--border-neutral-default);
+  border-radius: 12px;
+  padding: var(--spacing-md) var(--spacing-lg);
+  display: flex; align-items: center; gap: var(--spacing-md);
+  transition: box-shadow 0.15s, opacity 0.15s;
+}
+.card.disabled { opacity: 0.6; }
+.card:hover { box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+.triggerIcon {
+  display: flex; align-items: center; justify-content: center;
+  width: 48px; height: 48px; min-width: 48px; border-radius: 8px;
+  background: var(--surface-neutral-secondary); color: var(--content-neutral-secondary);
+}
+.triggerContent { flex: 1; display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-md); min-width: 0; }
+.triggerMeta { display: flex; flex-direction: column; gap: var(--spacing-xxs); min-width: 0; }
+.cardTitle { font-size: 14px; font-weight: 600; }
+.cardDescRow { display: flex; align-items: center; gap: var(--spacing-xs); flex-wrap: wrap; }
+.placementTag {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 12px; color: var(--content-neutral-secondary);
+  background: var(--surface-neutral-secondary); padding: 2px 8px; border-radius: 4px;
+}
+.separator { font-size: 12px; color: var(--content-neutral-secondary); }
+.sourceLabel { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; color: var(--content-neutral-secondary); margin-top: 2px; }
+.card-actions { display: flex; align-items: center; gap: var(--spacing-sm); flex-shrink: 0; }
+
+.iconBtn {
+  display: flex; align-items: center; justify-content: center;
+  width: 32px; height: 32px; border: 1px solid var(--border-neutral-default);
+  border-radius: 6px; background: var(--surface-neutral-primary);
+  color: var(--content-neutral-secondary); cursor: pointer; transition: all 0.15s;
+}
+.iconBtn:hover { border-color: var(--content-neutral-default); color: var(--content-neutral-default); }
+.testButton:hover { border-color: var(--content-accent-default); color: var(--content-accent-default); }
+
+/* toggle */
+.toggle { position: relative; width: 38px; height: 22px; flex-shrink: 0; cursor: pointer; }
+.toggle input { opacity: 0; width: 0; height: 0; }
+.toggle .track {
+  position: absolute; inset: 0; border-radius: 11px;
+  background: var(--border-neutral-strong); transition: background 0.15s;
+}
+.toggle .thumb {
+  position: absolute; top: 3px; left: 3px; width: 16px; height: 16px;
+  border-radius: 50%; background: #fff; transition: transform 0.15s;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+.toggle input:checked + .track { background: var(--content-accent-default); }
+.toggle input:checked + .track + .thumb { transform: translateX(16px); }
+
+.createButton {
+  display: flex; align-items: center; justify-content: center; gap: var(--spacing-xs);
+  width: 100%; padding: var(--spacing-md);
+  border: 2px dashed var(--border-neutral-default); border-radius: 8px;
+  background: transparent; color: var(--content-neutral-secondary);
+  font-size: 14px; font-weight: 500; font-family: inherit; cursor: pointer; transition: all 0.15s;
+}
+.createButton:hover { border-color: var(--content-neutral-default); color: var(--content-neutral-default); background: var(--surface-neutral-secondary); }
+
+/* ===== Drawer ===== */
+.backdrop {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.28);
+  opacity: 0; pointer-events: none; transition: opacity 0.2s; z-index: 1000;
+}
+.backdrop.show { opacity: 1; pointer-events: auto; }
+
+.drawer {
+  position: fixed; top: 0; right: 0; height: 100%; width: 480px; max-width: 92vw;
+  background: var(--surface-neutral-primary); z-index: 1050;
+  box-shadow: -4px 0 24px rgba(0,0,0,0.12);
+  display: flex; flex-direction: column;
+  transform: translateX(100%); transition: transform 0.25s ease;
+}
+.drawer.show { transform: translateX(0); }
+.drawer-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px; border-bottom: 1px solid var(--border-neutral-default); flex-shrink: 0;
+}
+.drawer-header h2 { font-size: 16px; font-weight: 600; }
+.drawer-body { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: var(--spacing-lg); }
+.drawer-footer {
+  display: flex; gap: var(--spacing-xs); padding: 16px 20px;
+  border-top: 1px solid var(--border-neutral-default); flex-shrink: 0;
+}
+.field { display: flex; flex-direction: column; gap: var(--spacing-xs); }
+.field h4 { font-size: 13px; font-weight: 600; }
+.drawerFieldDescription { font-size: 13px; color: var(--content-neutral-secondary); }
+.inputField, .selectField {
+  width: 100%; padding: 9px 11px; border: 1px solid var(--border-neutral-default);
+  border-radius: 6px; font-size: 14px; font-family: inherit;
+  color: var(--content-neutral-default); background: var(--surface-neutral-primary); outline: none;
+}
+.selectField { cursor: pointer; }
+.inputField:focus, .selectField:focus { border-color: var(--content-accent-default); }
+
+.previewBox {
+  border: 1px solid var(--border-neutral-default); border-radius: 8px;
+  padding: var(--spacing-md); background: var(--surface-neutral-secondary);
+  display: flex; flex-direction: column; align-items: center; gap: var(--spacing-xs);
+}
+.previewCta {
+  display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px;
+  border-radius: 20px; background: var(--content-neutral-default);
+  color: var(--surface-neutral-primary); font-size: 14px; font-weight: 600;
+}
+.previewCaption { font-size: 12px; color: var(--content-neutral-secondary); }
+.divider { height: 1px; background: var(--border-neutral-default); width: 100%; }
+
+.publishInline {
+  display: flex; align-items: flex-start; gap: var(--spacing-sm); padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--surface-neutral-secondary); border: 1px solid var(--border-neutral-default);
+  border-radius: 8px; color: var(--green); font-size: 13px;
+}
+.publishInline .txt { color: var(--content-neutral-secondary); }
+.publishSteps {
+  background: var(--surface-neutral-secondary); border: 1px solid var(--border-neutral-default);
+  border-radius: 8px; padding: var(--spacing-md); display: flex; flex-direction: column; gap: var(--spacing-sm);
+}
+.step { display: flex; align-items: flex-start; gap: var(--spacing-sm); font-size: 14px; line-height: 1.5; }
+.stepNumber {
+  display: flex; align-items: center; justify-content: center; min-width: 24px; height: 24px;
+  border-radius: 50%; background: var(--content-neutral-default); color: var(--surface-neutral-primary);
+  font-size: 12px; font-weight: 600; flex-shrink: 0;
+}
+.ghostBtn {
+  display: inline-flex; align-items: center; gap: 8px; align-self: flex-start;
+  padding: 8px 14px; border: 1px solid var(--border-neutral-default); border-radius: 8px;
+  background: var(--surface-neutral-primary); color: var(--content-neutral-default);
+  font-size: 13px; font-weight: 500; text-decoration: none; cursor: pointer; transition: all 0.15s;
+}
+.ghostBtn:hover { border-color: var(--content-neutral-default); background: var(--surface-neutral-secondary); }
+
+.btn {
+  font-family: inherit; font-size: 14px; font-weight: 600; padding: 9px 18px;
+  border-radius: 8px; cursor: pointer; border: 1px solid transparent;
+}
+.btn-primary { background: var(--content-accent-default); color: #fff; }
+.btn-primary:hover { background: #0066e0; }
+.btn-secondary { background: var(--surface-neutral-primary); color: var(--content-neutral-default); border-color: var(--border-neutral-default); }
+.btn-secondary:hover { background: var(--surface-neutral-secondary); }
+
+/* ===== Preview panel (Test) ===== */
+.previewPanel {
+  position: fixed; top: 0; right: 0; width: 400px; max-width: 92vw; height: 100%;
+  background: var(--surface-neutral-primary); border-left: 1px solid var(--border-neutral-default);
+  box-shadow: -4px 0 24px rgba(0,0,0,0.10); z-index: 1050;
+  display: flex; flex-direction: column;
+  transform: translateX(100%); transition: transform 0.25s ease;
+}
+.previewPanel.show { transform: translateX(0); }
+.previewPanelHeader {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: var(--spacing-md) var(--spacing-md); border-bottom: 1px solid var(--border-neutral-default); flex-shrink: 0;
+}
+.previewPanelHeader h3 { font-size: 13px; font-weight: 600; }
+.previewCloseBtn {
+  display: flex; align-items: center; justify-content: center; width: 28px; height: 28px;
+  border: none; background: none; color: var(--content-neutral-secondary); cursor: pointer; border-radius: 4px;
+}
+.previewCloseBtn:hover { background: var(--surface-neutral-secondary); color: var(--content-neutral-default); }
+.previewPanelBanner {
+  display: flex; align-items: center; gap: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-md); background: var(--surface-neutral-secondary);
+  border-bottom: 1px solid var(--border-neutral-default); font-size: 12px; color: var(--content-neutral-secondary); flex-shrink: 0;
+}
+.previewChat { flex: 1; overflow-y: auto; padding: var(--spacing-md); display: flex; flex-direction: column; gap: var(--spacing-md); }
+.msgBlock { display: flex; flex-direction: column; gap: var(--spacing-xs); }
+.previewProgress { display: flex; flex-direction: column; gap: 4px; }
+.previewProgressLabel { display: flex; justify-content: space-between; font-size: 11px; color: var(--content-neutral-secondary); }
+.previewProgressTrack { height: 3px; background: var(--border-neutral-default); border-radius: 3px; overflow: hidden; }
+.previewProgressFill { height: 100%; background: var(--content-accent-default); border-radius: 3px; transition: width 0.3s ease; }
+.previewMsgAssistant {
+  align-self: flex-start; max-width: 85%; background: var(--surface-neutral-secondary);
+  padding: var(--spacing-sm) var(--spacing-md); border-radius: 2px 12px 12px 12px;
+  font-size: 13px; line-height: 1.5; display: flex; flex-direction: column; gap: var(--spacing-xs);
+}
+.previewMsgUser {
+  align-self: flex-end; max-width: 85%; background: var(--content-neutral-default); color: var(--surface-neutral-primary);
+  padding: var(--spacing-sm) var(--spacing-md); border-radius: 12px 2px 12px 12px; font-size: 13px; line-height: 1.5;
+}
+.previewProductCard {
+  border-left: 3px solid var(--content-accent-default); padding: var(--spacing-xs) var(--spacing-sm);
+  background: var(--surface-neutral-primary); border-radius: 0 6px 6px 0; margin-top: var(--spacing-xxs);
+}
+.previewProductName { font-weight: 600; font-size: 13px; }
+.previewProductPrice { font-size: 12px; font-weight: 600; color: var(--content-accent-default); margin-top: 2px; }
+.previewProductDesc { font-size: 12px; color: var(--content-neutral-secondary); margin-top: 2px; line-height: 1.4; }
+.previewQuickReplies { display: flex; flex-wrap: wrap; gap: 6px; }
+.previewQuickReplyBtn {
+  padding: 5px 12px; border: 1px solid var(--border-neutral-default); border-radius: 16px;
+  font-size: 12px; color: var(--content-neutral-secondary); background: var(--surface-neutral-primary); cursor: default;
+}
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- Shopping Assistant submenu only -->
+  <aside class="nav">
+    <div class="nav-brand">
+      <div class="logo">G</div>
+      <div class="name">AI Agent</div>
+    </div>
+    <div class="nav-group-label">Shopping Assistant</div>
+    <a class="nav-item" data-noop>
+      <span class="icon" data-icon="strategy"></span><span>Strategy</span>
+    </a>
+    <a class="nav-item" data-noop>
+      <span class="icon" data-icon="engagement"></span><span>Customer Engagement</span>
+    </a>
+    <a class="nav-item active">
+      <span class="icon" data-icon="bulb"></span><span>Shopping Triggers</span>
+    </a>
+    <a class="nav-item" data-noop>
+      <span class="icon" data-icon="recs"></span><span>Product Recommendations</span>
+    </a>
+    <div class="nav-spacer"></div>
+    <div class="nav-foot">Prototype · Helpdesk admin view</div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="breadcrumb">
+        <span>AI Agent</span><span class="sep">›</span>
+        <span>Shopping Assistant</span><span class="sep">›</span>
+        <span class="current">Shopping Triggers</span>
+      </div>
+      <div class="store-switch">
+        <label for="store">Store</label>
+        <select id="store">
+          <option value="default">OSEA Malibu</option>
+          <option value="adrianna-papell-usd">Adrianna Papell</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="content-scroll">
+      <div class="container">
+        <div class="infoBanner">
+          <div class="head">
+            <span class="icon" data-icon="bulb"></span>
+            <h2>Shopping Triggers</h2>
+          </div>
+          <p class="bannerDescription">
+            Surface contextual CTAs on your storefront that guide shoppers into product
+            discovery conversations. These triggers are auto-generated from your existing
+            guidances and can be customized or extended.
+          </p>
+        </div>
+
+        <div>
+          <div class="section-head" style="margin-bottom:8px;">
+            <div class="left">
+              <h3>Suggested triggers</h3>
+              <span class="countBadge" id="count">0</span>
+            </div>
+          </div>
+          <div class="trigger-list" id="list"></div>
+          <button class="createButton" id="createBtn" style="margin-top:8px;">
+            <span class="icon" data-icon="plus"></span>
+            <span>Create custom trigger</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Backdrop + Drawer -->
+<div class="backdrop" id="backdrop"></div>
+
+<div class="drawer" id="drawer">
+  <div class="drawer-header">
+    <h2 id="drawerTitle">Create Shopping Trigger</h2>
+    <button class="previewCloseBtn" id="drawerClose"><span class="icon" data-icon="close"></span></button>
+  </div>
+  <div class="drawer-body">
+    <div class="field">
+      <h4>CTA text</h4>
+      <p class="drawerFieldDescription">The text shoppers see on your storefront</p>
+      <input class="inputField" id="d_cta" placeholder="e.g., Find your perfect shade">
+    </div>
+    <div class="field">
+      <h4>Page placement</h4>
+      <p class="drawerFieldDescription">Where this trigger appears on your store</p>
+      <select class="selectField" id="d_placement"></select>
+    </div>
+    <div class="field">
+      <h4>Linked guidance</h4>
+      <p class="drawerFieldDescription">The guidance that powers this discovery conversation</p>
+      <select class="selectField" id="d_guidance"></select>
+    </div>
+    <div class="field">
+      <h4>Preview</h4>
+      <div class="previewBox">
+        <div class="previewCta" id="d_previewCta">Your CTA text here</div>
+        <div class="previewCaption" id="d_previewCaption"></div>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="field">
+      <h4>Publish to store</h4>
+      <div id="d_publish"></div>
+    </div>
+  </div>
+  <div class="drawer-footer">
+    <button class="btn btn-primary" id="drawerSave">Create</button>
+    <button class="btn btn-secondary" id="drawerCancel">Cancel</button>
+  </div>
+</div>
+
+<!-- Preview (Test) panel -->
+<div class="previewPanel" id="previewPanel">
+  <div class="previewPanelHeader">
+    <h3 id="pp_title">Preview</h3>
+    <button class="previewCloseBtn" id="ppClose"><span class="icon" data-icon="close"></span></button>
+  </div>
+  <div class="previewPanelBanner">
+    <span class="icon" data-icon="info"></span>
+    <span>This is what shoppers will see when they click this trigger</span>
+  </div>
+  <div class="previewChat" id="pp_chat"></div>
+</div>
+
+<script>
+/* ---------- Inline icons ---------- */
+const ICONS = {
+  bulb:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1V18h6v-1.2c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2z"/></svg>',
+  plus:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
+  play:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M10 9l5 3-5 3z" fill="currentColor"/></svg>',
+  dots:'<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg>',
+  close:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>',
+  info:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>',
+  ext:'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>',
+  check:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>',
+  home:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5M5 9.5V20h14V9.5"/></svg>',
+  grid:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>',
+  tag:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11V4a1 1 0 0 1 1-1h7l9 9-8 8z"/><circle cx="7.5" cy="7.5" r="1.4"/></svg>',
+  strategy:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1"/></svg>',
+  engagement:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
+  recs:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 2.4 5 5.6.8-4 4 1 5.6L12 20l-5 2.4 1-5.6-4-4 5.6-.8z"/></svg>'
+};
+function paintIcons(root){ (root||document).querySelectorAll('[data-icon]').forEach(e=>{ if(!e.dataset.painted){ e.innerHTML=ICONS[e.dataset.icon]||''; e.dataset.painted='1'; }}); }
+
+/* ---------- Data (ported from branch) ---------- */
+const PLACEMENT_OPTIONS = [
+  { value:'Homepage', label:'Homepage / Site-wide', deploy:'auto' },
+  { value:'Collection page', label:'Collection page', deploy:'block' },
+  { value:'Product page', label:'Product page', deploy:'block' }
+];
+const PLACEMENT_ICON = { 'Homepage':'home', 'Collection page':'grid', 'Product page':'tag' };
+const GUIDANCE_OPTIONS = [
+  'Product Routines / Recommendations',
+  'Body Moisturizers Comparison',
+  'Shade Matching Guide',
+  'Size & Fit Guide'
+];
+
+const TRIGGERS_BY_SHOP = {
+  default: [
+    { id:'1', ctaText:'Find your skincare routine', placement:'Homepage', placementDetail:'Hero banner, floating pill', sourceGuidance:'Product Routines / Recommendations', enabled:true, type:'suggested' },
+    { id:'2', ctaText:'Oil, butter, or balm? Let us help', placement:'Collection page', placementDetail:'Body Moisturizers, banner above grid', sourceGuidance:'Body Moisturizers Comparison', enabled:true, type:'suggested' },
+    { id:'3', ctaText:'Not sure this is right for you?', placement:'Product page', placementDetail:'Below Add to Cart', sourceGuidance:'Body Moisturizers Comparison', enabled:false, type:'suggested' }
+  ],
+  'adrianna-papell-usd': [
+    { id:'1', ctaText:'Find your perfect dress', placement:'Homepage', placementDetail:'Hero banner, floating pill', sourceGuidance:'Occasion & Style Routing', enabled:true, type:'suggested' },
+    { id:'2', ctaText:'Not sure what to wear? Tell us about the wedding', placement:'Collection page', placementDetail:'Wedding Guest Dresses, banner above grid', sourceGuidance:'Wedding Guest Styling Guide', enabled:true, type:'suggested' },
+    { id:'3', ctaText:'Will this fit me?', placement:'Product page', placementDetail:'Next to size selector', sourceGuidance:'Sizing & Fit Guidance', enabled:true, type:'suggested' }
+  ]
+};
+
+const CONVERSATIONS = {
+  default: {
+    '1':[
+      {role:'assistant',text:"Hey! I'd love to help you find your perfect OSEA routine. How would you describe your skin?",quickReplies:['Oily','Dry','Sensitive','Combination'],progress:{step:1,total:4,label:'Skin type'}},
+      {role:'user',text:'Dry'},
+      {role:'assistant',text:"Got it, dry skin. What's your main concern right now?",quickReplies:['Hydration','Anti-aging','Dullness','Sensitivity'],progress:{step:2,total:4,label:'Main concern'}},
+      {role:'user',text:'Anti-aging'},
+      {role:'assistant',text:'Are you looking for an AM routine, PM routine, or both?',quickReplies:['AM only','PM only','Both'],progress:{step:3,total:4,label:'Routine type'}},
+      {role:'user',text:'Both'},
+      {role:'assistant',text:"Here's your personalized routine for dry skin with anti-aging focus:",products:[
+        {name:'Ocean Cleanser',price:'$48',description:"Gentle daily cleanser, AM & PM. Won't strip dry skin."},
+        {name:'Dream Night Serum Bio-Retinol',price:'$88',description:'PM only. Plant-based retinol for fine lines without irritation.'},
+        {name:'Atmosphere Protection Cream',price:'$54',description:'AM moisturizer. Shields against environmental stress.'},
+        {name:'Dream Night Cream Bio-Retinol',price:'$68',description:'PM moisturizer. Pairs with the serum for overnight renewal.'}
+      ],progress:{step:4,total:4,label:'Your routine'}}
+    ],
+    '2':[
+      {role:'assistant',text:"Looking at body moisturizers? We have a few different formats. What are you looking for?",quickReplies:['Daily hydration','Specific area','Full body routine'],progress:{step:1,total:3,label:'Your goal'}},
+      {role:'user',text:'Daily hydration'},
+      {role:'assistant',text:'Do you prefer a lightweight finish or a rich, buttery texture?',quickReplies:['Lightweight','Rich & buttery','No preference'],progress:{step:2,total:3,label:'Texture'}},
+      {role:'user',text:'Lightweight'},
+      {role:'assistant',text:"Perfect match for you:",products:[
+        {name:'Undaria Algae Body Oil',price:'$84',description:'Lightweight, fast-absorbing daily oil. Our bestseller with 3,000+ reviews.'}
+      ],progress:{step:3,total:3,label:'Recommendation'}}
+    ],
+    '3':[
+      {role:'assistant',text:"Great choice! The Undaria Body Oil is our bestseller. What's your main goal with a body moisturizer?",quickReplies:['Daily hydration','Anti-aging','Something else'],progress:{step:1,total:3,label:'Your goal'}},
+      {role:'user',text:'Anti-aging'},
+      {role:'assistant',text:"For anti-aging specifically, I'd actually suggest a different product that's designed for that:",products:[
+        {name:'Anti-Aging Body Balm',price:'$84',description:'Targeted firming treatment with retinol + algae. Best for neck, arms, and decollete.'}
+      ],progress:{step:3,total:3,label:'Recommendation'}}
+    ]
+  },
+  'adrianna-papell-usd': {
+    '1':[
+      {role:'assistant',text:"Welcome! I'd love to help you find the perfect dress. What's the occasion?",quickReplies:['Wedding guest','Cocktail party','Work event','Date night'],progress:{step:1,total:4,label:'The occasion'}},
+      {role:'user',text:'Wedding guest'},
+      {role:'assistant',text:"Lovely! What's the dress code or vibe?",quickReplies:['Black-tie','Cocktail','Garden / outdoor','Not sure'],progress:{step:2,total:4,label:'Dress code'}},
+      {role:'user',text:'Garden / outdoor'},
+      {role:'assistant',text:'Any preferences on sleeve or length?',quickReplies:['With sleeves','Sleeveless','Midi length','No preference'],progress:{step:3,total:4,label:'Preferences'}},
+      {role:'user',text:'Midi length'},
+      {role:'assistant',text:"Here are my top picks for a garden wedding:",products:[
+        {name:'Floral Jacquard Midi Dress',price:'$179',description:'Playful floral print, knee-length, perfect for daytime outdoor weddings.'},
+        {name:'Chiffon Off-Shoulder Gown',price:'$219',description:'Romantic and flowy, available in multiple colors.'}
+      ],progress:{step:4,total:4,label:'Your picks'}}
+    ],
+    '2':[
+      {role:'assistant',text:"Shopping for a wedding? I can help. Is the wedding indoor or outdoor?",quickReplies:['Indoor evening','Outdoor garden','Beach','Not sure'],progress:{step:1,total:4,label:'The wedding'}},
+      {role:'user',text:'Indoor evening'},
+      {role:'assistant',text:"Is it black-tie or more of a cocktail vibe?",quickReplies:['Black-tie / formal','Cocktail','Semi-formal'],progress:{step:2,total:4,label:'Formality'}},
+      {role:'user',text:'Black-tie / formal'},
+      {role:'assistant',text:'Do you want arm coverage or are you comfortable with sleeveless?',quickReplies:['Want coverage','Sleeveless is fine','No preference'],progress:{step:3,total:4,label:'Comfort'}},
+      {role:'user',text:'Want coverage'},
+      {role:'assistant',text:"These are perfect for a formal indoor evening with arm coverage:",products:[
+        {name:'Beaded Flutter Sleeve Gown',price:'$299',description:'Floor-length, signature AP beading, flutter sleeves for elegant coverage.'},
+        {name:'Soutache Embroidered Dress',price:'$289',description:'Intricate embroidery, unique texture, available in floor-length.'}
+      ],progress:{step:4,total:4,label:'Your picks'}}
+    ],
+    '3':[
+      {role:'assistant',text:"The Beaded Flutter Sleeve Gown is a stunning choice. What size do you typically wear in dresses?",quickReplies:['Size 4-6','Size 8-10','Size 12-14','Size 16+'],progress:{step:1,total:3,label:'Your usual size'}},
+      {role:'user',text:'Size 8-10'},
+      {role:'assistant',text:'Do you prefer a true-to-size fit or a little extra room for comfort?',quickReplies:['True to size','A little room','Not sure'],progress:{step:2,total:3,label:'Fit preference'}},
+      {role:'user',text:'A little room'},
+      {role:'assistant',text:"I'd recommend a size 10. This gown runs true to size, and since beaded fabric doesn't stretch, sizing up gives you that comfortable room. Note: sizes 10-18 are limited in Navy, so I'd order soon. Free returns within 30 days if it doesn't work out.",products:[
+        {name:'Beaded Flutter Sleeve Gown - Size 10',price:'$299',description:'A-line silhouette, flutter sleeves, Navy. Recommended size based on your preferences.'}
+      ],progress:{step:3,total:3,label:'Size recommendation'}}
+    ]
+  }
+};
+
+/* ---------- State ---------- */
+let shopKey = 'default';
+let triggers = [];
+let editingId = null; // null while creating
+
+const $ = (s)=>document.querySelector(s);
+const esc = (s)=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+function loadStore(key){
+  shopKey = key;
+  triggers = JSON.parse(JSON.stringify(TRIGGERS_BY_SHOP[key] || TRIGGERS_BY_SHOP.default));
+  closeDrawer(); closePreview();
+  renderList();
+}
+
+/* ---------- Render trigger list ---------- */
+function renderList(){
+  const list = $('#list');
+  list.innerHTML = '';
+  triggers.forEach(t=>{
+    const card = document.createElement('div');
+    card.className = 'card' + (t.enabled ? '' : ' disabled');
+    card.innerHTML = `
+      <div class="triggerIcon"><span class="icon" data-icon="${PLACEMENT_ICON[t.placement]||'tag'}"></span></div>
+      <div class="triggerContent">
+        <div class="triggerMeta">
+          <div class="cardTitle">${esc(t.ctaText)}</div>
+          <div class="cardDescRow">
+            <span class="placementTag"><span class="icon" data-icon="ext"></span>${esc(t.placement)}</span>
+            <span class="separator">${esc(t.placementDetail)}</span>
+          </div>
+          <span class="sourceLabel"><span class="icon" data-icon="info"></span>From: ${esc(t.sourceGuidance)}</span>
+        </div>
+        <div class="card-actions">
+          <button class="iconBtn testButton" title="Test this trigger" data-act="test"><span class="icon" data-icon="play"></span></button>
+          <button class="iconBtn" title="Edit" data-act="edit"><span class="icon" data-icon="dots"></span></button>
+          <label class="toggle">
+            <input type="checkbox" ${t.enabled?'checked':''} data-act="toggle">
+            <span class="track"></span><span class="thumb"></span>
+          </label>
+        </div>
+      </div>`;
+    card.querySelector('[data-act="test"]').onclick = ()=>openPreview(t);
+    card.querySelector('[data-act="edit"]').onclick = ()=>openDrawer(t);
+    card.querySelector('[data-act="toggle"]').onchange = ()=>{ t.enabled=!t.enabled; renderList(); };
+    list.appendChild(card);
+    paintIcons(card);
+  });
+  $('#count').textContent = triggers.length;
+}
+
+/* ---------- Drawer ---------- */
+function fillSelect(sel, options, current){
+  sel.innerHTML='';
+  const opts = options.slice();
+  if(current && !opts.includes(current)) opts.unshift(current);
+  opts.forEach(o=>{
+    const el=document.createElement('option'); el.value=o; el.textContent=o;
+    if(o===current) el.selected=true; sel.appendChild(el);
+  });
+}
+
+function openDrawer(trigger){
+  closePreview();
+  editingId = trigger ? trigger.id : null;
+  $('#drawerTitle').textContent = trigger ? 'Edit Shopping Trigger' : 'Create Shopping Trigger';
+  $('#drawerSave').textContent = trigger ? 'Save' : 'Create';
+  $('#d_cta').value = trigger ? trigger.ctaText : '';
+  // placement select
+  $('#d_placement').innerHTML = PLACEMENT_OPTIONS.map(p=>`<option value="${p.value}">${p.label}</option>`).join('');
+  $('#d_placement').value = trigger ? trigger.placement : 'Homepage';
+  // guidance select
+  fillSelect($('#d_guidance'), GUIDANCE_OPTIONS, trigger ? trigger.sourceGuidance : GUIDANCE_OPTIONS[0]);
+  updateDrawerPreview();
+  $('#backdrop').classList.add('show');
+  $('#drawer').classList.add('show');
+}
+function closeDrawer(){ $('#drawer').classList.remove('show'); $('#backdrop').classList.remove('show'); }
+
+function selectedPlacement(){ return PLACEMENT_OPTIONS.find(p=>p.value===$('#d_placement').value); }
+
+function updateDrawerPreview(){
+  const cta = $('#d_cta').value.trim();
+  $('#d_previewCta').textContent = cta || 'Your CTA text here';
+  const sp = selectedPlacement();
+  const isAuto = sp && sp.deploy==='auto';
+  $('#d_previewCaption').textContent = `${sp?sp.label:''} · ${isAuto?'Floating':'Theme block'}`;
+  renderPublish(isAuto, $('#d_placement').value);
+}
+
+function renderPublish(isAuto, placement){
+  const wrap = $('#d_publish');
+  if(isAuto){
+    wrap.innerHTML = `
+      <div class="publishInline">
+        <span class="icon" data-icon="check"></span>
+        <span class="txt">This trigger will appear automatically on your storefront via the chat widget. No extra setup needed.</span>
+      </div>`;
+  } else {
+    wrap.innerHTML = `
+      <p class="drawerFieldDescription" style="margin-bottom:8px;">Add this trigger to your store using the Shopify theme editor.</p>
+      <div class="publishSteps">
+        <div class="step"><span class="stepNumber">1</span><span>Open the Shopify theme editor and navigate to your ${esc(placement.toLowerCase())} template</span></div>
+        <div class="step"><span class="stepNumber">2</span><span>Click "Add block" or "Add section"</span></div>
+        <div class="step"><span class="stepNumber">3</span><span>Search for "Gorgias Shopping Trigger" and select it</span></div>
+        <div class="step"><span class="stepNumber">4</span><span>Drag it to your preferred position and save</span></div>
+      </div>
+      <a class="ghostBtn" style="margin-top:10px;" href="https://${shopKey.replace(/-usd$/,'')}.myshopify.com/admin/themes/current/editor" target="_blank" rel="noopener noreferrer">
+        <span class="icon" data-icon="ext"></span>Open Shopify Theme Editor
+      </a>`;
+  }
+  paintIcons(wrap);
+}
+
+function saveDrawer(){
+  const cta = $('#d_cta').value.trim() || 'Untitled trigger';
+  const placement = $('#d_placement').value;
+  const guidance = $('#d_guidance').value;
+  const detailDefaults = { 'Homepage':'Hero banner, floating pill', 'Collection page':'Banner above grid', 'Product page':'Below Add to Cart' };
+  if(editingId){
+    const t = triggers.find(x=>x.id===editingId);
+    if(t){ t.ctaText=cta; t.placement=placement; t.sourceGuidance=guidance; }
+  } else {
+    triggers.push({
+      id:'c'+(triggers.length+1)+'-'+Math.max(2,cta.length),
+      ctaText:cta, placement, placementDetail:detailDefaults[placement]||'Custom placement',
+      sourceGuidance:guidance, enabled:true, type:'custom'
+    });
+  }
+  closeDrawer();
+  renderList();
+}
+
+/* ---------- Preview (Test) ---------- */
+function openPreview(trigger){
+  closeDrawer();
+  $('#pp_title').textContent = 'Preview: ' + trigger.ctaText;
+  const convoSet = CONVERSATIONS[shopKey] || CONVERSATIONS.default;
+  const messages = convoSet[trigger.id] || convoSet['1'] || [];
+  const chat = $('#pp_chat');
+  chat.innerHTML='';
+  messages.forEach(msg=>{
+    const block = document.createElement('div');
+    block.className='msgBlock';
+    let html='';
+    if(msg.progress){
+      html += `<div class="previewProgress">
+        <div class="previewProgressLabel"><span>${esc(msg.progress.label)}</span><span>${msg.progress.step}/${msg.progress.total}</span></div>
+        <div class="previewProgressTrack"><div class="previewProgressFill" style="width:${(msg.progress.step/msg.progress.total)*100}%"></div></div>
+      </div>`;
+    }
+    if(msg.role==='assistant'){
+      let inner = `<span>${esc(msg.text)}</span>`;
+      (msg.products||[]).forEach(p=>{
+        inner += `<div class="previewProductCard">
+          <div class="previewProductName">${esc(p.name)}</div>
+          <div class="previewProductPrice">${esc(p.price)}</div>
+          <div class="previewProductDesc">${esc(p.description)}</div>
+        </div>`;
+      });
+      html += `<div class="previewMsgAssistant">${inner}</div>`;
+    } else {
+      html += `<div class="previewMsgUser">${esc(msg.text)}</div>`;
+    }
+    if(msg.quickReplies){
+      html += `<div class="previewQuickReplies">${msg.quickReplies.map(q=>`<span class="previewQuickReplyBtn">${esc(q)}</span>`).join('')}</div>`;
+    }
+    block.innerHTML = html;
+    chat.appendChild(block);
+  });
+  paintIcons(chat);
+  $('#previewPanel').classList.add('show');
+}
+function closePreview(){ $('#previewPanel').classList.remove('show'); }
+
+/* ---------- Wire up ---------- */
+$('#store').onchange = (e)=>loadStore(e.target.value);
+$('#createBtn').onclick = ()=>openDrawer(null);
+$('#drawerClose').onclick = closeDrawer;
+$('#drawerCancel').onclick = closeDrawer;
+$('#drawerSave').onclick = saveDrawer;
+$('#backdrop').onclick = closeDrawer;
+$('#ppClose').onclick = closePreview;
+$('#d_cta').addEventListener('input', updateDrawerPreview);
+$('#d_placement').addEventListener('change', updateDrawerPreview);
+document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ closeDrawer(); closePreview(); }});
+
+paintIcons(document);
+loadStore('default');
+</script>
+</body>
+</html>
